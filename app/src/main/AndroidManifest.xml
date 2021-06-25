@@ -84,7 +84,17 @@
             android:launchMode="singleInstance"/>
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
+
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
+
+        <activity
+            android:name=".activity.PatientDashboardActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleInstance"/>
 

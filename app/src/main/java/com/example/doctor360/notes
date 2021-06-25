@@ -1,0 +1,6 @@
+Password policy
+must have at least 1 special character
+Must have at least 1 upper case letter
+Must have at least 1 lower case letter
+Must have at least 1 digit
+Must be equal or superior to 8 chars.

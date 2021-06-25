@@ -17,6 +17,15 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
 
+    <string name="no_account">Not registered to Doctor360?</string>
+    <string name="yes_account">Already registered to Doctor360?</string>
+    <string name="session">Sign in to start your session</string>
+    <string name="signin">Sign in</string>
+    <string name="signup">Sign up</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember Me</string>
+
     <string name="version">Version 1.0</string>
     <string name="slogan">Your Health, Our Treatment</string>
 

@@ -89,7 +89,12 @@
             android:launchMode="singleInstance"/>
 
         <activity
-            android:name=".activity.RegisterActivity"
+            android:name=".activity.PatientRegisterActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
+
+        <activity
+            android:name=".activity.DoctorRegisterActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleInstance"/>
 

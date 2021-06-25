@@ -20,8 +20,7 @@ import es.dmoral.toasty.Toasty;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText Email,Password;
-    Button buttonSubmit;
-    TextView movetoRegister;
+    Button buttonSubmit, btnRegisterDoctor, btnRegisterPatient;
     CheckBox rememberCheck;
     ProgressDialog progressDialog;
     ConnectionDetector connectionDetector;
@@ -36,7 +35,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Email = findViewById(R.id.edtEmail);
         Password = findViewById(R.id.edtPassword);
         rememberCheck = findViewById(R.id.checkBoxRemember);
-        movetoRegister = findViewById(R.id.registerText);
+        btnRegisterPatient = findViewById(R.id.btnPatientRegister);
+        btnRegisterDoctor = findViewById(R.id.btnDoctorRegister);
         buttonSubmit = findViewById(R.id.btnSubmit);
 
         rememberCheck.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +51,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
 
         buttonSubmit.setOnClickListener(this);
-        movetoRegister.setOnClickListener(this);
+        btnRegisterDoctor.setOnClickListener(this);
+        btnRegisterPatient.setOnClickListener(this);
 
         connectionDetector = new ConnectionDetector(this);
 
@@ -99,8 +100,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         }
 
-        if(v == movetoRegister){
-            Intent intent=new Intent(getApplicationContext(),RegisterActivity.class);
+        if(v == btnRegisterPatient){
+            Intent intent=new Intent(getApplicationContext(),PatientRegisterActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+        }
+
+        if(v == btnRegisterDoctor){
+            Intent intent=new Intent(getApplicationContext(),DoctorRegisterActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
         }

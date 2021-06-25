@@ -16,7 +16,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_width="@dimen/_150sdp"
             android:layout_height="@dimen/_150sdp"
-            android:src="@drawable/logo1"
+            android:src="@drawable/splash_logo"
             android:layout_marginTop="@dimen/_130sdp"
             android:contentDescription="@string/app_name"/>
 

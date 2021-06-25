@@ -14,7 +14,7 @@ import com.example.doctor360.R;
 public class SplashScreenActivity extends AppCompatActivity {
 
     ProgressBar splashProgress;
-    public static int SPLASH_TIME_OUT=3000;
+    public static int SPLASH_TIME_OUT=2600;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +36,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void playProgress() {
-        ObjectAnimator.ofInt(splashProgress, "progress", 195).setDuration(6000).start();
+        ObjectAnimator.ofInt(splashProgress, "progress", 150).setDuration(5200).start();
     }
 }

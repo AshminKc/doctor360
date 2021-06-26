@@ -38,7 +38,7 @@
             android:textSize="@dimen/_10sdp"
             android:textStyle="bold"
             android:layout_marginTop="@dimen/_3sdp"
-            android:textColor="@color/positive" />
+            android:textColor="@color/negative" />
 
         <TextView
             android:layout_width="match_parent"

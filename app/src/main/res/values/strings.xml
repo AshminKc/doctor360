@@ -20,15 +20,32 @@
 
     <string name="no_account">Not registered to Doctor360 yet?</string>
     <string name="yes_account">Already registered to Doctor360?</string>
+    <string name="patient_session">Sign up as Patient</string>
+    <string name="doctor_session">Sign up as Doctor</string>
     <string name="session">Sign in to start your session</string>
     <string name="signin">Sign in</string>
     <string name="signup">Sign up</string>
     <string name="signup_as">SIGNUP AS</string>
+    <string name="signin_as">SIGN IN</string>
     <string name="signup_patient">As Patient</string>
     <string name="signup_doctor">As Doctor</string>
+    <string name="remember_me">Remember Me</string>
+
+    <string name="name">Name</string>
+    <string name="address">Address</string>
+    <string name="mobile">Mobile No</string>
+    <string name="gender">Gender</string>
+    <string name="dob">Date of Birth</string>
+    <string name="blood_group">Blood Group</string>
+    <string name="specialization">Specialization</string>
+    <string name="qualification">Qualification</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="remember_me">Remember Me</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="document">Document Image (jpeg, jpg or png format)</string>
+
+    <string name="click_photo">Click Photo</string>
+    <string name="upload_photo">Upload Photo</string>
 
     <string name="version">Version 1.0</string>
     <string name="slogan">Your Health, Our Treatment</string>
@@ -44,5 +61,92 @@
 
     <string name="slide_4_title">Search Right Doctor</string>
     <string name="slide_4_desc">Search the right doctor, view doctors details and reviews</string>
+
+    <string name="password_policy">Password Policy</string>
+    <string name="policy1">Must have at least 1 special character</string>
+    <string name="policy2">Must have at least 1 upper case letter</string>
+    <string name="policy3">Must have at least 1 lower case letter</string>
+    <string name="policy4">Must have at least 1 digit</string>
+    <string name="policy5">Must be equal or more than 8 characters</string>
+
+    <string-array name="genderList">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="bloodList">
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>O+</item>
+        <item>O-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+    </string-array>
+
+    <string-array name="specializationList">
+        <item>Bachelor of Medicine (MBBS, BMBS, MBChB, MBBCh)</item>
+        <item>Bachelor of Surgery (MBBS, BMBS, MBChB, MBBCh)</item>
+        <item>Bachelor of Medicine (B.Med)</item>
+        <item>Bachelor of Surgery (B.S)/(B.Surg)</item>
+        <item>Doctor of Medicine (MD, Dr.MuD, Dr.Med)</item>
+        <item>Doctor of Osteopathic Medicine (DO)</item>
+        <item>Doctor of Medicine by research MD(Res), DM</item>
+        <item>Master of Clinical Medicine (MCM)</item>
+        <item>Master of Medical Science (MMSc, MMedSc)</item>
+        <item>Master of Public Health (MPH)</item>
+        <item>Master of Medicine (MM, MMed)</item>
+        <item>Master of Philosophy (MPhil)</item>
+        <item>Master of Philosophy in Ophthalmology (MPhO)</item>
+        <item>Master of Public Health and Ophthalmology (MPHO)</item>
+        <item>Master of Surgery (MS, MSurg, MChir, MCh, ChM, CM)</item>
+        <item>Master of Science in Medicine or Surgery (MSc)</item>
+        <item>Doctor of Clinical Medicine (DCM)</item>
+        <item>Doctor of Clinical Surgery (DClinSurg)</item>
+        <item>Doctor of Medical Science (DMSc, DMedSc)</item>
+        <item>Doctor of Surgery (DS, DSurg)</item>
+    </string-array>
+
+    <string-array name="qualificationList">
+        <item>Allergists/Immunologists</item>
+        <item>Anesthesiologists</item>
+        <item>Cardiologists</item>
+        <item>Colon and Rectal Surgeons</item>
+        <item>Critical Care Medicine Specialists</item>
+        <item>Dermatologists</item>
+        <item>Endocrinologists</item>
+        <item>Emergency Medicine Specialists</item>
+        <item>Family Physicians</item>
+        <item>Gastroenterologists</item>
+        <item>Geriatric Medicine Specialists</item>
+        <item>Hematologists</item>
+        <item>Hospice and Palliative Medicine Specialists</item>
+        <item>Infectious Disease Specialists</item>
+        <item>Internists</item>
+        <item>Medical Geneticists</item>
+        <item>Nephrologists</item>
+        <item>Neurologists</item>
+        <item>Obstetricians and Gynecologists</item>
+        <item>Oncologists</item>
+        <item>Ophthalmologists</item>
+        <item>Osteopaths</item>
+        <item>Otolaryngologists</item>
+        <item>Pathologists</item>
+        <item>Pediatricians</item>
+        <item>Physiatrists</item>
+        <item>Plastic Surgeons</item>
+        <item>Podiatrists</item>
+        <item>Preventive Medicine Specialists</item>
+        <item>Psychiatrists</item>
+        <item>Pulmonologists</item>
+        <item>Radiologists</item>
+        <item>Rheumatologists</item>
+        <item>Sleep Medicine Specialists</item>
+        <item>Sports Medicine Specialists</item>
+        <item>General Surgeons</item>
+        <item>Urologists</item>
+    </string-array>
 
 </resources>

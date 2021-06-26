@@ -32,12 +32,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Email = findViewById(R.id.edtEmail);
-        Password = findViewById(R.id.edtPassword);
+        Email = findViewById(R.id.edtLoginEmail);
+        Password = findViewById(R.id.edtLoginPassword);
         rememberCheck = findViewById(R.id.checkBoxRemember);
         btnRegisterPatient = findViewById(R.id.btnPatientRegister);
         btnRegisterDoctor = findViewById(R.id.btnDoctorRegister);
-        buttonSubmit = findViewById(R.id.btnSubmit);
+        buttonSubmit = findViewById(R.id.btnLogin);
 
         rememberCheck.setOnClickListener(new View.OnClickListener() {
             @Override

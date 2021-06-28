@@ -92,24 +92,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (v == buttonSubmit) {
-            if(!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()){
-                Toasty.error(LoginActivity.this,"Failed to Submit Data!!",200).show();
-            } else {
-                checkFields();
-            }
-        }
+        int id = v.getId();
 
-        if(v == btnRegisterPatient){
-            Intent intent=new Intent(getApplicationContext(),PatientRegisterActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
-        }
+        switch (id){
+            case R.id.btnLogin:
+                if(!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()){
+                    Toasty.error(LoginActivity.this,"Failed to Submit Data!!",200).show();
+                } else {
+                    checkFields();
+                }
+                break;
 
-        if(v == btnRegisterDoctor){
-            Intent intent=new Intent(getApplicationContext(),DoctorRegisterActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+            case R.id.btnPatientRegister:
+                Intent intent=new Intent(getApplicationContext(),PatientRegisterActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+                finish();
+                break;
+
+            case R.id.btnDoctorRegister:
+                Intent intent1=new Intent(getApplicationContext(),DoctorRegisterActivity.class);
+                startActivity(intent1);
+                overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+                finish();
+                break;
+
         }
     }
 }

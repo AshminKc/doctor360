@@ -124,65 +124,108 @@
         app:layout_constraintTop_toBottomOf="@+id/edtPatientEmail"
         />
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/edtPatientDOB"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/txtAge"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_28sdp"
-        android:layout_marginTop="@dimen/_12sdp"
-        android:layout_marginEnd="@dimen/_28sdp"
-        android:background="@drawable/round_border"
-        android:drawableStart="@drawable/ic_dob"
-        android:drawablePadding="@dimen/_12sdp"
-        android:ems="10"
-        android:hint="@string/dob"
-        android:inputType="phone"
-        android:padding="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_38sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:text="Select Your Age"
+        android:textColor="@color/facebook"
+        android:textSize="@dimen/_10sdp"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:lines="1"
-        app:layout_constraintTop_toBottomOf="@+id/edtPatientMobile"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/edtPatientMobile" />
 
-    <androidx.appcompat.widget.AppCompatEditText
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/spinnerPatientAge"
+        android:layout_width="@dimen/_230sdp"
+        android:layout_height="@dimen/_30sdp"
+        app:ms_dropdown_height="wrap_content"
+        android:hint="Select Age"
+        android:textAlignment="viewStart"
+        android:padding="@dimen/_10sdp"
+        android:ems="10"
+        android:layout_marginStart="@dimen/_28sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_28sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:lines="1"
+        android:background="@drawable/spinner_bg"
+        app:layout_constraintTop_toBottomOf="@+id/txtAge"/>
+
+    <TextView
+        android:id="@+id/txtGender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_38sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:text="Select Your Gender"
+        android:textColor="@color/facebook"
+        android:textSize="@dimen/_10sdp"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:lines="1"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerPatientAge" />
+
+
+    <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/spinnerPatientGender"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_28sdp"
-        android:layout_marginTop="@dimen/_12sdp"
-        android:layout_marginEnd="@dimen/_28sdp"
-        android:background="@drawable/round_border"
-        android:drawableStart="@drawable/ic_user"
-        android:drawablePadding="@dimen/_12sdp"
-        android:ems="10"
-        android:hint="@string/gender"
-        android:inputType="phone"
+        android:layout_width="@dimen/_230sdp"
+        android:layout_height="@dimen/_30sdp"
+        app:ms_dropdown_height="wrap_content"
+        android:hint="Select Gender"
+        android:textAlignment="viewStart"
         android:padding="@dimen/_10sdp"
+        android:ems="10"
+        android:layout_marginStart="@dimen/_28sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_28sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:lines="1"
-        app:layout_constraintTop_toBottomOf="@+id/edtPatientDOB"
-        />
+        android:background="@drawable/spinner_bg"
+        app:layout_constraintTop_toBottomOf="@+id/txtGender"/>
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/spinnerPatientBlood"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/txtBlood"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_28sdp"
-        android:layout_marginTop="@dimen/_12sdp"
-        android:layout_marginEnd="@dimen/_28sdp"
-        android:background="@drawable/round_border"
-        android:drawableStart="@drawable/ic_blood"
-        android:drawablePadding="@dimen/_12sdp"
-        android:ems="10"
-        android:hint="@string/blood_group"
-        android:inputType="phone"
-        android:padding="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_38sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:text="Select Your Blood Group"
+        android:textColor="@color/facebook"
+        android:textSize="@dimen/_10sdp"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:lines="1"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerPatientGender"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerPatientGender" />
+
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/spinnerPatientBlood"
+        android:layout_width="@dimen/_230sdp"
+        android:layout_height="@dimen/_30sdp"
+        app:ms_dropdown_height="wrap_content"
+        android:hint="Select Blood Group"
+        android:textAlignment="viewStart"
+        android:padding="@dimen/_10sdp"
+        android:ems="10"
+        android:layout_marginStart="@dimen/_28sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_28sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:lines="1"
+        android:background="@drawable/spinner_bg"
+        app:layout_constraintTop_toBottomOf="@+id/txtBlood"/>
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/edtPatientPassword"
@@ -224,7 +267,7 @@
 
 
     <Button
-        android:id="@+id/btnPatientRegister"
+        android:id="@+id/buttonPatientRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_45sdp"
@@ -254,7 +297,7 @@
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnPatientRegister"
+        app:layout_constraintTop_toBottomOf="@+id/buttonPatientRegister"
         android:layout_marginBottom="@dimen/_20sdp"/>
 
 
@@ -269,7 +312,7 @@
         android:textSize="@dimen/_12sdp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/loginHintPatientText"
-        app:layout_constraintTop_toBottomOf="@+id/btnPatientRegister"
+        app:layout_constraintTop_toBottomOf="@+id/buttonPatientRegister"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="@dimen/_20sdp"/>
 

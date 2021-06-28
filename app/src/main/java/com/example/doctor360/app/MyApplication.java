@@ -29,6 +29,7 @@ import es.dmoral.toasty.Toasty;
 public class MyApplication extends MultiDexApplication {
 
     public static Context app;
+    public static final String DATE_FORMAT = "yyyy/MM/dd";
 
     @Override
     public void onCreate() {

@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <supports-screens
         android:resizeable="false"
@@ -64,7 +65,7 @@
         android:configChanges="orientation|keyboardHidden|screenSize">
 
         <activity
-            android:name=".activity.PatientRegisterActivity"
+            android:name=".activity.DoctorRegisterActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleInstance">
 
@@ -94,7 +95,7 @@
             android:launchMode="singleInstance"/>
 
         <activity
-            android:name=".activity.DoctorRegisterActivity"
+            android:name=".activity.PatientRegisterActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleInstance"/>
 

@@ -87,7 +87,7 @@
         <item>AB-</item>
     </string-array>
 
-    <string-array name="specializationList">
+    <string-array name="qualificationList">
         <item>Bachelor of Medicine (MBBS, BMBS, MBChB, MBBCh)</item>
         <item>Bachelor of Surgery (MBBS, BMBS, MBChB, MBBCh)</item>
         <item>Bachelor of Medicine (B.Med)</item>
@@ -110,7 +110,7 @@
         <item>Doctor of Surgery (DS, DSurg)</item>
     </string-array>
 
-    <string-array name="qualificationList">
+    <string-array name="sepcializationList">
         <item>Allergists/Immunologists</item>
         <item>Anesthesiologists</item>
         <item>Cardiologists</item>

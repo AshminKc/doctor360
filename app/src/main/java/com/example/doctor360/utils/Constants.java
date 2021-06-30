@@ -12,8 +12,7 @@ public class Constants {
     public static final int LOGGED_OUT = 44;
     public static final int LOGGED_IN = 55;
 
-    public static final int SELECT_LALPURJA = 100;
-    public static final int SELECT_BISR = 101;
-    public static final int CLICK_LALPURJA = 200;
-    public static final int CLICK_BSIR = 201;
+    public static final int SELECT_IMAGE = 100;
+    public static final int CLICK_IMAGE = 200;
+
 }

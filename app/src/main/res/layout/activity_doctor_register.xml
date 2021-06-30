@@ -105,66 +105,108 @@
             app:layout_constraintTop_toBottomOf="@+id/edtDoctorEmail"
             />
 
+        <TextView
+            android:id="@+id/txtDoctorGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_38sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Select Your Gender"
+            android:textColor="@color/facebook"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:lines="1"
+            app:layout_constraintTop_toBottomOf="@+id/edtDoctorMobile" />
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <com.jaredrummler.materialspinner.MaterialSpinner
             android:id="@+id/spinnerDoctorGender"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_28sdp"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:layout_marginEnd="@dimen/_28sdp"
-            android:background="@drawable/round_border"
-            android:drawableStart="@drawable/ic_user"
-            android:drawablePadding="@dimen/_12sdp"
-            android:ems="10"
-            android:hint="@string/gender"
-            android:inputType="phone"
+            android:layout_width="@dimen/_230sdp"
+            android:layout_height="@dimen/_30sdp"
+            app:ms_dropdown_height="wrap_content"
+            android:hint="Select your gender"
+            android:textAlignment="viewStart"
             android:padding="@dimen/_10sdp"
+            android:ems="10"
+            android:layout_marginStart="@dimen/_28sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_28sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:lines="1"
-            app:layout_constraintTop_toBottomOf="@+id/edtDoctorMobile"
-            />
+            android:background="@drawable/spinner_bg"
+            app:layout_constraintTop_toBottomOf="@+id/txtDoctorGender"/>
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <TextView
+            android:id="@+id/txtQualification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_38sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Select Your Qualification"
+            android:textColor="@color/facebook"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:lines="1"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerDoctorGender" />
+
+
+        <com.jaredrummler.materialspinner.MaterialSpinner
             android:id="@+id/spinnerDoctorQualification"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_28sdp"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:layout_marginEnd="@dimen/_28sdp"
-            android:background="@drawable/round_border"
-            android:drawableStart="@drawable/ic_qualification"
-            android:drawablePadding="@dimen/_12sdp"
-            android:ems="10"
-            android:hint="@string/qualification"
-            android:inputType="phone"
+            android:layout_width="@dimen/_230sdp"
+            android:layout_height="@dimen/_30sdp"
+            app:ms_dropdown_height="wrap_content"
+            android:hint="Select your qualification"
+            android:textAlignment="viewStart"
             android:padding="@dimen/_10sdp"
+            android:ems="10"
+            android:layout_marginStart="@dimen/_28sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_28sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:lines="1"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerDoctorGender"
-            />
+            android:background="@drawable/spinner_bg"
+            app:layout_constraintTop_toBottomOf="@+id/txtQualification"/>
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/spinnerDoctorSpecialization"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/txtSpecialization"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_28sdp"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:layout_marginEnd="@dimen/_28sdp"
-            android:background="@drawable/round_border"
-            android:drawableStart="@drawable/ic_specialization"
-            android:drawablePadding="@dimen/_12sdp"
-            android:ems="10"
-            android:hint="@string/specialization"
-            android:inputType="textPassword"
-            android:padding="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_38sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Select Your Specialization"
+            android:textColor="@color/facebook"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:lines="1"
             app:layout_constraintTop_toBottomOf="@+id/spinnerDoctorQualification" />
 
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/spinnerDoctorSpecialization"
+            android:layout_width="@dimen/_230sdp"
+            android:layout_height="@dimen/_30sdp"
+            app:ms_dropdown_height="wrap_content"
+            android:hint="Select Your Specialization"
+            android:textAlignment="viewStart"
+            android:padding="@dimen/_10sdp"
+            android:ems="10"
+            android:layout_marginStart="@dimen/_28sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_28sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:lines="1"
+            android:background="@drawable/spinner_bg"
+            app:layout_constraintTop_toBottomOf="@+id/txtSpecialization"/>
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/edtDoctorPassword"
@@ -222,7 +264,7 @@
         <com.example.doctor360.utils.SquareImageView
             android:id="@+id/imageDoctorDoc"
             android:layout_width="@dimen/_120sdp"
-            android:layout_height="@dimen/_100sdp"
+            android:layout_height="@dimen/_90sdp"
             android:src="@drawable/noimage"
             android:scaleType="fitXY"
             android:layout_marginTop="@dimen/_5sdp"
@@ -235,30 +277,11 @@
             app:layout_constraintTop_toBottomOf="@+id/doctorDocText"/>
 
         <Button
-            android:id="@+id/btnClickPhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_150sdp"
-            android:layout_marginTop="@dimen/_50sdp"
-            android:layout_marginEnd="@dimen/_25sdp"
-            android:padding="@dimen/_5sdp"
-            android:background="@drawable/round_click"
-            android:text="@string/click_photo"
-            android:textColor="@color/white"
-            android:textAllCaps="false"
-            android:textSize="@dimen/_10sdp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageDoctorDoc"
-            app:layout_constraintTop_toBottomOf="@+id/edtDoctorConfirmPassword"/>
-
-        <Button
             android:id="@+id/btnUploadPhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_150sdp"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_45sdp"
             android:layout_marginEnd="@dimen/_25sdp"
             android:padding="@dimen/_5sdp"
             android:background="@drawable/round_upload"
@@ -270,7 +293,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageDoctorDoc"
-            app:layout_constraintTop_toBottomOf="@+id/btnClickPhoto"/>
+            app:layout_constraintTop_toBottomOf="@+id/doctorDocText"/>
 
         <Button
             android:id="@+id/btnDoctorRegister"

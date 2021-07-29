@@ -1,0 +1,11 @@
+Admin
+admin@gmail.com
+admin@123
+
+Patient
+doct@gmail.com
+123456
+
+Doctor
+prembasnet094@gmail.com
+Nepal@123

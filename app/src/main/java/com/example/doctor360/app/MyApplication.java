@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
+import com.balsikandar.crashreporter.CrashReporter;
 import com.facebook.stetho.Stetho;
 import com.orhanobut.hawk.Hawk;
 import com.thefinestartist.finestwebview.FinestWebView;
@@ -35,6 +36,7 @@ public class MyApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
 
+        CrashReporter.initialize(this);
         app = getApplicationContext();
         Hawk.init(app).build();
         Stetho.initializeWithDefaults(this);

@@ -1,16 +1,19 @@
 package com.example.doctor360.activity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,20 +21,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.app.ActivityCompat;
 
+import com.balsikandar.crashreporter.CrashReporter;
 import com.example.doctor360.R;
 import com.example.doctor360.helper.ConnectionDetector;
+import com.example.doctor360.model.DoctorRegistrationReceiveParams;
+import com.example.doctor360.model.DoctorRegistrationSendParams;
+import com.example.doctor360.network.NetworkClient;
+import com.example.doctor360.network.ServiceGenerator;
 import com.example.doctor360.utils.Constants;
 import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.example.doctor360.utils.Constants.RequestPermissionCode;
 
 public class DoctorRegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
+    ProgressDialog progressDialog;
     ConnectionDetector connectionDetector;
     ImageView imgDocument;
     Button btnRegister, btnClick, btnUpload;
@@ -42,6 +55,7 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
     String namePattern = "^[A-Za-z\\s]+$";
     String mobilePattern = "^[0-9]{10}$";
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    private static final String TAG = "DoctorRegisterActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +75,7 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         btnUpload = findViewById(R.id.btnUploadPhoto);
         moveToLogin = findViewById(R.id.loginDoctorText);
 
-        EnableRuntimePermission();
+      //  EnableRuntimePermission();
         connectionDetector = new ConnectionDetector(this);
 
         if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
@@ -78,7 +92,7 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         spinnerDoctorGender.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-                Toasty.success(getApplicationContext(), "Clicked " + item,200).show();
+                strGender = item.toString();
 
             }
         });
@@ -86,8 +100,7 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         spinnerDoctorGender.setOnNothingSelectedListener(new MaterialSpinner.OnNothingSelectedListener() {
             @Override
             public void onNothingSelected(MaterialSpinner spinner) {
-                String defaultGender = spinner.getText().toString().trim();
-                Toasty.success(getApplicationContext(), "Default " + defaultGender, 200).show();
+                strGender = spinner.getText().toString().trim();
             }
         });
 
@@ -98,12 +111,13 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
                 "Master of Philosophy (MPhil)","Master of Philosophy in Ophthalmology (MPhO)","Master of Public Health and Ophthalmology (MPHO)",
                 "Master of Surgery (MS, MSurg, MChir, MCh, ChM, CM)","Master of Science in Medicine or Surgery (MSc)","Doctor of Clinical Medicine (DCM)",
                 "Doctor of Clinical Surgery (DClinSurg)","Doctor of Medical Science (DMSc, DMedSc)","Doctor of Surgery (DS, DSurg)");
+
         spinnerQualification.setHint("Select your qualification");
         spinnerQualification.setBackground(getDrawable(R.drawable.spinner_bg));
         spinnerQualification.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-                Toasty.success(getApplicationContext(), "Clicked " + item,200).show();
+                strQuali = item.toString();
 
             }
         });
@@ -111,8 +125,7 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         spinnerQualification.setOnNothingSelectedListener(new MaterialSpinner.OnNothingSelectedListener() {
             @Override
             public void onNothingSelected(MaterialSpinner spinner) {
-                String defaultQualification = spinner.getText().toString().trim();
-                Toasty.success(getApplicationContext(), "Default " + defaultQualification, 200).show();
+                strQuali = spinner.getText().toString().trim();
             }
         });
 
@@ -123,12 +136,13 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
                 "Oncologists","Ophthalmologists","Osteopaths","Otolaryngologists","Pathologists","Pediatricians","Physiatrists",
                 "Plastic Surgeons","Podiatrists","Preventive Medicine Specialists","Psychiatrists","Pulmonologists","Radiologists",
                 "Rheumatologists","Sleep Medicine Specialists","Sports Medicine Specialists","General Surgeons","Urologists");
+
         spinnerSpecialization.setHint("Select your specialization");
         spinnerSpecialization.setBackground(getDrawable(R.drawable.spinner_bg));
         spinnerSpecialization.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-                Toasty.success(getApplicationContext(), "Clicked " + item,200).show();
+                strSpec = item.toString();
 
             }
         });
@@ -136,8 +150,7 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         spinnerSpecialization.setOnNothingSelectedListener(new MaterialSpinner.OnNothingSelectedListener() {
             @Override
             public void onNothingSelected(MaterialSpinner spinner) {
-                String defaultSpecialization = spinner.getText().toString().trim();
-                Toasty.success(getApplicationContext(), "Default " + defaultSpecialization, 200).show();
+                strSpec = spinner.getText().toString().trim();
             }
         });
     }
@@ -167,8 +180,6 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
             Toasty.error(DoctorRegisterActivity.this,"Invalid Mobile No",300).show();
         } else if(strPassword.isEmpty()){
             Toasty.error(DoctorRegisterActivity.this,"Please Enter Password",300).show();
-        } else if (strPassword.length()<8) {
-            Toasty.error(DoctorRegisterActivity.this,"Password must be at least 8 characters",300).show();
         } else if(strConfPassword.isEmpty()){
             Toasty.error(DoctorRegisterActivity.this,"Please Enter Confirm Password",300).show();
         } else if(!strConfPassword.matches(strPassword)){
@@ -182,7 +193,68 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
     }
 
     public void registerDoctor(){
-        Toasty.success(DoctorRegisterActivity.this, "Successfully registered", 200).show();
+        NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
+        final DoctorRegistrationSendParams registrationSendParams = new DoctorRegistrationSendParams();
+
+        strName = name.getText().toString();
+        strEmail = email.getText().toString();
+        strMobile = mobile.getText().toString();
+        strQuali = spinnerQualification.getText().toString();
+        strGender = spinnerDoctorGender.getText().toString();
+        strSpec = spinnerSpecialization.getText().toString();
+        strPassword = password.getText().toString();
+
+        Call<DoctorRegistrationReceiveParams> call = networkClient.doctorRegister(registrationSendParams);
+        registrationSendParams.setName(strName);
+        registrationSendParams.setEmail(strEmail);
+        registrationSendParams.setMobile(strMobile);
+        registrationSendParams.setQualification(strQuali);
+        registrationSendParams.setGender(strGender);
+        registrationSendParams.setSpecialization(strSpec);
+        registrationSendParams.setUserType(Constants.USER_TYPE2);
+        registrationSendParams.setPassword(strPassword);
+
+        progressDialog = new ProgressDialog(DoctorRegisterActivity.this);
+        progressDialog.setMessage("Please Wait.....");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        call.enqueue(new Callback<DoctorRegistrationReceiveParams>() {
+            @Override
+            public void onResponse(Call<DoctorRegistrationReceiveParams> call, Response<DoctorRegistrationReceiveParams> response) {
+                DoctorRegistrationReceiveParams receiveParams = response.body();
+                String Status = receiveParams.getMessage();
+                if(Status.matches("true")){
+                  //  Hawk.put("doctorStatus","inactive");
+                    Toasty.success(DoctorRegisterActivity.this, "Successfully registered. Your profile is under verification. Please visit email for more info", 200).show();
+                    progressDialog.dismiss();
+
+
+                } else {
+                    Toasty.error(DoctorRegisterActivity.this, "Some error occurred. Please try again", 200).show();
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DoctorRegistrationReceiveParams> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+ t.toString());
+                if(progressDialog!= null && progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+        finish();
     }
 
     private void openImageChooser() {
@@ -212,12 +284,6 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
                 Uri selectedImageUri = data.getData();
                 if (null != selectedImageUri) {
                     String path = getPathFromURI(selectedImageUri);
-                    Toasty.success(DoctorRegisterActivity.this, "File Path: " + path).show();
-                    /*int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);//Instead of "MediaStore.Images.Media.DATA" can be used "_data"
-                    Uri filePathUri = Uri.parse(cursor.getString(column_index));
-                    String file_name = filePathUri.getLastPathSegment().toString();
-                    String file_path=filePathUri.getPath();
-                    Toast.makeText(this,"File Name & PATH are:"+file_name+"\n"+file_path, Toast.LENGTH_LONG).show();*/
                     imgDocument.setImageURI(selectedImageUri);
                 }
             }

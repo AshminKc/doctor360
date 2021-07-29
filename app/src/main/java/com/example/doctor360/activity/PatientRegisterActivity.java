@@ -1,8 +1,10 @@
 package com.example.doctor360.activity;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,7 +22,14 @@ import androidx.appcompat.widget.AppCompatEditText;
 import com.example.doctor360.R;
 import com.example.doctor360.app.MyApplication;
 import com.example.doctor360.helper.ConnectionDetector;
+import com.example.doctor360.model.DoctorRegistrationSendParams;
+import com.example.doctor360.model.PatientRegistrationReceiveParams;
+import com.example.doctor360.model.PatientRegistrationSendParams;
+import com.example.doctor360.network.NetworkClient;
+import com.example.doctor360.network.ServiceGenerator;
+import com.example.doctor360.utils.Constants;
 import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,24 +37,23 @@ import java.util.Calendar;
 import java.util.Date;
 
 import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PatientRegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
+    ProgressDialog progressDialog;
     ConnectionDetector connectionDetector;
     TextView moveToLogin;
     Button btnPatientRegister;
     MaterialSpinner spinnerGender, spinnerAge, spinnerBlood;
     AppCompatEditText name, email, age, password, confirmPassword, address, bloodGroup, mobile, gender;
-    ArrayList<String> genderArray, bloodArray, ageArray ;
-    String[] genderList = {"Male", "Female", "Others"};
-    String [] bloodList = {"A+","A-","B+","B-","O+","O-","AB+","AB-"};
-    String [] ageList = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20",
-    "21","22","23","24","25","26","27","28","29","30","31","32","33","35","36","37","38","39","40","41","42","43","44","45",
-    "46","47","48","49","50"};
     String strName, strEmail, strMobile, strGender, strPassword, strConfPassword, strBlood, strAddress, strAge;
     String namePattern = "^[A-Za-z\\s]+$";
     String mobilePattern = "^[0-9]{10}$";
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    private static final String TAG = "PatientRegisterActivity";
 
 
     @Override
@@ -80,7 +88,7 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
         spinnerGender.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-                Toasty.success(getApplicationContext(), "Clicked " + item,200).show();
+                strGender = item.toString();
 
             }
         });
@@ -88,8 +96,7 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
         spinnerGender.setOnNothingSelectedListener(new MaterialSpinner.OnNothingSelectedListener() {
             @Override
             public void onNothingSelected(MaterialSpinner spinner) {
-                String defaultGender = spinner.getText().toString().trim();
-                Toasty.success(getApplicationContext(), "Default " + defaultGender, 200).show();
+                strGender = spinner.getText().toString().trim();
             }
         });
 
@@ -99,7 +106,7 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
         spinnerBlood.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-                Toasty.success(getApplicationContext(), "Clicked " + item,200).show();
+                strBlood = item.toString();
 
             }
         });
@@ -107,8 +114,7 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
         spinnerBlood.setOnNothingSelectedListener(new MaterialSpinner.OnNothingSelectedListener() {
             @Override
             public void onNothingSelected(MaterialSpinner spinner) {
-                String defaultBlood = spinner.getText().toString().trim();
-                Toasty.success(getApplicationContext(), "Default " + defaultBlood, 200).show();
+                strBlood = spinner.getText().toString().trim();
             }
         });
 
@@ -122,7 +128,7 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
         spinnerAge.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-                Toasty.success(getApplicationContext(), "Clicked " + item,200).show();
+               strAge = item.toString();
 
             }
         });
@@ -130,8 +136,7 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
         spinnerAge.setOnNothingSelectedListener(new MaterialSpinner.OnNothingSelectedListener() {
             @Override
             public void onNothingSelected(MaterialSpinner spinner) {
-                String defaultAge = spinner.getText().toString().trim();
-                Toasty.success(getApplicationContext(), "Default " + defaultAge, 200).show();
+             strAge = spinner.getText().toString().trim();
             }
         });
 
@@ -164,8 +169,6 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
             Toasty.error(PatientRegisterActivity.this,"Invalid Mobile No",300).show();
         }  else if(strPassword.isEmpty()){
             Toasty.error(PatientRegisterActivity.this,"Please Enter Password",300).show();
-        } else if (strPassword.length()<8) {
-            Toasty.error(PatientRegisterActivity.this,"Password must be at least 8 characters",300).show();
         } else if(strConfPassword.isEmpty()){
             Toasty.error(PatientRegisterActivity.this,"Please Enter Confirm Password",300).show();
         } else if(!strConfPassword.matches(strPassword)){
@@ -177,7 +180,67 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
     }
 
     public void registerPatient(){
-        Toasty.success(PatientRegisterActivity.this, "Successfully registered", 200).show();
+        NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
+        final PatientRegistrationSendParams patientRegistrationSendParams = new PatientRegistrationSendParams();
+
+        strName = name.getText().toString();
+        strAddress = address.getText().toString();
+        strEmail = email.getText().toString();
+        strBlood = spinnerBlood.getText().toString();
+        strMobile = mobile.getText().toString();
+        strAge = spinnerAge.getText().toString();
+        strGender = spinnerGender.getText().toString();
+        strPassword = password.getText().toString();
+
+        Call<PatientRegistrationReceiveParams> call = networkClient.patientRegister(patientRegistrationSendParams);
+        patientRegistrationSendParams.setName(strName);
+        patientRegistrationSendParams.setAddress(strAddress);
+        patientRegistrationSendParams.setEmail(strEmail);
+        patientRegistrationSendParams.setMobile(strMobile);
+        patientRegistrationSendParams.setAge(strAge);
+        patientRegistrationSendParams.setGender(strGender);
+        patientRegistrationSendParams.setUserType(Constants.USER_TYPE3);
+        patientRegistrationSendParams.setBloodGroup(strBlood);
+        patientRegistrationSendParams.setPassword(strPassword);
+
+        progressDialog = new ProgressDialog(PatientRegisterActivity.this);
+        progressDialog.setMessage("Please Wait.....");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        call.enqueue(new Callback<PatientRegistrationReceiveParams>() {
+            @Override
+            public void onResponse(Call<PatientRegistrationReceiveParams> call, Response<PatientRegistrationReceiveParams> response) {
+                PatientRegistrationReceiveParams receiveParams = response.body();
+                boolean Status = receiveParams.isSuccess();
+                if(Status){
+                    Toasty.success(PatientRegisterActivity.this, "Successfully registered", 200).show();
+                    progressDialog.dismiss();
+                } else {
+                    Toasty.error(PatientRegisterActivity.this, "Some error occurred. Please try again", 200).show();
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PatientRegistrationReceiveParams> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+ t.toString());
+                if(progressDialog!= null && progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+        finish();
     }
 
     @Override

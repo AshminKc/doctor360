@@ -65,7 +65,7 @@
         android:configChanges="orientation|keyboardHidden|screenSize">
 
         <activity
-            android:name=".activity.DoctorRegisterActivity"
+            android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleInstance">
 
@@ -85,17 +85,22 @@
             android:launchMode="singleInstance"/>
 
         <activity
-            android:name=".activity.LoginActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleInstance"/>
-
-        <activity
             android:name=".activity.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleInstance"/>
 
         <activity
+            android:name=".activity.DoctorRegisterActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
+
+        <activity
             android:name=".activity.PatientRegisterActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
+
+        <activity
+            android:name=".activity.AdminDashboardActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleInstance"/>
 

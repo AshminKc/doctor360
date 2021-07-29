@@ -47,7 +47,7 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
     ProgressDialog progressDialog;
     ConnectionDetector connectionDetector;
     ImageView imgDocument;
-    Button btnRegister, btnClick, btnUpload;
+    Button btnRegister, btnUpload;
     TextView moveToLogin;
     AppCompatEditText name, email, password, confirmPassword, mobile;
     MaterialSpinner spinnerDoctorGender, spinnerQualification, spinnerSpecialization;
@@ -162,7 +162,6 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         strQuali = spinnerQualification.getText().toString();
         strGender = spinnerDoctorGender.getText().toString();
         strSpec = spinnerSpecialization.getText().toString();
-        boolean hasDrawable = (imgDocument.getDrawable() != null);
         strPassword = password.getText().toString();
         strConfPassword = confirmPassword.getText().toString();
 
@@ -226,7 +225,6 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
                 DoctorRegistrationReceiveParams receiveParams = response.body();
                 String Status = receiveParams.getMessage();
                 if(Status.matches("true")){
-                  //  Hawk.put("doctorStatus","inactive");
                     Toasty.success(DoctorRegisterActivity.this, "Successfully registered. Your profile is under verification. Please visit email for more info", 200).show();
                     progressDialog.dismiss();
 

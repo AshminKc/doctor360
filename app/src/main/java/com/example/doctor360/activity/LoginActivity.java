@@ -295,12 +295,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.btnPatientRegister:
-                new SendMail().execute("");
+                //new SendMail().execute("");
 
-                /*Intent intent=new Intent(getApplicationContext(),PatientRegisterActivity.class);
+                Intent intent=new Intent(getApplicationContext(),PatientRegisterActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
-                finish();*/
+                finish();
                 break;
 
             case R.id.btnDoctorRegister:

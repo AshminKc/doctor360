@@ -224,8 +224,9 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
             @Override
             public void onResponse(Call<PatientRegistrationReceiveParams> call, Response<PatientRegistrationReceiveParams> response) {
                 PatientRegistrationReceiveParams receiveParams = response.body();
-                boolean Status = receiveParams.isSuccess();
-                if(Status){
+                String Status = receiveParams.getSuccess();
+
+                if(Status.matches("true")){
                     new AestheticDialog.Builder(PatientRegisterActivity.this, DialogStyle.RAINBOW, DialogType.SUCCESS)
                             .setTitle("Success")
                             .setMessage("Successfully registered!!")
@@ -237,7 +238,7 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
                 } else {
                     new AestheticDialog.Builder(PatientRegisterActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
                             .setTitle("Error")
-                            .setMessage("Some error occurred. Please try again!!")
+                            .setMessage(receiveParams.getMessage())
                             .setCancelable(true)
                             .setGravity(Gravity.BOTTOM)
                             .setDuration(3000)

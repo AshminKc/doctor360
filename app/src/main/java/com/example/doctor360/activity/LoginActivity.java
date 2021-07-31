@@ -227,9 +227,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 public void onResponse(Call<DoctorLoginReceiveParams> call, Response<DoctorLoginReceiveParams> response) {
                     DoctorLoginReceiveParams receiveParams = response.body();
                     String success = receiveParams.getSuccess();
-                    int status = receiveParams.getData().getStatus();
 
                     if (success.equals("true")) {
+                        int status = receiveParams.getData().getStatus();
                         if (status == 1) {
                             pDialog.dismiss();
                             finish();

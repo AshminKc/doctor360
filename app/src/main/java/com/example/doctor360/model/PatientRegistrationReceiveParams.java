@@ -7,14 +7,14 @@ public class PatientRegistrationReceiveParams {
      * message : Successfully Registered
      */
 
-    private boolean success;
+    private String success;
     private String message;
 
-    public boolean isSuccess() {
+    public String getSuccess() {
         return success;
     }
 
-    public void setSuccess(boolean success) {
+    public void setSuccess(String success) {
         this.success = success;
     }
 

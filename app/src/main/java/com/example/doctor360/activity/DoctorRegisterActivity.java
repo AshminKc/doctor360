@@ -248,9 +248,9 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
             @Override
             public void onResponse(Call<DoctorRegistrationReceiveParams> call, Response<DoctorRegistrationReceiveParams> response) {
                 DoctorRegistrationReceiveParams receiveParams = response.body();
-                String Status = receiveParams.getMessage();
+                String Status = receiveParams.getSuccess();
+
                 if(Status.matches("true")){
-                    verificationEmail();
                     new AestheticDialog.Builder(DoctorRegisterActivity.this, DialogStyle.RAINBOW, DialogType.SUCCESS)
                             .setTitle("Success")
                             .setMessage("Successfully registered. Your profile is under verification. Please visit email for more info")
@@ -259,11 +259,12 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
                             .setDuration(3000)
                             .show();
                     pDialog.dismiss();
+                    verificationEmail();
 
                 } else {
                     new AestheticDialog.Builder(DoctorRegisterActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
                             .setTitle("Error")
-                            .setMessage("Some error occurred. Please try again!!")
+                            .setMessage(receiveParams.getMessage())
                             .setCancelable(true)
                             .setGravity(Gravity.BOTTOM)
                             .setDuration(3000)
@@ -298,9 +299,10 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         });
 
         try {
+            String toEmail = email.getText().toString().trim();
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(Constants.EMAIL));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(strEmail));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
             message.setSubject(Constants.SUBJECT);
             message.setText(Constants.BODY);
 

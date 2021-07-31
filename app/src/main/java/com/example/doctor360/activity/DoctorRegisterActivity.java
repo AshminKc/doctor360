@@ -1,14 +1,20 @@
 package com.example.doctor360.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Html;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,6 +28,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.app.ActivityCompat;
 
 import com.balsikandar.crashreporter.CrashReporter;
+import com.cazaea.sweetalert.SweetAlertDialog;
 import com.example.doctor360.R;
 import com.example.doctor360.helper.ConnectionDetector;
 import com.example.doctor360.model.DoctorRegistrationReceiveParams;
@@ -31,9 +38,22 @@ import com.example.doctor360.network.ServiceGenerator;
 import com.example.doctor360.utils.Constants;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.orhanobut.hawk.Hawk;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -44,7 +64,6 @@ import static com.example.doctor360.utils.Constants.RequestPermissionCode;
 
 public class DoctorRegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
-    ProgressDialog progressDialog;
     ConnectionDetector connectionDetector;
     ImageView imgDocument;
     Button btnRegister, btnUpload;
@@ -79,7 +98,13 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         connectionDetector = new ConnectionDetector(this);
 
         if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
-            Toasty.error(DoctorRegisterActivity.this, "No Internet Connection!!", 200).show();
+            new AestheticDialog.Builder(DoctorRegisterActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                    .setTitle("Error")
+                    .setMessage("No Internet Connection!!")
+                    .setCancelable(true)
+                    .setGravity(Gravity.BOTTOM)
+                    .setDuration(2500)
+                    .show();
         }
 
         btnRegister.setOnClickListener(this);
@@ -213,11 +238,11 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         registrationSendParams.setUserType(Constants.USER_TYPE2);
         registrationSendParams.setPassword(strPassword);
 
-        progressDialog = new ProgressDialog(DoctorRegisterActivity.this);
-        progressDialog.setMessage("Please Wait.....");
-        progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
+        final SweetAlertDialog pDialog = new SweetAlertDialog(DoctorRegisterActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Submitting Data....");
+        pDialog.setCancelable(false);
+        pDialog.show();
 
         call.enqueue(new Callback<DoctorRegistrationReceiveParams>() {
             @Override
@@ -225,25 +250,65 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
                 DoctorRegistrationReceiveParams receiveParams = response.body();
                 String Status = receiveParams.getMessage();
                 if(Status.matches("true")){
-                    Toasty.success(DoctorRegisterActivity.this, "Successfully registered. Your profile is under verification. Please visit email for more info", 200).show();
-                    progressDialog.dismiss();
-
+                    verificationEmail();
+                    new AestheticDialog.Builder(DoctorRegisterActivity.this, DialogStyle.RAINBOW, DialogType.SUCCESS)
+                            .setTitle("Success")
+                            .setMessage("Successfully registered. Your profile is under verification. Please visit email for more info")
+                            .setCancelable(true)
+                            .setGravity(Gravity.BOTTOM)
+                            .setDuration(3000)
+                            .show();
+                    pDialog.dismiss();
 
                 } else {
-                    Toasty.error(DoctorRegisterActivity.this, "Some error occurred. Please try again", 200).show();
-                    progressDialog.dismiss();
+                    new AestheticDialog.Builder(DoctorRegisterActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                            .setTitle("Error")
+                            .setMessage("Some error occurred. Please try again!!")
+                            .setCancelable(true)
+                            .setGravity(Gravity.BOTTOM)
+                            .setDuration(3000)
+                            .show();
+                    pDialog.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<DoctorRegistrationReceiveParams> call, Throwable t) {
                 Log.d(TAG, "onFailure: "+ t.toString());
-                if(progressDialog!= null && progressDialog.isShowing()){
-                    progressDialog.dismiss();
+                if(pDialog!= null && pDialog.isShowing()){
+                    pDialog.dismiss();
                 }
             }
         });
 
+    }
+
+    public void verificationEmail(){
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable","true");
+        properties.put("mail.smtp.host","smtp.gmail.com");
+        properties.put("mail.smtp.port","587");
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(Constants.EMAIL, Constants.PASSWORD);
+            }
+        });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(Constants.EMAIL));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(strEmail));
+            message.setSubject(Constants.SUBJECT);
+            message.setText(Constants.BODY);
+
+            new SendMail().execute(message);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -319,7 +384,13 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
 
                 case R.id.btnDoctorRegister:
                     if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
-                        Toasty.error(DoctorRegisterActivity.this, "Failed to Submit Data!!", 200).show();
+                        new AestheticDialog.Builder(DoctorRegisterActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                .setTitle("Error")
+                                .setMessage("Failed to submit data.")
+                                .setCancelable(true)
+                                .setGravity(Gravity.BOTTOM)
+                                .setDuration(3000)
+                                .show();
                     } else {
                         checkFields();
                     }
@@ -338,4 +409,30 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
 
             }
         }
+
+    private class SendMail extends AsyncTask<Message, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Message... messages) {
+            try{
+                Transport.send(messages[0]);
+                return "Success";
+
+            } catch (MessagingException e){
+                e.printStackTrace();
+                return "Error";
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
     }
+}

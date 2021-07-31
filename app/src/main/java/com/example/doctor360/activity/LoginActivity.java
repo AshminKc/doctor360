@@ -1,13 +1,18 @@
 package com.example.doctor360.activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -20,9 +25,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.cazaea.sweetalert.SweetAlertDialog;
 import com.example.doctor360.R;
 import com.example.doctor360.helper.ConnectionDetector;
-import com.example.doctor360.mail.Mail;
 import com.example.doctor360.model.AdminLoginReceiveParams;
 import com.example.doctor360.model.AdminLoginSendParams;
 import com.example.doctor360.model.DoctorLoginReceiveParams;
@@ -36,6 +41,21 @@ import com.example.doctor360.network.ServiceGenerator;
 import com.example.doctor360.utils.Constants;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.orhanobut.hawk.Hawk;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
+
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,9 +66,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private SharedPreferences loginPreferences;
     private SharedPreferences.Editor loginPrefsEditor;
     private Boolean saveLogin;
-    ProgressBar progressBar;
     MaterialSpinner spinnerUser;
-    EditText Email,Password;
+    EditText Email, Password;
     Button buttonSubmit, btnRegisterDoctor, btnRegisterPatient;
     CheckBox rememberCheck;
     ConnectionDetector connectionDetector;
@@ -68,7 +87,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnRegisterDoctor = findViewById(R.id.btnDoctorRegister);
         spinnerUser = findViewById(R.id.spinnerUserType);
         buttonSubmit = findViewById(R.id.btnLogin);
-        progressBar = findViewById(R.id.progress_loader);
 
         loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
         loginPrefsEditor = loginPreferences.edit();
@@ -81,7 +99,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         connectionDetector = new ConnectionDetector(this);
 
         if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
-            Toasty.error(LoginActivity.this, "No Internet Connection!!", 200).show();
+            new AestheticDialog.Builder(LoginActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                    .setTitle("Error")
+                    .setMessage("No Internet Connection!!")
+                    .setCancelable(true)
+                    .setGravity(Gravity.BOTTOM)
+                    .setDuration(2500)
+                    .show();
         }
 
         saveLogin = loginPreferences.getBoolean("saveLogin", false);
@@ -111,26 +135,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    public void checkFields(){
+    public void checkFields() {
         strUserType = spinnerUser.getText().toString();
         strEmail = Email.getText().toString();
         strPassword = Password.getText().toString();
 
-        if(strEmail.isEmpty()){
-            Toasty.error(LoginActivity.this,"Please Enter Email",300).show();
-        } else if(!strEmail.matches(emailPattern)){
-            Toasty.error(LoginActivity.this,"Invalid Email",300).show();
-        } else if(strPassword.isEmpty()){
-            Toasty.error(LoginActivity.this,"Please Enter Password",300).show();
+        if (strEmail.isEmpty()) {
+            Toasty.error(LoginActivity.this, "Please Enter Email", 300).show();
+        } else if (!strEmail.matches(emailPattern)) {
+            Toasty.error(LoginActivity.this, "Invalid Email", 300).show();
+        } else if (strPassword.isEmpty()) {
+            Toasty.error(LoginActivity.this, "Please Enter Password", 300).show();
         } else {
             userLogin();
         }
 
     }
 
-    public void userLogin(){
+    public void userLogin() {
         String value = strUserType;
-        if(value.matches("Admin")){
+        if (value.matches("Admin")) {
             NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
             final AdminLoginSendParams adminLoginSendParams = new AdminLoginSendParams();
 
@@ -141,8 +165,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             adminLoginSendParams.setEmail(strEmail);
             adminLoginSendParams.setPassword(strPassword);
 
-            progressBar.setVisibility(View.VISIBLE);
-            progressBar.setMax(2000);
+            final SweetAlertDialog pDialog = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog.setTitleText("Signing in");
+            pDialog.setCancelable(false);
+            pDialog.show();
 
             call.enqueue(new Callback<AdminLoginReceiveParams>() {
                 @Override
@@ -150,78 +177,99 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     AdminLoginReceiveParams receiveParams = response.body();
                     String success = receiveParams.getSuccess();
 
-                    if(success.equals("true")){
-                        progressBar.setVisibility(View.GONE);
+                    if (success.equals("true")) {
+                        pDialog.dismiss();
                         finish();
-                        Intent intent=new Intent(getApplicationContext(), AdminDashboardActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), AdminDashboardActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                     } else {
-                        Toasty.error(LoginActivity.this, "Invalid Login Credentials", 200).show();
-                        progressBar.setVisibility(View.GONE);
+                        new AestheticDialog.Builder(LoginActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                .setTitle("Error")
+                                .setMessage("Invalid Login Credentials")
+                                .setCancelable(true)
+                                .setGravity(Gravity.BOTTOM)
+                                .setDuration(3000)
+                                .show();
+                        pDialog.dismiss();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<AdminLoginReceiveParams> call, Throwable t) {
-                    Log.d(TAG, "onFailure: "+ t.toString());
-                    if(progressBar!= null){
-                        progressBar.setVisibility(View.GONE);
+                    Log.d(TAG, "onFailure: " + t.toString());
+                    if (pDialog != null && pDialog.isShowing()) {
+                        pDialog.dismiss();
                     }
                 }
             });
         }
 
-        if(value.matches("Doctor")){
-                NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
-                final DoctorLoginSendParams doctorLoginSendParams = new DoctorLoginSendParams();
+        if (value.matches("Doctor")) {
+            NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
+            final DoctorLoginSendParams doctorLoginSendParams = new DoctorLoginSendParams();
 
-                strEmail = Email.getText().toString();
-                strPassword = Password.getText().toString();
+            strEmail = Email.getText().toString();
+            strPassword = Password.getText().toString();
 
-                Call<DoctorLoginReceiveParams> call = networkClient.doctorLogin(doctorLoginSendParams);
-                doctorLoginSendParams.setEmail(strEmail);
-                doctorLoginSendParams.setPassword(strPassword);
+            Call<DoctorLoginReceiveParams> call = networkClient.doctorLogin(doctorLoginSendParams);
+            doctorLoginSendParams.setEmail(strEmail);
+            doctorLoginSendParams.setPassword(strPassword);
 
-                progressBar.setVisibility(View.VISIBLE);
-                progressBar.setMax(2000);
+            final SweetAlertDialog pDialog = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog.setTitleText("Signing in");
+            pDialog.setCancelable(false);
+            pDialog.show();
 
-                call.enqueue(new Callback<DoctorLoginReceiveParams>() {
-                    @Override
-                    public void onResponse(Call<DoctorLoginReceiveParams> call, Response<DoctorLoginReceiveParams> response) {
-                        DoctorLoginReceiveParams receiveParams = response.body();
-                        String success = receiveParams.getSuccess();
-                        int status = receiveParams.getData().getStatus();
+            call.enqueue(new Callback<DoctorLoginReceiveParams>() {
+                @Override
+                public void onResponse(Call<DoctorLoginReceiveParams> call, Response<DoctorLoginReceiveParams> response) {
+                    DoctorLoginReceiveParams receiveParams = response.body();
+                    String success = receiveParams.getSuccess();
+                    int status = receiveParams.getData().getStatus();
 
-                        if(success.equals("true")){
-                            if(status == 1){
-                                progressBar.setVisibility(View.GONE);
-                                finish();
-                                Intent intent = new Intent(getApplicationContext(), PatientDashboardActivity.class);
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
-                            } else {
-                                Toasty.error(LoginActivity.this, "Your profile is not verified. You can login once you are verified. You will get notified via email for verification", 200).show();
-                                progressBar.setVisibility(View.GONE);
-                            }
+                    if (success.equals("true")) {
+                        if (status == 1) {
+                            pDialog.dismiss();
+                            finish();
+                            Intent intent = new Intent(getApplicationContext(), PatientDashboardActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                         } else {
-                            Toasty.error(LoginActivity.this, "Invalid Login Credentials", 200).show();
-                            progressBar.setVisibility(View.GONE);
+                            new AestheticDialog.Builder(LoginActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                    .setTitle("Info")
+                                    .setMessage("Your profile is not verified. You can login once you are verified. You will get notified via email for verification")
+                                    .setCancelable(true)
+                                    .setGravity(Gravity.BOTTOM)
+                                    .setDuration(3000)
+                                    .show();
+                            pDialog.dismiss();
                         }
+                    } else {
+                        new AestheticDialog.Builder(LoginActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                .setTitle("Error")
+                                .setMessage("Invalid Login Credentials")
+                                .setCancelable(true)
+                                .setGravity(Gravity.BOTTOM)
+                                .setDuration(3000)
+                                .show();
+                        pDialog.dismiss();
                     }
+                }
 
-                    @Override
-                    public void onFailure(Call<DoctorLoginReceiveParams> call, Throwable t) {
-                        Log.d(TAG, "onFailure: "+ t.toString());
-                        if(progressBar!= null){
-                            progressBar.setVisibility(View.GONE);
-                        }
+                @Override
+                public void onFailure(Call<DoctorLoginReceiveParams> call, Throwable t) {
+                    Log.d(TAG, "onFailure: " + t.toString());
+                    if (pDialog != null && pDialog.isShowing()) {
+                        pDialog.dismiss();
                     }
-                });
+                }
+            });
         }
 
 
-        if(value.matches("Patient")){
+        if (value.matches("Patient")) {
             NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
             final PatientLoginSendParams patientLoginSendParams = new PatientLoginSendParams();
 
@@ -232,8 +280,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             patientLoginSendParams.setEmail(strEmail);
             patientLoginSendParams.setPassword(strPassword);
 
-            progressBar.setVisibility(View.VISIBLE);
-            progressBar.setMax(2000);
+            final SweetAlertDialog pDialog = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog.setTitleText("Signing in");
+            pDialog.setCancelable(false);
+            pDialog.show();
 
             call.enqueue(new Callback<PatientLoginReceiveParams>() {
                 @Override
@@ -241,23 +292,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     PatientLoginReceiveParams receiveParams = response.body();
                     String success = receiveParams.getSuccess();
 
-                    if(success.equals("true")){
-                        progressBar.setVisibility(View.GONE);
+                    if (success.equals("true")) {
+                        pDialog.dismiss();
+                        //  progressBar.setVisibility(View.GONE);
                         finish();
-                        Intent intent=new Intent(getApplicationContext(), PatientDashboardActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), PatientDashboardActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                     } else {
-                        progressBar.setVisibility(View.GONE);
-                        Toasty.error(LoginActivity.this, "Invalid Login Credentials", 200).show();
+                        pDialog.dismiss();
+                        new AestheticDialog.Builder(LoginActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                .setTitle("Error")
+                                .setMessage("Invalid Login Credentials")
+                                .setCancelable(true)
+                                .setGravity(Gravity.BOTTOM)
+                                .setDuration(3000)
+                                .show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<PatientLoginReceiveParams> call, Throwable t) {
-                    Log.d(TAG, "onFailure: "+ t.toString());
-                    if(progressBar!= null){
-                        progressBar.setVisibility(View.GONE);
+                    Log.d(TAG, "onFailure: " + t.toString());
+                    if (pDialog != null && pDialog.isShowing()) {
+                        pDialog.dismiss();
                     }
                 }
             });
@@ -272,9 +330,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String email = Email.getText().toString();
         String password = Password.getText().toString();
 
-        switch (id){
+        switch (id) {
             case R.id.checkBoxRemember:
-                if(rememberCheck.isChecked()){
+                if (rememberCheck.isChecked()) {
                     loginPrefsEditor.putBoolean("saveLogin", true);
                     loginPrefsEditor.putString("userType", userType);
                     loginPrefsEditor.putString("email", email);
@@ -287,24 +345,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.btnLogin:
-                if(!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()){
-                    Toasty.error(LoginActivity.this,"Failed to Submit Data!!",200).show();
+                if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
+                    new AestheticDialog.Builder(LoginActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                            .setTitle("Error")
+                            .setMessage("Failed to submit data.")
+                            .setCancelable(true)
+                            .setGravity(Gravity.BOTTOM)
+                            .setDuration(3000)
+                            .show();
                 } else {
                     checkFields();
                 }
                 break;
 
             case R.id.btnPatientRegister:
-                //new SendMail().execute("");
-
-                Intent intent=new Intent(getApplicationContext(),PatientRegisterActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PatientRegisterActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                 finish();
                 break;
 
             case R.id.btnDoctorRegister:
-                Intent intent1=new Intent(getApplicationContext(),DoctorRegisterActivity.class);
+                Intent intent1 = new Intent(getApplicationContext(), DoctorRegisterActivity.class);
                 startActivity(intent1);
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                 finish();
@@ -312,44 +374,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         }
     }
-
-    private class SendMail extends AsyncTask<String, Integer, Void> {
-
-        private ProgressDialog progressDialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = ProgressDialog.show(LoginActivity.this, "Please wait", "Sending mail", true, false);
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            progressDialog.dismiss();
-        }
-
-        protected Void doInBackground(String... params) {
-            Mail m = new Mail(Constants.EMAIL, Constants.PASSWORD);
-
-            String[] toArr = {"prembasnet094@gmail.com"};
-            m.setTo(toArr);
-            m.setFrom(Constants.EMAIL);
-            m.setSubject("This is an email sent using my Mail JavaMail wrapper from an Android device.");
-            m.setBody("Email body.");
-
-            try {
-                if (m.send()) {
-                    Toast.makeText(LoginActivity.this, "Email was sent successfully.", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(LoginActivity.this, "Email was not sent.", Toast.LENGTH_LONG).show();
-                }
-            } catch (Exception e) {
-                Log.e("MailApp", "Could not send email", e);
-            }
-            return null;
-        }
-    }
 }
+
 
 

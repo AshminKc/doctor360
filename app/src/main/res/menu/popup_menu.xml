@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/action_profile"
+        app:showAsAction="ifRoom"
+        android:title="@string/action_profile"
+        android:icon="@drawable/ic_person" />
+
+    <item
+        android:id="@+id/action_reset"
+        app:showAsAction="ifRoom"
+        android:title="@string/action_change_password"
+        android:icon="@drawable/ic_settings_black_24dp" />
+
+    <item
+        android:id="@+id/action_logout"
+        app:showAsAction="ifRoom"
+        android:title="@string/action_logout"
+        android:icon="@drawable/ic_logout" />
+
+</menu>

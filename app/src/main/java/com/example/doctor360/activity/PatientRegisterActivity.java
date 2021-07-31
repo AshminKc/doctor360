@@ -3,8 +3,10 @@ package com.example.doctor360.activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 
+import com.cazaea.sweetalert.SweetAlertDialog;
 import com.example.doctor360.R;
 import com.example.doctor360.app.MyApplication;
 import com.example.doctor360.helper.ConnectionDetector;
@@ -30,6 +33,9 @@ import com.example.doctor360.network.ServiceGenerator;
 import com.example.doctor360.utils.Constants;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.orhanobut.hawk.Hawk;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,7 +49,6 @@ import retrofit2.Response;
 
 public class PatientRegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
-    ProgressDialog progressDialog;
     ConnectionDetector connectionDetector;
     TextView moveToLogin;
     Button btnPatientRegister;
@@ -76,7 +81,13 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
 
         connectionDetector = new ConnectionDetector(PatientRegisterActivity.this);
         if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
-            Toasty.error(PatientRegisterActivity.this, "No Internet Connection!!", 200).show();
+            new AestheticDialog.Builder(PatientRegisterActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                    .setTitle("Error")
+                    .setMessage("No Internet Connection!!")
+                    .setCancelable(true)
+                    .setGravity(Gravity.BOTTOM)
+                    .setDuration(2500)
+                    .show();
         }
 
         moveToLogin.setOnClickListener(this);
@@ -203,11 +214,11 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
         patientRegistrationSendParams.setBloodGroup(strBlood);
         patientRegistrationSendParams.setPassword(strPassword);
 
-        progressDialog = new ProgressDialog(PatientRegisterActivity.this);
-        progressDialog.setMessage("Please Wait.....");
-        progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
+        final SweetAlertDialog pDialog = new SweetAlertDialog(PatientRegisterActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Submitting Data....");
+        pDialog.setCancelable(false);
+        pDialog.show();
 
         call.enqueue(new Callback<PatientRegistrationReceiveParams>() {
             @Override
@@ -215,19 +226,31 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
                 PatientRegistrationReceiveParams receiveParams = response.body();
                 boolean Status = receiveParams.isSuccess();
                 if(Status){
-                    Toasty.success(PatientRegisterActivity.this, "Successfully registered", 200).show();
-                    progressDialog.dismiss();
+                    new AestheticDialog.Builder(PatientRegisterActivity.this, DialogStyle.RAINBOW, DialogType.SUCCESS)
+                            .setTitle("Success")
+                            .setMessage("Successfully registered!!")
+                            .setCancelable(true)
+                            .setGravity(Gravity.BOTTOM)
+                            .setDuration(3000)
+                            .show();
+                    pDialog.dismiss();
                 } else {
-                    Toasty.error(PatientRegisterActivity.this, "Some error occurred. Please try again", 200).show();
-                    progressDialog.dismiss();
+                    new AestheticDialog.Builder(PatientRegisterActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                            .setTitle("Error")
+                            .setMessage("Some error occurred. Please try again!!")
+                            .setCancelable(true)
+                            .setGravity(Gravity.BOTTOM)
+                            .setDuration(3000)
+                            .show();
+                    pDialog.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<PatientRegistrationReceiveParams> call, Throwable t) {
                 Log.d(TAG, "onFailure: "+ t.toString());
-                if(progressDialog!= null && progressDialog.isShowing()){
-                    progressDialog.dismiss();
+                if(pDialog!= null && pDialog.isShowing()){
+                    pDialog.dismiss();
                 }
             }
         });
@@ -250,7 +273,13 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
         switch (id){
             case R.id.buttonPatientRegister:
                 if(!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()){
-                    Toasty.error(PatientRegisterActivity.this,"Failed to Submit Data!!",200).show();
+                    new AestheticDialog.Builder(PatientRegisterActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                            .setTitle("Error")
+                            .setMessage("Failed to submit data.")
+                            .setCancelable(true)
+                            .setGravity(Gravity.BOTTOM)
+                            .setDuration(3000)
+                            .show();
                 } else {
                     checkFields();
                 }

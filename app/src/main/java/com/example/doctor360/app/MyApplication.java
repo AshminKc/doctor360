@@ -14,9 +14,7 @@ import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
 import com.balsikandar.crashreporter.CrashReporter;
-import com.facebook.stetho.Stetho;
 import com.orhanobut.hawk.Hawk;
-import com.thefinestartist.finestwebview.FinestWebView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,7 +37,6 @@ public class MyApplication extends MultiDexApplication {
         CrashReporter.initialize(this);
         app = getApplicationContext();
         Hawk.init(app).build();
-        Stetho.initializeWithDefaults(this);
 
     }
 
@@ -66,23 +63,6 @@ public class MyApplication extends MultiDexApplication {
             }
         }
     }
-
-    /*public static void showWebView(String news_url){
-        new FinestWebView.Builder(app)
-                .setCustomAnimations(R.anim.slide_left_in, R.anim.hold, R.anim.hold, R.anim.slide_right_out)
-                .statusBarColorRes(R.color.colorPrimary)
-                .toolbarColorRes(R.color.colorPrimary)
-                .disableIconForward(true)
-                .urlColorRes(R.color.white)
-                .progressBarColorRes(R.color.red)
-                .titleColorRes(R.color.white)
-                .menuColorRes(R.color.white)
-                .backPressToClose(false)
-                .swipeRefreshColorRes(R.color.red)
-                .updateTitleFromHtml(true)
-                .iconDefaultColorRes(R.color.white)
-                .show(news_url);
-    }*/
 
 
     public static String getDiff(String givenDate) {

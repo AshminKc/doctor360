@@ -11,7 +11,7 @@ public class Constants {
     public static final  String EMAIL = "ashminkc27@gmail.com";
     public static final String PASSWORD = "bboyrxvs3j";
     public static final String SUBJECT = "Verification Pending - Doctor360";
-    public static final String BODY = "Hello User, Your profile is under verification.\n You will be notified via email when admin verifies you. \n You can login after your are verified. \n With Regards, \n Doctor360";
+    public static final String BODY = "Hello User,\nYou have registered to Doctor360 successfully.\nYour profile is under verification.\nYou will be notified via email when admin verifies you.\nYou can login after your are verified.\n\nWith Regards,\nDoctor360";
 
     public static final String USER_TYPE1 = "Admin";
     public static final String USER_TYPE2 = "Doctor";

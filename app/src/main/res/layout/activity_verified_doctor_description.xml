@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/verifiedCoordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/verifiedDoctorToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:textColor="@color/white"
+                android:text="Verified Doctor Description"
+                android:id="@+id/verifiedDoctorToolbarTitle"
+                android:gravity="start"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_7sdp"
+            android:layout_margin="@dimen/_7sdp">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Doctor Name"
+                        android:textSize="@dimen/_14sdp"
+                        android:textColor="@color/grey"
+                        android:id="@+id/verifiedDoctorName"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_6sdp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Doctor Mobile"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_11sdp"
+                        android:textColor="@color/grey"
+                        android:gravity="center_vertical"
+                        android:id="@+id/verifiedDoctorMobile"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/verifiedDoctorName"
+                        android:drawableStart="@drawable/ic_mobile"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Doctor Email"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/_11sdp"
+                        android:textColor="@color/grey"
+                        android:id="@+id/verifiedDoctorEmail"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/verifiedDoctorMobile"
+                        android:drawableStart="@drawable/ic_email"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/verifiedDoctorGender"
+                        android:text="Male"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/_11sdp"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:drawableStart="@drawable/ic_user"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_below="@+id/verifiedDoctorEmail"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Doctor Qualification"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/_11sdp"
+                        android:textColor="@color/grey"
+                        android:id="@+id/verifiedDoctorQualification"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/verifiedDoctorGender"
+                        android:drawableStart="@drawable/ic_qualification"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Doctor Specilzation"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/_11sdp"
+                        android:textColor="@color/grey"
+                        android:id="@+id/verifiedDoctorSpecialization"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/verifiedDoctorQualification"
+                        android:drawableStart="@drawable/ic_specialization"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Doctor Status"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/_11sdp"
+                        android:textColor="@color/grey"
+                        android:id="@+id/verifiedDoctorStatus"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/verifiedDoctorSpecialization"
+                        android:drawableStart="@drawable/ic_status"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Document"
+                        android:textSize="@dimen/_10sdp"
+                        android:textStyle="normal"
+                        android:textColor="@color/colorPrimary"
+                        android:id="@+id/verifiedDoctorImgTxt"
+                        android:layout_marginStart="@dimen/_13sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/verifiedDoctorStatus"/>
+
+                    <com.example.doctor360.utils.SquareImageView
+                        android:layout_width="@dimen/_180sdp"
+                        android:layout_height="@dimen/_120sdp"
+                        android:layout_marginStart="@dimen/_12sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:src="@drawable/noimage"
+                        android:scaleType="fitXY"
+                        android:id="@+id/verifiedDoctorImage"
+                        android:contentDescription="@string/app_name"
+                        android:layout_below="@+id/verifiedDoctorImgTxt"/>
+
+
+                </RelativeLayout>
+            </ScrollView>
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -69,6 +69,7 @@
     <string name="policy3">Must have at least 1 lower case letter</string>
     <string name="policy4">Must have at least 1 digit</string>
     <string name="policy5">Must be equal or more than 8 characters</string>
+    <string name="no_internet">No Internet Connection. Please check your connection and try again.</string>
 
     <string name="action_settings">Settings</string>
     <string name="action_change_password">Reset Password</string>
@@ -76,7 +77,11 @@
     <string name="action_logout">Logout</string>
     <string name="dashboard">Dashboard</string>
 
-    <string name="pending_doctors">Pending Doctors</string>
+    <string name="unverified">Unverified</string>
+    <string name="verified">Verified</string>
+    <string name="verify">Verify</string>
+    <string name="reject">Reject</string>
+    <string name="unverified_doctors">Unverified Doctors</string>
     <string name="verified_doctors">Verified Doctors</string>
 
     <string-array name="genderList">

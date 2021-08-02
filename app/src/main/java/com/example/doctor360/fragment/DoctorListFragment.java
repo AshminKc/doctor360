@@ -31,7 +31,7 @@ public class DoctorListFragment extends Fragment {
         tabLayout = rootView.findViewById(R.id.doctorListTabs);
 
         doctorListPagerAdapter = new DoctorListPagerAdapter(getChildFragmentManager());
-        doctorListPagerAdapter.addFragment(new PendingDoctorListFragment(),getString(R.string.pending_doctors));
+        doctorListPagerAdapter.addFragment(new PendingDoctorListFragment(),getString(R.string.unverified_doctors));
         doctorListPagerAdapter.addFragment(new VerifiedDoctorListFragment(),getString(R.string.verified_doctors));
 
         viewPager.setAdapter(doctorListPagerAdapter);

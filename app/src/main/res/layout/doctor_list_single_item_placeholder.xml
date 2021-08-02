@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/_6sdp"
+    android:layout_margin="@dimen/_6sdp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_16sdp"
+        android:id="@+id/viewName"
+        android:background="@color/placeholder_bg"
+        android:layout_marginBottom="@dimen/_5sdp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_16sdp"
+        android:id="@+id/viewMobile"
+        android:background="@color/placeholder_bg"
+        android:layout_marginBottom="@dimen/_5sdp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_16sdp"
+        android:id="@+id/viewEmail"
+        android:background="@color/placeholder_bg"
+        android:layout_marginBottom="@dimen/_5sdp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_16sdp"
+        android:id="@+id/viewGender"
+        android:background="@color/placeholder_bg"
+        android:layout_marginBottom="@dimen/_5sdp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_16sdp"
+        android:id="@+id/viewStatus"
+        android:background="@color/placeholder_bg"
+        android:layout_marginBottom="@dimen/_5sdp"/>
+
+</LinearLayout>

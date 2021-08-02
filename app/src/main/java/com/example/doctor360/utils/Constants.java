@@ -10,8 +10,13 @@ public class Constants {
 
     public static final  String EMAIL = "ashminkc27@gmail.com";
     public static final String PASSWORD = "bboyrxvs3j";
-    public static final String SUBJECT = "Verification Pending - Doctor360";
+    public static final String SUBJECT = "Verification Request Pending - Doctor360";
     public static final String BODY = "Hello User,\nYou have registered to Doctor360 successfully.\nYour profile is under verification.\nYou will be notified via email when admin verifies you.\nYou can login after your are verified.\n\nWith Regards,\nDoctor360";
+
+    public static final String VERIFIED_SUBJECT = "Verification Request Verified - Doctor360";
+    public static final String VERIFIED_BODY = "Hello User,\nYou request have been verified by Admin successfully.\nYou can now login with your login credentials and enjoy the features of Doctor360.\n\nWith Regards,\nDoctor360";
+    public static final String REJECTED_SUBJECT = "Verification Request Rejected - Doctor360";
+    public static final String REJECTED_BODY = "Hello User,\nYou request have been rejected by Admin due to some reasons.\nPlease try valid details and document to use Doctor360.\n\nWith Regards,\nDoctor360";
 
     public static final String USER_TYPE1 = "Admin";
     public static final String USER_TYPE2 = "Doctor";

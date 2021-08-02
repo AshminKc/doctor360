@@ -11,6 +11,8 @@ import com.example.doctor360.model.PatientLoginReceiveParams;
 import com.example.doctor360.model.PatientLoginSendParams;
 import com.example.doctor360.model.PatientRegistrationReceiveParams;
 import com.example.doctor360.model.PatientRegistrationSendParams;
+import com.example.doctor360.model.PendingDoctorReceiveParams;
+import com.example.doctor360.model.VerifiedDoctorReceiveParams;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -35,5 +37,11 @@ public interface NetworkClient {
 
     @POST("patient/login")
     Call<PatientLoginReceiveParams> patientLogin(@Body PatientLoginSendParams patientLoginSendParams);
+
+    @GET("admin/doctors/view/pending")
+    Call<PendingDoctorReceiveParams> getPendingDoctorList();
+
+    @GET("admin/doctors/view/verified")
+    Call<VerifiedDoctorReceiveParams> getVerifiedDoctorList();
 
 }

@@ -1,27 +1,39 @@
 package com.example.doctor360.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import com.cazaea.sweetalert.SweetAlertDialog;
 import com.example.doctor360.R;
 import com.example.doctor360.model.PendingDoctorReceiveParams;
+import com.example.doctor360.model.RejectDoctorReceiveParams;
 import com.example.doctor360.model.VerifiedDoctorReceiveParams;
+import com.example.doctor360.model.VerifyDoctorReceiveParams;
+import com.example.doctor360.network.NetworkClient;
+import com.example.doctor360.network.ServiceGenerator;
 import com.example.doctor360.utils.Constants;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.squareup.picasso.Picasso;
 import com.thecode.aestheticdialogs.AestheticDialog;
 import com.thecode.aestheticdialogs.DialogStyle;
@@ -38,17 +50,19 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class PendingDoctorDescriptionActivity extends AppCompatActivity {
 
     TextView nameDecTxt, mobileDesTxt,emailDesTxt, genderDesTxt, qualiDesText, specDesTxt, statusDesTxt, toolbarText;
-    ImageView documentDesImage;
+    PhotoView documentDesImage;
     Button btnVerify, btnReject;
-    String doctorID;
     PendingDoctorReceiveParams.DataBean pendingReceiveParams;
     CoordinatorLayout coordinatorLayout;
     Toolbar toolbar;
-    private ScaleGestureDetector scaleGestureDetector;
-    private float mScaleFactor = 1.0f;
+    private static final String TAG = "PendingDoctorDescriptio";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,8 +100,6 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
         qualiDesText.setText(pendingReceiveParams.getQualification());
         specDesTxt.setText(pendingReceiveParams.getSpecialization());
 
-        scaleGestureDetector = new ScaleGestureDetector(PendingDoctorDescriptionActivity.this, new ScaleListener());
-
         int status = pendingReceiveParams.getStatus();
         if(status == 0)
             statusDesTxt.setText(R.string.unverified);
@@ -110,14 +122,6 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
         btnReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AestheticDialog.Builder(PendingDoctorDescriptionActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
-                        .setTitle("Information")
-                        .setMessage("Request Rejected.")
-                        .setCancelable(true)
-                        .setGravity(Gravity.BOTTOM)
-                        .setDuration(3000)
-                        .show();
-
                 rejectDoctor();
             }
         });
@@ -125,15 +129,44 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
     }
 
     private void verifyDoctor(){
-        new AestheticDialog.Builder(PendingDoctorDescriptionActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
-                .setTitle("Information")
-                .setMessage("Request Rejected.")
-                .setCancelable(true)
-                .setGravity(Gravity.BOTTOM)
-                .setDuration(3000)
-                .show();
+        NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
+        String doctorId = pendingReceiveParams.get_id();
 
-        sendVerifiedEmail();
+        final SweetAlertDialog pDialog = new SweetAlertDialog(PendingDoctorDescriptionActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Submitting...");
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        Call<VerifyDoctorReceiveParams> call = networkClient.verifyDoctor(doctorId);
+        call.enqueue(new Callback<VerifyDoctorReceiveParams>() {
+            @Override
+            public void onResponse(Call<VerifyDoctorReceiveParams> call, Response<VerifyDoctorReceiveParams> response) {
+                Log.d(TAG, "onResponse: Success");
+                pDialog.dismiss();
+                new AestheticDialog.Builder(PendingDoctorDescriptionActivity.this, DialogStyle.RAINBOW, DialogType.SUCCESS)
+                        .setTitle("Success")
+                        .setMessage("Doctor Verified Successfully")
+                        .setCancelable(true)
+                        .setGravity(Gravity.BOTTOM)
+                        .setDuration(3000)
+                        .show();
+                sendVerifiedEmail();
+            }
+
+            @Override
+            public void onFailure(Call<VerifyDoctorReceiveParams> call, Throwable t) {
+                Log.d(TAG, "onFailure: Verify " + t.toString());
+                pDialog.dismiss();
+                new AestheticDialog.Builder(PendingDoctorDescriptionActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                        .setTitle("Error")
+                        .setMessage("Some error occured. Couldn't Verify.")
+                        .setCancelable(true)
+                        .setGravity(Gravity.BOTTOM)
+                        .setDuration(3000)
+                        .show();
+            }
+        });
     }
 
     private void sendVerifiedEmail(){
@@ -166,6 +199,47 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
     }
 
     private void rejectDoctor(){
+        NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
+        String doctorId = pendingReceiveParams.get_id();
+
+        final SweetAlertDialog pDialog = new SweetAlertDialog(PendingDoctorDescriptionActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Submitting...");
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        Call<RejectDoctorReceiveParams> call = networkClient.rejectDoctor(doctorId);
+        call.enqueue(new Callback<RejectDoctorReceiveParams>() {
+            @Override
+            public void onResponse(Call<RejectDoctorReceiveParams> call, Response<RejectDoctorReceiveParams> response) {
+                Log.d(TAG, "onResponse: Success");
+                pDialog.dismiss();
+                new AestheticDialog.Builder(PendingDoctorDescriptionActivity.this, DialogStyle.RAINBOW, DialogType.SUCCESS)
+                        .setTitle("Success")
+                        .setMessage("Request Rejected.")
+                        .setCancelable(true)
+                        .setGravity(Gravity.BOTTOM)
+                        .setDuration(3000)
+                        .show();
+                sendRejectedEmail();
+            }
+
+            @Override
+            public void onFailure(Call<RejectDoctorReceiveParams> call, Throwable t) {
+                Log.d(TAG, "onFailure: Verify " + t.toString());
+                pDialog.dismiss();
+                new AestheticDialog.Builder(PendingDoctorDescriptionActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                        .setTitle("Error")
+                        .setMessage("Some error occured. Request rejected.")
+                        .setCancelable(true)
+                        .setGravity(Gravity.BOTTOM)
+                        .setDuration(3000)
+                        .show();
+            }
+        });
+    }
+
+    private void sendRejectedEmail(){
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable","true");
@@ -220,23 +294,6 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
             startActivity(intent);
         }
         return true;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        scaleGestureDetector.onTouchEvent(motionEvent);
-        return true;
-    }
-
-    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
-        @Override
-        public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
-            mScaleFactor *= scaleGestureDetector.getScaleFactor();
-            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 10.0f));
-            documentDesImage.setScaleX(mScaleFactor);
-            documentDesImage.setScaleY(mScaleFactor);
-            return true;
-        }
     }
 
     private class SendMail extends AsyncTask<Message, String, String> {

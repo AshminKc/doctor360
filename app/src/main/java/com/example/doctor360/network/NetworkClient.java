@@ -12,12 +12,16 @@ import com.example.doctor360.model.PatientLoginSendParams;
 import com.example.doctor360.model.PatientRegistrationReceiveParams;
 import com.example.doctor360.model.PatientRegistrationSendParams;
 import com.example.doctor360.model.PendingDoctorReceiveParams;
+import com.example.doctor360.model.RejectDoctorReceiveParams;
 import com.example.doctor360.model.VerifiedDoctorReceiveParams;
+import com.example.doctor360.model.VerifyDoctorReceiveParams;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 
@@ -43,5 +47,11 @@ public interface NetworkClient {
 
     @GET("admin/doctors/view/verified")
     Call<VerifiedDoctorReceiveParams> getVerifiedDoctorList();
+
+    @PUT("admin/doctors/update/{id}")
+    Call<VerifyDoctorReceiveParams> verifyDoctor(@Path("id") String id);
+
+    @DELETE("admin/doctors/reject/{id}")
+    Call<RejectDoctorReceiveParams> rejectDoctor(@Path("id") String id);
 
 }

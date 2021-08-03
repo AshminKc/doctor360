@@ -163,14 +163,15 @@
                         android:layout_marginTop="@dimen/_3sdp"
                         android:layout_below="@+id/pendingDoctorStatus"/>
 
-                    <com.github.chrisbanes.photoview.PhotoView
+                    <com.example.doctor360.utils.SquareImageView
                         android:layout_width="@dimen/_180sdp"
-                        android:layout_height="@dimen/_150sdp"
+                        android:layout_height="@dimen/_120sdp"
                         android:layout_marginStart="@dimen/_12sdp"
-                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:src="@drawable/noimage"
                         android:scaleType="fitXY"
                         android:id="@+id/pendingDoctorImage"
+                        android:contentDescription="@string/app_name"
                         android:layout_below="@+id/pendingDoctorImgTxt"/>
 
                     <Button

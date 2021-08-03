@@ -33,7 +33,6 @@ import com.example.doctor360.model.VerifyDoctorReceiveParams;
 import com.example.doctor360.network.NetworkClient;
 import com.example.doctor360.network.ServiceGenerator;
 import com.example.doctor360.utils.Constants;
-import com.github.chrisbanes.photoview.PhotoView;
 import com.squareup.picasso.Picasso;
 import com.thecode.aestheticdialogs.AestheticDialog;
 import com.thecode.aestheticdialogs.DialogStyle;
@@ -57,7 +56,7 @@ import retrofit2.Response;
 public class PendingDoctorDescriptionActivity extends AppCompatActivity {
 
     TextView nameDecTxt, mobileDesTxt,emailDesTxt, genderDesTxt, qualiDesText, specDesTxt, statusDesTxt, toolbarText;
-    PhotoView documentDesImage;
+    ImageView documentDesImage;
     Button btnVerify, btnReject;
     PendingDoctorReceiveParams.DataBean pendingReceiveParams;
     CoordinatorLayout coordinatorLayout;
@@ -123,6 +122,27 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 rejectDoctor();
+            }
+        });
+
+        documentDesImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ImageView imageView = new ImageView(PendingDoctorDescriptionActivity.this);
+                String docImage = pendingReceiveParams.getDocumentImage();
+                imageView.setImageResource(Integer.parseInt(docImage));
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(PendingDoctorDescriptionActivity.this);
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.image_zoom_dailog, null);
+                builder.setView(dialogView)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).setView(imageView)
+                        .create().show();
             }
         });
 

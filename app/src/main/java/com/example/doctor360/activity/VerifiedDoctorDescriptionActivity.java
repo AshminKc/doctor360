@@ -1,8 +1,10 @@
 package com.example.doctor360.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -85,6 +88,31 @@ public class VerifiedDoctorDescriptionActivity extends AppCompatActivity {
                 .placeholder(R.drawable.noimage)
                 .error(R.drawable.noimage)
                 .into(documentDesImage);
+
+        documentDesImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ImageView imageView = new ImageView(VerifiedDoctorDescriptionActivity.this);
+                String docImage = verifiedReceiveParams.getDocumentImage();
+                imageView.setImageResource(R.drawable.noimage);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(VerifiedDoctorDescriptionActivity.this);
+                builder.setView(imageView);
+                AlertDialog alertDialog = builder.create();
+                alertDialog.getWindow().setLayout(600,400);
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.image_zoom_dailog, null);
+
+                builder.setView(dialogView)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                builder.show();
+            }
+        });
     }
 
     @Override

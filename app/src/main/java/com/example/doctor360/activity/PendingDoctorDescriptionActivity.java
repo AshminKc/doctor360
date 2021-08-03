@@ -130,19 +130,23 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ImageView imageView = new ImageView(PendingDoctorDescriptionActivity.this);
                 String docImage = pendingReceiveParams.getDocumentImage();
-                imageView.setImageResource(Integer.parseInt(docImage));
+                imageView.setImageResource(R.drawable.noimage);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(PendingDoctorDescriptionActivity.this);
+                builder.setView(imageView);
+                AlertDialog alertDialog = builder.create();
+                alertDialog.getWindow().setLayout(600,400);
                 LayoutInflater inflater = getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.image_zoom_dailog, null);
+
                 builder.setView(dialogView)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
-                        }).setView(imageView)
-                        .create().show();
+                        });
+                builder.show();
             }
         });
 

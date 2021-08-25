@@ -37,7 +37,7 @@
                     android:textStyle="bold"
                     android:layout_marginStart="@dimen/_7sdp"
                     android:textColor="@color/white"
-                    android:text="@string/dashboard"
+                    android:text="@string/menu_home"
                     android:id="@+id/toolbarAdminTitle"
                     android:gravity="start"/>
 
@@ -60,6 +60,7 @@
                     android:text="ADMIN"
                     android:id="@+id/loginAdminName"
                     android:gravity="end"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginEnd="@dimen/_3sdp"/>
 
             </LinearLayout>

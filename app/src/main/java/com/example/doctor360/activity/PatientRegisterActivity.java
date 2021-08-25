@@ -226,25 +226,37 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
                 PatientRegistrationReceiveParams receiveParams = response.body();
                 String Status = receiveParams.getSuccess();
 
-                if(Status.matches("true")){
-                    new AestheticDialog.Builder(PatientRegisterActivity.this, DialogStyle.RAINBOW, DialogType.SUCCESS)
-                            .setTitle("Success")
-                            .setMessage("Successfully registered!!")
-                            .setCancelable(true)
-                            .setGravity(Gravity.BOTTOM)
-                            .setDuration(3000)
-                            .show();
-                    pDialog.dismiss();
+                if(response.body()!=null){
+                    if(Status.matches("true")){
+                        new AestheticDialog.Builder(PatientRegisterActivity.this, DialogStyle.RAINBOW, DialogType.SUCCESS)
+                                .setTitle("Success")
+                                .setMessage("Successfully registered!!")
+                                .setCancelable(true)
+                                .setGravity(Gravity.BOTTOM)
+                                .setDuration(3000)
+                                .show();
+                        pDialog.dismiss();
+                    } else {
+                        new AestheticDialog.Builder(PatientRegisterActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                .setTitle("Error")
+                                .setMessage(receiveParams.getMessage())
+                                .setCancelable(true)
+                                .setGravity(Gravity.BOTTOM)
+                                .setDuration(3000)
+                                .show();
+                        pDialog.dismiss();
+                    }
                 } else {
                     new AestheticDialog.Builder(PatientRegisterActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
                             .setTitle("Error")
-                            .setMessage(receiveParams.getMessage())
+                            .setMessage("Some Error Occured at Server end. Please try again.")
                             .setCancelable(true)
                             .setGravity(Gravity.BOTTOM)
                             .setDuration(3000)
                             .show();
                     pDialog.dismiss();
                 }
+
             }
 
             @Override

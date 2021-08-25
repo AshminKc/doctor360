@@ -3,14 +3,20 @@ package com.example.doctor360.activity;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
@@ -26,9 +32,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.loader.content.CursorLoader;
 
 import com.balsikandar.crashreporter.CrashReporter;
 import com.cazaea.sweetalert.SweetAlertDialog;
+import com.example.doctor360.ImageCheck;
 import com.example.doctor360.R;
 import com.example.doctor360.helper.ConnectionDetector;
 import com.example.doctor360.model.DoctorRegistrationReceiveParams;
@@ -36,14 +45,26 @@ import com.example.doctor360.model.DoctorRegistrationSendParams;
 import com.example.doctor360.network.NetworkClient;
 import com.example.doctor360.network.ServiceGenerator;
 import com.example.doctor360.utils.Constants;
+import com.example.doctor360.utils.SquareImageView;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.orhanobut.hawk.Hawk;
+import com.squareup.picasso.Picasso;
 import com.thecode.aestheticdialogs.AestheticDialog;
 import com.thecode.aestheticdialogs.DialogStyle;
 import com.thecode.aestheticdialogs.DialogType;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.reflect.Array;
+import java.net.URI;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -56,6 +77,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import es.dmoral.toasty.Toasty;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -64,13 +88,15 @@ import static com.example.doctor360.utils.Constants.RequestPermissionCode;
 
 public class DoctorRegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
+    String imageUrl ="";
+    File imageFile;
     ConnectionDetector connectionDetector;
-    ImageView imgDocument;
+    SquareImageView imgDocument;
     Button btnRegister, btnUpload;
     TextView moveToLogin;
     AppCompatEditText name, email, password, confirmPassword, mobile;
     MaterialSpinner spinnerDoctorGender, spinnerQualification, spinnerSpecialization;
-    String strName, strEmail, strMobile, strGender, strPassword, strConfPassword, strSpec, strQuali, strImage;
+    String strName, strEmail, strMobile, strGender, strPassword, strConfPassword, strSpec, strQuali;
     String namePattern = "^[A-Za-z\\s]+$";
     String mobilePattern = "^[0-9]{10}$";
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -94,7 +120,7 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         btnUpload = findViewById(R.id.btnUploadPhoto);
         moveToLogin = findViewById(R.id.loginDoctorText);
 
-      //  EnableRuntimePermission();
+        handlePermission();
         connectionDetector = new ConnectionDetector(this);
 
         if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
@@ -209,7 +235,7 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         } else if(!strConfPassword.matches(strPassword)){
             Toasty.error(DoctorRegisterActivity.this,"Password and Confirm Password doesn't match",300).show();
         } else if(imgDocument.getDrawable().getConstantState() == getResources().getDrawable(R.drawable.noimage).getConstantState()){
-            Toasty.error(DoctorRegisterActivity.this,"Image is required (jpg, jepg, png",300).show();
+            Toasty.error(DoctorRegisterActivity.this,"Image is required (jpg, jepg, png)",300).show();
         } else{
             registerDoctor();
         }
@@ -218,7 +244,6 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
 
     public void registerDoctor(){
         NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
-        final DoctorRegistrationSendParams registrationSendParams = new DoctorRegistrationSendParams();
 
         strName = name.getText().toString();
         strEmail = email.getText().toString();
@@ -228,15 +253,40 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         strSpec = spinnerSpecialization.getText().toString();
         strPassword = password.getText().toString();
 
-        Call<DoctorRegistrationReceiveParams> call = networkClient.doctorRegister(registrationSendParams);
-        registrationSendParams.setName(strName);
+        /*String strImage = imgDocument.toString();
+        File file = new File(strImage);
+        String path = file.getPath();
+        String fileN = path.substring(path.lastIndexOf("/")+1);
+        String newFile = fileN.replace("}", ".");
+        String fileWithExtension = newFile+"jpg";
+        File finalPic = new File(fileWithExtension);
+       // Toasty.success(DoctorRegisterActivity.this,"Image " + path, 300).show();
+        Log.d(TAG, "onClick: Image " + path);*/
+
+        if(imageUrl!=null)
+            imageFile= new File(imageUrl);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
+        MultipartBody.Part requestImage = MultipartBody.Part.createFormData("documentImage",imageFile.getName(), requestFile);
+
+
+        RequestBody requestName = RequestBody.create(MediaType.parse("text/plain"), strName);
+        RequestBody requestEmail = RequestBody.create(MediaType.parse("text/plain"), strEmail);
+        RequestBody requestMobile = RequestBody.create(MediaType.parse("text/plain"), strMobile);
+        RequestBody requestGender = RequestBody.create(MediaType.parse("text/plain"), strGender);
+        RequestBody requestSpec = RequestBody.create(MediaType.parse("text/plain"), strSpec);
+        RequestBody requestQuali = RequestBody.create(MediaType.parse("text/plain"), strQuali);
+        RequestBody requestPassword = RequestBody.create(MediaType.parse("text/plain"), strPassword);
+        Toasty.success(DoctorRegisterActivity.this,"Image " + requestImage, 300).show();
+        Call<DoctorRegistrationReceiveParams> call = networkClient.doctorRegister(requestName, requestEmail, requestMobile, requestGender, requestSpec, requestQuali, requestPassword, requestImage);
+       /* registrationSendParams.setName(strName);
         registrationSendParams.setEmail(strEmail);
         registrationSendParams.setMobile(strMobile);
         registrationSendParams.setQualification(strQuali);
         registrationSendParams.setGender(strGender);
         registrationSendParams.setSpecialization(strSpec);
+        registrationSendParams.setDocumentImage(fileWithExtension);
         registrationSendParams.setUserType(Constants.USER_TYPE2);
-        registrationSendParams.setPassword(strPassword);
+        registrationSendParams.setPassword(strPassword);*/
 
         final SweetAlertDialog pDialog = new SweetAlertDialog(DoctorRegisterActivity.this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -248,29 +298,42 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
             @Override
             public void onResponse(Call<DoctorRegistrationReceiveParams> call, Response<DoctorRegistrationReceiveParams> response) {
                 DoctorRegistrationReceiveParams receiveParams = response.body();
-                String Status = receiveParams.getSuccess();
 
-                if(Status.matches("true")){
-                    new AestheticDialog.Builder(DoctorRegisterActivity.this, DialogStyle.RAINBOW, DialogType.SUCCESS)
-                            .setTitle("Success")
-                            .setMessage("Successfully registered. Your profile is under verification. Please visit email for more info")
-                            .setCancelable(true)
-                            .setGravity(Gravity.BOTTOM)
-                            .setDuration(3000)
-                            .show();
-                    pDialog.dismiss();
-                    verificationEmail();
+                if(response.body() != null){
+                    String Status = receiveParams.getSuccess();
 
+                    if(Status.matches("true")){
+                        new AestheticDialog.Builder(DoctorRegisterActivity.this, DialogStyle.RAINBOW, DialogType.SUCCESS)
+                                .setTitle("Success")
+                                .setMessage("Successfully registered. Your profile is under verification. Please visit email for more info")
+                                .setCancelable(true)
+                                .setGravity(Gravity.BOTTOM)
+                                .setDuration(3000)
+                                .show();
+                        pDialog.dismiss();
+                        verificationEmail();
+
+                    } else {
+                        new AestheticDialog.Builder(DoctorRegisterActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                .setTitle("Error")
+                                .setMessage(receiveParams.getMessage())
+                                .setCancelable(true)
+                                .setGravity(Gravity.BOTTOM)
+                                .setDuration(3000)
+                                .show();
+                        pDialog.dismiss();
+                    }
                 } else {
                     new AestheticDialog.Builder(DoctorRegisterActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
                             .setTitle("Error")
-                            .setMessage(receiveParams.getMessage())
+                            .setMessage("Some Error Occured at Server end. Please try again.")
                             .setCancelable(true)
                             .setGravity(Gravity.BOTTOM)
                             .setDuration(3000)
                             .show();
                     pDialog.dismiss();
                 }
+
             }
 
             @Override
@@ -322,14 +385,7 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         finish();
     }
 
-    private void openImageChooser() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Image"), Constants.SELECT_IMAGE);
-    }
-
-    private String getPathFromURI(Uri contentUri) {
+   /* private String getPathFromURI(Uri contentUri) {
         String res = null;
         String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
@@ -339,29 +395,61 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         }
         cursor.close();
         return res;
+    }*/
+
+    private void selectImage() {
+        Intent gallery = new Intent(Intent.ACTION_GET_CONTENT);
+        gallery.setType("image/*");
+        startActivityForResult(gallery, Constants.REQUEST_GALLERY_CODE);
     }
 
+
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == Constants.SELECT_IMAGE) {
-                Uri selectedImageUri = data.getData();
-                if (null != selectedImageUri) {
-                    String path = getPathFromURI(selectedImageUri);
-                    imgDocument.setImageURI(selectedImageUri);
+             if (requestCode == Constants.REQUEST_GALLERY_CODE && data!=null) {
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                if (selectedImage != null) {
+                    Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                    if (cursor != null) {
+                        cursor.moveToFirst();
+
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        imageUrl = cursor.getString(columnIndex);
+                        //imgDocument.setImageBitmap(BitmapFactory.decodeFile(imageUrl));
+                        Picasso.with(DoctorRegisterActivity.this).load(data.getData()).noPlaceholder().centerCrop().fit().into(imgDocument);
+                        cursor.close();
+                    }
                 }
             }
         }
     }
 
-        private void EnableRuntimePermission() {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(DoctorRegisterActivity.this, Manifest.permission.CAMERA)) {
-                Toasty.success(DoctorRegisterActivity.this, "Camera allows you to access CAMERA", 2000).show();
-            } else {
-                ActivityCompat.requestPermissions(DoctorRegisterActivity.this, new String[]{Manifest.permission.CAMERA}, RequestPermissionCode);
-            }
+    public static File bitmapToFile(Bitmap bitmap, String fileNameToSave) { // File name like "image.png"
+        //create a file to write bitmap data
+        File file = null;
+        try {
+            file = new File(Environment.getExternalStorageDirectory() + File.separator + fileNameToSave);
+            file.createNewFile();
+
+//Convert bitmap to byte array
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 0 , bos); // YOU can also save it in JPEG
+            byte[] bitmapdata = bos.toByteArray();
+
+//write the bytes in file
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+            return file;
+        }catch (Exception e){
+            e.printStackTrace();
+            return file; // it will return null
         }
+    }
 
         @Override
         public void onRequestPermissionsResult ( int requestCode, @NonNull String[] permissions,
@@ -377,6 +465,16 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
 
             }
         }
+
+    private void handlePermission() {
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return;
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Constants.REQUEST_GALLERY_CODE);
+        }
+    }
 
         @Override
         public void onClick (View view){
@@ -406,7 +504,7 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
                     break;
 
                 case R.id.btnUploadPhoto:
-                    openImageChooser();
+                    selectImage();
                     break;
 
             }

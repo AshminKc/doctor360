@@ -73,7 +73,7 @@
     <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/spinnerUserType"
         android:layout_width="@dimen/_232sdp"
-        android:layout_height="@dimen/_35sdp"
+        android:layout_height="wrap_content"
         app:ms_dropdown_height="wrap_content"
         android:hint="Select User Type"
         android:textAlignment="viewStart"

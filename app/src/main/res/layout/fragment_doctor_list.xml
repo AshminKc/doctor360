@@ -19,7 +19,7 @@
             android:clipToPadding="false"
             app:tabTextColor="@color/white"
             app:tabIndicatorColor="@color/grey"
-            app:tabBackground="@color/colorPrimary"
+            app:tabBackground="@color/quarantine"
             app:tabSelectedTextColor="@color/white"
             app:tabMode="fixed"
             app:tabTextAppearance="@style/TabLayoutStyle"/>

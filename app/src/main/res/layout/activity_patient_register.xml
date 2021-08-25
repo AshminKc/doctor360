@@ -143,7 +143,7 @@
     <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/spinnerPatientAge"
         android:layout_width="@dimen/_230sdp"
-        android:layout_height="@dimen/_30sdp"
+        android:layout_height="wrap_content"
         app:ms_dropdown_height="wrap_content"
         android:hint="Select Age"
         android:textAlignment="viewStart"
@@ -178,7 +178,7 @@
     <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/spinnerPatientGender"
         android:layout_width="@dimen/_230sdp"
-        android:layout_height="@dimen/_30sdp"
+        android:layout_height="wrap_content"
         app:ms_dropdown_height="wrap_content"
         android:hint="Select Gender"
         android:textAlignment="viewStart"
@@ -212,7 +212,7 @@
     <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/spinnerPatientBlood"
         android:layout_width="@dimen/_230sdp"
-        android:layout_height="@dimen/_30sdp"
+        android:layout_height="wrap_content"
         app:ms_dropdown_height="wrap_content"
         android:hint="Select Blood Group"
         android:textAlignment="viewStart"

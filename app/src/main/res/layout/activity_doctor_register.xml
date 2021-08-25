@@ -124,7 +124,7 @@
         <com.jaredrummler.materialspinner.MaterialSpinner
             android:id="@+id/spinnerDoctorGender"
             android:layout_width="@dimen/_230sdp"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_height="wrap_content"
             app:ms_dropdown_height="wrap_content"
             android:hint="Select your gender"
             android:textAlignment="viewStart"
@@ -159,7 +159,7 @@
         <com.jaredrummler.materialspinner.MaterialSpinner
             android:id="@+id/spinnerDoctorQualification"
             android:layout_width="@dimen/_230sdp"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_height="wrap_content"
             app:ms_dropdown_height="wrap_content"
             android:hint="Select your qualification"
             android:textAlignment="viewStart"
@@ -193,7 +193,7 @@
         <com.jaredrummler.materialspinner.MaterialSpinner
             android:id="@+id/spinnerDoctorSpecialization"
             android:layout_width="@dimen/_230sdp"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_height="wrap_content"
             app:ms_dropdown_height="wrap_content"
             android:hint="Select Your Specialization"
             android:textAlignment="viewStart"
@@ -284,7 +284,7 @@
             android:layout_marginTop="@dimen/_45sdp"
             android:layout_marginEnd="@dimen/_25sdp"
             android:padding="@dimen/_5sdp"
-            android:background="@drawable/round_upload"
+            android:background="@color/quarantine"
             android:text="@string/upload_photo"
             android:textColor="@color/white"
             android:textAllCaps="false"

@@ -233,7 +233,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (status == 1) {
                             pDialog.dismiss();
                             finish();
-                            Intent intent = new Intent(getApplicationContext(), PatientDashboardActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), DoctorDashboardActivity.class);
+                            intent.putExtra("doctor_id", receiveParams.getData().get_id());
+                            intent.putExtra("doctor_name", receiveParams.getData().getName());
                             startActivity(intent);
                             overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                         } else {
@@ -294,9 +296,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     if (success.equals("true")) {
                         pDialog.dismiss();
-                        //  progressBar.setVisibility(View.GONE);
                         finish();
                         Intent intent = new Intent(getApplicationContext(), PatientDashboardActivity.class);
+                        intent.putExtra("patient_id", receiveParams.getData().get_id());
+                        intent.putExtra("patient_name", receiveParams.getData().getName());
                         startActivity(intent);
                         overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                     } else {

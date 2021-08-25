@@ -21,7 +21,7 @@
     <color name="grey">#808080</color>
     <color name="btn_back">#d67601</color>
     
-    <color name="tab_selected">#311b92</color>
+    <color name="tab_selected">#d67601</color>
     <color name="tab_unselected">#388e3c</color>
     <color name="placeholder_bg">#DDDDDD</color>
 

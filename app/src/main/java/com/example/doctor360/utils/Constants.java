@@ -29,7 +29,7 @@ public class Constants {
     public static final int LOGGED_OUT = 44;
     public static final int LOGGED_IN = 55;
 
-    public static final int SELECT_IMAGE = 100;
-    public static final int CLICK_IMAGE = 200;
+    public static final int REQUEST_GALLERY_CODE = 100;
+    public static final int REQUEST_CAMERA_CODE = 200;
 
 }

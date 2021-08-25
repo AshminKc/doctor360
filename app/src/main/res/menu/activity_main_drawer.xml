@@ -5,34 +5,37 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:id="@+id/nav_patient_home"
+            android:icon="@drawable/ic_home_black_24dp"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:id="@+id/nav_doctor_request"
+            android:icon="@drawable/ic_touch_app_black_24dp"
+            android:title="@string/menu_request" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:id="@+id/nav_patient_chat_room"
+            android:icon="@drawable/ic_voice_chat_black_24dp"
+            android:title="@string/menu_chat_room" />
         <item
-            android:id="@+id/nav_tools"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/menu_tools" />
+            android:id="@+id/nav_doctors_list"
+            android:icon="@drawable/ic_person"
+            android:title="@string/menu_doctors" />
+        <item
+            android:id="@+id/nav_patient_faq"
+            android:icon="@drawable/ic_question_answer_black_24dp"
+            android:title="@string/menu_faq" />
+        <item
+            android:id="@+id/nav_about_us"
+            android:icon="@drawable/ic_info_black_24dp"
+            android:title="@string/menu_about_us" />
+        <item
+            android:id="@+id/nav_privacy_policy"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/menu_privacy_policy" />
+        <item
+            android:id="@+id/nav_patient_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/menu_logout" />
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/menu_share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/menu_send" />
-        </menu>
-    </item>
 
 </menu>

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public class PatientProfileActivity extends AppCompatActivity {
     TextView txtName, txtAddress, txtMobile, txtEmail, txtGender, txtAge, txtBlood;
     Button btnUpdateProfile, btnChangePassword;
     ConnectionDetector connectionDetector;
+    String patientEmail, patientId, patientName;
     private static final String TAG = "PatientProfileActivity";
 
     @Override
@@ -64,6 +66,23 @@ public class PatientProfileActivity extends AppCompatActivity {
         btnUpdateProfile = findViewById(R.id.buttonPatientUpdateProfile);
         btnChangePassword = findViewById(R.id.buttonPatientChangePassword);
 
+        Intent intent = getIntent();
+        patientId = intent.getStringExtra("patient_profile_id");
+        patientEmail = intent.getStringExtra("patient_profile_email");
+        Log.d(TAG, "onCreate: Patient id" + patientId);
+
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(PatientProfileActivity.this, PatientPasswordChangeActivity.class);
+                intent1.putExtra("patient_profile_check_id", patientId);
+                intent1.putExtra("patient_profile_check_email", patientEmail);
+                startActivity(intent1);
+                overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+                finish();
+            }
+        });
+
         connectionDetector = new ConnectionDetector(PatientProfileActivity.this);
 
         if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
@@ -81,9 +100,6 @@ public class PatientProfileActivity extends AppCompatActivity {
     }
 
     private void viewPatientProfile(){
-        Intent intent = getIntent();
-        String patientID = intent.getStringExtra("patient_profile_id");
-
         NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
         final SweetAlertDialog pDialog = new SweetAlertDialog(PatientProfileActivity.this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -91,23 +107,23 @@ public class PatientProfileActivity extends AppCompatActivity {
         pDialog.setCancelable(false);
         pDialog.show();
 
-        Call<PatientProfileReceiveParams> call = networkClient.viewPatientProfile(patientID);
+        Call<PatientProfileReceiveParams> call = networkClient.viewPatientProfile(patientId);
         call.enqueue(new Callback<PatientProfileReceiveParams>() {
             @Override
             public void onResponse(Call<PatientProfileReceiveParams> call, Response<PatientProfileReceiveParams> response) {
-                Log.d(TAG, "onResponse: Success");
                 pDialog.dismiss();
 
                 PatientProfileReceiveParams receiveParams = response.body();
+                Log.d(TAG, "onResponse: Success " + receiveParams.getData().getAge());
                 if(response.body()!=null){
                     String success = receiveParams.getSuccess();
 
                     if(success.matches("true")){
                         txtName.setText(receiveParams.getData().getName());
                         txtAddress.setText(receiveParams.getData().getAddress());
-                        txtMobile.setText(receiveParams.getData().getAddress());
+                        txtMobile.setText(receiveParams.getData().getMobile());
                         txtEmail.setText(receiveParams.getData().getEmail());
-                        txtAge.setText(receiveParams.getData().getAge());
+                        txtAge.setText(String.valueOf(receiveParams.getData().getAge()));
                         txtGender.setText(receiveParams.getData().getGender());
                         txtBlood.setText(receiveParams.getData().getBloodGroup());
                       /*  Picasso.with(PatientProfileActivity.this)
@@ -129,7 +145,7 @@ public class PatientProfileActivity extends AppCompatActivity {
                 } else {
                     new AestheticDialog.Builder(PatientProfileActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
                             .setTitle("Error")
-                            .setMessage("Some Error Occured at Server end. Please try again.")
+                            .setMessage("Some Error occured at Server end. Please try again.")
                             .setCancelable(true)
                             .setGravity(Gravity.BOTTOM)
                             .setDuration(3000)
@@ -142,14 +158,9 @@ public class PatientProfileActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<PatientProfileReceiveParams> call, Throwable t) {
                 Log.d(TAG, "onFailure: Verify " + t.toString());
-                pDialog.dismiss();
-                new AestheticDialog.Builder(PatientProfileActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
-                        .setTitle("Error")
-                        .setMessage("Some error occured. Couldn't Verify.")
-                        .setCancelable(true)
-                        .setGravity(Gravity.BOTTOM)
-                        .setDuration(3000)
-                        .show();
+                if(pDialog!= null && pDialog.isShowing()){
+                    pDialog.dismiss();
+                }
             }
         });
 
@@ -159,7 +170,9 @@ public class PatientProfileActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-        Intent intent=new Intent(PatientProfileActivity.this,PatientDashboardActivity.class);
+        Intent intent=new Intent(PatientProfileActivity.this, PatientDashboardActivity.class);
+        String sendName = txtEmail.getText().toString();
+        intent.putExtra("to_dashboard", sendName);
         startActivity(intent);
         overridePendingTransition(R.anim.anim_slide_out_right,R.anim.anim_slide_in_left);
     }
@@ -176,9 +189,11 @@ public class PatientProfileActivity extends AppCompatActivity {
         if(id==android.R.id.home)
         {
             finish();
-            Intent intent=new Intent(PatientProfileActivity.this,PatientDashboardActivity.class);
-            overridePendingTransition(R.anim.anim_slide_out_right,R.anim.anim_slide_in_left);
+            Intent intent=new Intent(PatientProfileActivity.this, PatientDashboardActivity.class);
+            String sendName = txtEmail.getText().toString();
+            intent.putExtra("to_dashboard", sendName);
             startActivity(intent);
+            overridePendingTransition(R.anim.anim_slide_out_right,R.anim.anim_slide_in_left);
         }
         return true;
     }

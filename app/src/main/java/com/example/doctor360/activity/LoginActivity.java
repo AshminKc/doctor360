@@ -300,6 +300,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Intent intent = new Intent(getApplicationContext(), PatientDashboardActivity.class);
                         intent.putExtra("patient_id", receiveParams.getData().get_id());
                         intent.putExtra("patient_name", receiveParams.getData().getName());
+                        intent.putExtra("patient_email", receiveParams.getData().getEmail());
                         startActivity(intent);
                         overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                     } else {

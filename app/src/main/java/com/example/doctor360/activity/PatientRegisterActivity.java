@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -41,6 +42,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -224,9 +235,10 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
             @Override
             public void onResponse(Call<PatientRegistrationReceiveParams> call, Response<PatientRegistrationReceiveParams> response) {
                 PatientRegistrationReceiveParams receiveParams = response.body();
-                String Status = receiveParams.getSuccess();
 
                 if(response.body()!=null){
+                    String Status = receiveParams.getSuccess();
+
                     if(Status.matches("true")){
                         new AestheticDialog.Builder(PatientRegisterActivity.this, DialogStyle.RAINBOW, DialogType.SUCCESS)
                                 .setTitle("Success")
@@ -236,6 +248,7 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
                                 .setDuration(3000)
                                 .show();
                         pDialog.dismiss();
+                        sendSuccessEmail();
                     } else {
                         new AestheticDialog.Builder(PatientRegisterActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
                                 .setTitle("Error")
@@ -268,6 +281,35 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
             }
         });
 
+    }
+
+    public void sendSuccessEmail(){
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable","true");
+        properties.put("mail.smtp.host","smtp.gmail.com");
+        properties.put("mail.smtp.port","587");
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(Constants.EMAIL, Constants.PASSWORD);
+            }
+        });
+
+        try {
+            String toEmail = email.getText().toString().trim();
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(Constants.EMAIL));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setSubject(Constants.PATIENT_LOGIN_SUBJECT);
+            message.setText(Constants.PATIENT_LOGIN_BODY);
+
+            new SendMail().execute(message);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -305,6 +347,32 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
                 finish();
                 break;
 
+        }
+    }
+
+    private class SendMail extends AsyncTask<Message, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Message... messages) {
+            try{
+                Transport.send(messages[0]);
+                return "Success";
+
+            } catch (MessagingException e){
+                e.printStackTrace();
+                return "Error";
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
         }
     }
 

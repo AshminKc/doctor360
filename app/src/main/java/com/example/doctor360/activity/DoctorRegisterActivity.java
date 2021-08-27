@@ -38,7 +38,6 @@ import androidx.loader.content.CursorLoader;
 
 import com.balsikandar.crashreporter.CrashReporter;
 import com.cazaea.sweetalert.SweetAlertDialog;
-import com.example.doctor360.ImageCheck;
 import com.example.doctor360.R;
 import com.example.doctor360.helper.ConnectionDetector;
 import com.example.doctor360.model.DoctorRegistrationReceiveParams;
@@ -90,8 +89,6 @@ import static com.example.doctor360.utils.Constants.RequestPermissionCode;
 
 public class DoctorRegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
-    String imageUrl ="";
-    File imageFile;
     ConnectionDetector connectionDetector;
     SquareImageView imgDocument;
     Button btnRegister, btnUpload;

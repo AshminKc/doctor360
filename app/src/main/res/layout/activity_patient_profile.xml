@@ -59,7 +59,7 @@
                         android:layout_gravity="center_horizontal"
                         android:padding="@dimen/_7sdp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/messi" />
+                        android:src="@drawable/noimage" />
 
 
                 </LinearLayout>
@@ -72,106 +72,107 @@
                 android:padding="@dimen/_5sdp"
                 android:layout_margin="@dimen/_5sdp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_10sdp">
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/quarantine"
-                    android:id="@+id/viewPatientProfileName"
-                    android:text="Mr. Samir Prasai"
-                    android:drawableStart="@drawable/ic_user"
-                    android:drawablePadding="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:padding="@dimen/_5sdp"/>
+                    android:orientation="vertical"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_10sdp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/quarantine"
-                    android:id="@+id/viewPatientProfileAddress"
-                    android:text="Kathmandu"
-                    android:drawableStart="@drawable/ic_address"
-                    android:drawablePadding="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:padding="@dimen/_5sdp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"
+                        android:textColor="@color/quarantine"
+                        android:id="@+id/viewPatientProfileName"
+                        android:text="Mr. Samir Prasai"
+                        android:textAllCaps="true"
+                        android:drawableStart="@drawable/ic_user"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:padding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"
+                        android:textColor="@color/quarantine"
+                        android:id="@+id/viewPatientProfileAddress"
+                        android:text="Kathmandu"
+                        android:drawableStart="@drawable/ic_address"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:padding="@dimen/_5sdp"/>
 
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/quarantine"
-                    android:id="@+id/viewPatientProfileMobile"
-                    android:text="9818045542"
-                    android:drawableStart="@drawable/ic_mobile"
-                    android:drawablePadding="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:padding="@dimen/_5sdp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"
+                        android:textColor="@color/quarantine"
+                        android:id="@+id/viewPatientProfileMobile"
+                        android:text="9818045542"
+                        android:drawableStart="@drawable/ic_mobile"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:padding="@dimen/_5sdp"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/quarantine"
-                    android:id="@+id/viewPatientProfileEmail"
-                    android:text="samir@gmail.com"
-                    android:drawableStart="@drawable/ic_email"
-                    android:drawablePadding="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:padding="@dimen/_5sdp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"
+                        android:textColor="@color/quarantine"
+                        android:id="@+id/viewPatientProfileEmail"
+                        android:text="samir@gmail.com"
+                        android:drawableStart="@drawable/ic_email"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:padding="@dimen/_5sdp"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/quarantine"
-                    android:id="@+id/viewPatientProfileAge"
-                    android:text="55"
-                    android:drawableStart="@drawable/ic_age"
-                    android:drawablePadding="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:padding="@dimen/_5sdp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"
+                        android:textColor="@color/quarantine"
+                        android:id="@+id/viewPatientProfileAge"
+                        android:text="55"
+                        android:drawableStart="@drawable/ic_age"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:padding="@dimen/_5sdp"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/quarantine"
-                    android:id="@+id/viewPatientProfileGender"
-                    android:text="Male"
-                    android:drawableStart="@drawable/ic_group_black_24dp"
-                    android:drawablePadding="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:padding="@dimen/_5sdp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"
+                        android:textColor="@color/quarantine"
+                        android:id="@+id/viewPatientProfileGender"
+                        android:text="Male"
+                        android:drawableStart="@drawable/ic_group_black_24dp"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:padding="@dimen/_5sdp"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/quarantine"
-                    android:id="@+id/viewPatientProfileBlood"
-                    android:text="AB+"
-                    android:drawableStart="@drawable/ic_blood"
-                    android:drawablePadding="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:padding="@dimen/_5sdp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"
+                        android:textColor="@color/quarantine"
+                        android:id="@+id/viewPatientProfileBlood"
+                        android:text="AB+"
+                        android:drawableStart="@drawable/ic_blood"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:padding="@dimen/_5sdp"/>
 
-            </LinearLayout>
+                </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -190,7 +191,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_10sdp"
                     android:background="@drawable/doctor_round_bg"
-                    android:text="Update Profile"
+                    android:text="@string/update_profile"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/_12sdp"
                     android:textStyle="bold"
@@ -204,7 +205,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_10sdp"
                     android:background="@drawable/round_bg"
-                    android:text="Change Password"
+                    android:text="@string/change_password"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/_12sdp"
                     android:textStyle="bold" />

@@ -46,9 +46,13 @@
     <string name="qualification">Qualification</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="old_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="change_password">Change Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="document">Document Image (jpeg, jpg or png format)</string>
-
+    <string name="update_profile">Update Profile</string>
     <string name="click_photo">Click Photo</string>
     <string name="upload_photo">Upload Photo</string>
 

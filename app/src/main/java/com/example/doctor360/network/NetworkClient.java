@@ -10,6 +10,8 @@ import com.example.doctor360.model.DoctorRegistrationReceiveParams;
 import com.example.doctor360.model.DoctorRegistrationSendParams;
 import com.example.doctor360.model.PatientLoginReceiveParams;
 import com.example.doctor360.model.PatientLoginSendParams;
+import com.example.doctor360.model.PatientPasswordChangeReceiveParams;
+import com.example.doctor360.model.PatientPasswordChangeSendParams;
 import com.example.doctor360.model.PatientProfileReceiveParams;
 import com.example.doctor360.model.PatientRegistrationReceiveParams;
 import com.example.doctor360.model.PatientRegistrationSendParams;
@@ -79,5 +81,7 @@ public interface NetworkClient {
     @GET("doctor/view/{id}")
     Call<DoctorProfileReceiveParams> viewDoctorProfile(@Path("id") String id);
 
+    @PUT("patient/changepassword/{id}")
+    Call<PatientPasswordChangeReceiveParams> patientChangePassword(@Path("id") String id, @Body PatientPasswordChangeSendParams passwordChangeSendParams);
 
 }

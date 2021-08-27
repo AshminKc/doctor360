@@ -2,8 +2,11 @@ package com.example.doctor360.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +29,8 @@ import com.example.doctor360.R;
 import com.example.doctor360.model.VerifiedDoctorReceiveParams;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Transport;
@@ -37,8 +42,6 @@ public class VerifiedDoctorDescriptionActivity extends AppCompatActivity {
     VerifiedDoctorReceiveParams.DataBean verifiedReceiveParams;
     CoordinatorLayout coordinatorLayout;
     Toolbar toolbar;
-    private ScaleGestureDetector scaleGestureDetector;
-    private float mScaleFactor = 1.0f;
     private static final String TAG = "VerifiedDoctorDescripti";
 
     @Override
@@ -75,35 +78,39 @@ public class VerifiedDoctorDescriptionActivity extends AppCompatActivity {
         qualiDesText.setText(verifiedReceiveParams.getQualification());
         specDesTxt.setText(verifiedReceiveParams.getSpecialization());
 
-        scaleGestureDetector = new ScaleGestureDetector(VerifiedDoctorDescriptionActivity.this, new ScaleListener());
-
         int status = verifiedReceiveParams.getStatus();
         if(status == 0)
             statusDesTxt.setText(R.string.unverified);
         else
             statusDesTxt.setText(R.string.verified);
 
-        Picasso.with(VerifiedDoctorDescriptionActivity.this)
-                .load(verifiedReceiveParams.getDocumentImage())
-                .placeholder(R.drawable.noimage)
-                .error(R.drawable.noimage)
-                .into(documentDesImage);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] imageBytes = baos.toByteArray();
+        String imageString = verifiedReceiveParams.getDocumentImage();
+        imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+        documentDesImage.setImageBitmap(decodedImage);
 
         documentDesImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ImageView imageView = new ImageView(VerifiedDoctorDescriptionActivity.this);
-                String docImage = verifiedReceiveParams.getDocumentImage();
-                imageView.setImageResource(R.drawable.noimage);
+                LayoutInflater factory = LayoutInflater.from(VerifiedDoctorDescriptionActivity.this);
+                final View view1 = factory.inflate(R.layout.image_zoom_dailog, null);
+                ImageView imageDocument = (ImageView) view1.findViewById(R.id.dialogDocImage);
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                byte[] imageBytes = baos.toByteArray();
+                String imageString = verifiedReceiveParams.getDocumentImage();
+                imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+                Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                imageDocument.setImageBitmap(decodedImage);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(VerifiedDoctorDescriptionActivity.this);
-                builder.setView(imageView);
+                builder.setView(imageDocument);
                 AlertDialog alertDialog = builder.create();
-                alertDialog.getWindow().setLayout(600,400);
-                LayoutInflater inflater = getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.image_zoom_dailog, null);
+                alertDialog.getWindow().setLayout(600,500);
 
-                builder.setView(dialogView)
+                builder.setView(view1)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -142,21 +149,4 @@ public class VerifiedDoctorDescriptionActivity extends AppCompatActivity {
         }
         return true;
     }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        scaleGestureDetector.onTouchEvent(motionEvent);
-        return true;
-    }
-
-    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
-        @Override
-        public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
-            mScaleFactor *= scaleGestureDetector.getScaleFactor();
-            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 10.0f));
-            documentDesImage.setScaleX(mScaleFactor);
-            documentDesImage.setScaleY(mScaleFactor);
-            return true;
-        }
-    }
-    }
+}

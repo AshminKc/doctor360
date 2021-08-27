@@ -52,6 +52,7 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
     DrawerLayout drawer;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
+    String patientName, patientID, patientEmail;
     private static final String TAG = "PatientDashboardActivit";
 
     @Override
@@ -75,16 +76,24 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
         toolbarTitle.setText(getString(R.string.menu_home));
 
         final Intent intent = getIntent();
-        String patientName =  intent.getStringExtra("patient_name");
-        txtPatientLoginName.setText(patientName);
+        patientName =  intent.getStringExtra("patient_name");
+        patientID =  intent.getStringExtra("patient_id");
+        patientEmail = intent.getStringExtra("patient_email");
+
+        Intent intent1 = getIntent();
+        String nameFromProfile = intent1.getStringExtra("to_dashboard");
+
+       /* if(!patientName.isEmpty())
+            txtPatientLoginName.setText(patientName);
+        else*/
+            txtPatientLoginName.setText(nameFromProfile);
 
         txtPatientViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String patientID =  intent.getStringExtra("patient_id");
-
                 Intent intent1 = new Intent(PatientDashboardActivity.this, PatientProfileActivity.class);
                 intent1.putExtra("patient_profile_id", patientID);
+                intent1.putExtra("patient_profile_email", patientEmail);
                 startActivity(intent1);
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                 finish();

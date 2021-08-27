@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
@@ -116,12 +117,6 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
         Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
         documentDesImage.setImageBitmap(decodedImage);
 
-       /* Picasso.with(PendingDoctorDescriptionActivity.this)
-                .load(decodedImage)
-                .placeholder(R.drawable.noimage)
-                .error(R.drawable.noimage)
-                .into(documentDesImage);*/
-
         btnVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,26 +134,23 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
         documentDesImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*LayoutInflater factory = LayoutInflater.from(PendingDoctorDescriptionActivity.this);
-                final View view1 = factory.inflate(R.layout.image_zoom_dailog, null);*/
-                ImageView imageView = new ImageView(PendingDoctorDescriptionActivity.this);
-                imageView.setImageResource(R.drawable.noimage);
-/*
+                LayoutInflater factory = LayoutInflater.from(PendingDoctorDescriptionActivity.this);
+                final View view1 = factory.inflate(R.layout.image_zoom_dailog, null);
+                ImageView imageDocument = (ImageView) view1.findViewById(R.id.dialogDocImage);
+
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 byte[] imageBytes = baos.toByteArray();
                 String imageString = pendingReceiveParams.getDocumentImage();
                 imageBytes = Base64.decode(imageString, Base64.DEFAULT);
                 Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-                imageView.setImageBitmap(decodedImage);*/
+                imageDocument.setImageBitmap(decodedImage);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(PendingDoctorDescriptionActivity.this);
-                builder.setView(imageView);
+                builder.setView(imageDocument);
                 AlertDialog alertDialog = builder.create();
-                alertDialog.getWindow().setLayout(600,400);
-                LayoutInflater inflater = getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.image_zoom_dailog, null);
+                alertDialog.getWindow().setLayout(600,500);
 
-                builder.setView(dialogView)
+                builder.setView(view1)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -232,7 +224,7 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
             message.setFrom(new InternetAddress(Constants.EMAIL));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
             message.setSubject(Constants.VERIFIED_SUBJECT);
-            message.setText(Constants.VERIFIED_SUBJECT);
+            message.setText(Constants.VERIFIED_BODY);
 
             new SendMail().execute(message);
 

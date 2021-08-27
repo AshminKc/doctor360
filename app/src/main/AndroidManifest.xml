@@ -144,6 +144,10 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.PatientPasswordChangeActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.DoctorDashboardActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />

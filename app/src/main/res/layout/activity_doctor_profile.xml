@@ -59,7 +59,7 @@
                         android:layout_gravity="center_horizontal"
                         android:padding="@dimen/_7sdp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/messi" />
+                        android:src="@drawable/noimage" />
 
 
                 </LinearLayout>
@@ -171,7 +171,7 @@
                     <com.example.doctor360.utils.SquareImageView
                         android:layout_width="@dimen/_70sdp"
                         android:layout_height="@dimen/_70sdp"
-                        android:src="@drawable/messi"
+                        android:src="@drawable/noimage"
                         android:layout_marginStart="@dimen/_18sdp"
                         android:id="@+id/viewDoctorProfileDocument"/>
 

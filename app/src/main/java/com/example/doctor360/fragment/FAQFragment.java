@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +14,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.doctor360.R;
+import com.example.doctor360.adapter.ExpandableListAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,100 +40,9 @@ public class FAQFragment extends Fragment {
         expListView = rootView.findViewById(R.id.expandableListView);
         prepareListData();
 
-        /*listAdapter = new ExpandableListAdapter(context, listDataHeader, listDataChild) {
-            @Override
-            public void registerDataSetObserver(DataSetObserver dataSetObserver) {
-
-            }
-
-            @Override
-            public void unregisterDataSetObserver(DataSetObserver dataSetObserver) {
-
-            }
-
-            @Override
-            public int getGroupCount() {
-                return 0;
-            }
-
-            @Override
-            public int getChildrenCount(int i) {
-                return 0;
-            }
-
-            @Override
-            public Object getGroup(int i) {
-                return null;
-            }
-
-            @Override
-            public Object getChild(int i, int i1) {
-                return null;
-            }
-
-            @Override
-            public long getGroupId(int i) {
-                return 0;
-            }
-
-            @Override
-            public long getChildId(int i, int i1) {
-                return 0;
-            }
-
-            @Override
-            public boolean hasStableIds() {
-                return false;
-            }
-
-            @Override
-            public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
-                return null;
-            }
-
-            @Override
-            public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-                return null;
-            }
-
-            @Override
-            public boolean isChildSelectable(int i, int i1) {
-                return false;
-            }
-
-            @Override
-            public boolean areAllItemsEnabled() {
-                return false;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public void onGroupExpanded(int i) {
-
-            }
-
-            @Override
-            public void onGroupCollapsed(int i) {
-
-            }
-
-            @Override
-            public long getCombinedChildId(long l, long l1) {
-                return 0;
-            }
-
-            @Override
-            public long getCombinedGroupId(long l) {
-                return 0;
-            }
-        }
-
+        listAdapter = new ExpandableListAdapter(context, listDataHeader, listDataChild);
         expListView.setAdapter(listAdapter);
-*/
+
         return rootView;
     }
 
@@ -162,6 +71,7 @@ public class FAQFragment extends Fragment {
         listDataHeader.add(getString(R.string.faq17_title));
         listDataHeader.add(getString(R.string.faq18_title));
         listDataHeader.add(getString(R.string.faq19_title));
+        listDataHeader.add(getString(R.string.faq20_title));
 
         List<String> faq0 = new ArrayList<String>();
         faq0.add(getString(R.string.faq0_desc));
@@ -223,6 +133,9 @@ public class FAQFragment extends Fragment {
         List<String> faq19 = new ArrayList<String>();
         faq19.add(getString(R.string.faq19_desc));
 
+        List<String> faq20 = new ArrayList<String>();
+        faq20.add(getString(R.string.faq20_desc));
+
         listDataChild.put(listDataHeader.get(0), faq0);
         listDataChild.put(listDataHeader.get(1), faq1);
         listDataChild.put(listDataHeader.get(2), faq2);
@@ -243,6 +156,7 @@ public class FAQFragment extends Fragment {
         listDataChild.put(listDataHeader.get(17), faq17);
         listDataChild.put(listDataHeader.get(18), faq18);
         listDataChild.put(listDataHeader.get(19), faq19);
+        listDataChild.put(listDataHeader.get(20), faq20);
 
     }
 }

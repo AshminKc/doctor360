@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.doctor360.R;
+import com.example.doctor360.fragment.AboutUsFragment;
+import com.example.doctor360.fragment.FAQFragment;
+import com.example.doctor360.fragment.PrivacyPolicyFragment;
 import com.example.doctor360.helper.ConnectionDetector;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.internal.NavigationMenuView;
@@ -30,6 +33,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.Menu;
 import android.view.ViewGroup;
@@ -178,22 +182,44 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_patient_home) {
+        switch (id) {
+            case R.id.nav_patient_home: {
+               /* getSupportFragmentManager().popBackStackImmediate();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer,new HomeFragment()).addToBackStack("").commit();
+                titleText.setText(getString(R.string.app_name));
+                imgToolbar.setImageResource(R.drawable.logo);
+                break;*/
+            }
 
-        } else if (id == R.id.nav_doctor_request) {
+            case R.id.nav_patient_faq: {
+                getSupportFragmentManager().popBackStackImmediate();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer1,new FAQFragment()).addToBackStack("").commit();
+                toolbarTitle.setText(getString(R.string.menu_faq));
+                break;
+            }
 
-        } else if (id == R.id.nav_patient_chat_room) {
+            case R.id.nav_about_us: {
+                getSupportFragmentManager().popBackStackImmediate();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer1,new AboutUsFragment()).addToBackStack("").commit();
+                toolbarTitle.setText(getString(R.string.menu_about_us));
+                break;
+            }
 
-        } else if (id == R.id.nav_doctors_list) {
+            case R.id.nav_privacy_policy: {
+                getSupportFragmentManager().popBackStackImmediate();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer1,new PrivacyPolicyFragment()).addToBackStack("").commit();
+                toolbarTitle.setText(getString(R.string.menu_privacy_policy));
+                break;
+            }
 
-        } else if (id == R.id.nav_patient_faq) {
-
-        } else if (id == R.id.nav_about_us) {
-
-        } else if (id == R.id.nav_privacy_policy) {
-
-        } else if (id == R.id.nav_patient_logout) {
-
+            case R.id.nav_patient_logout: {
+                Logout();
+                break;
+            }
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -212,6 +238,29 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
                     }
                 })
                 .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public void Logout(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(PatientDashboardActivity.this);
+        builder.setTitle(R.string.app_name);
+        builder.setIcon(R.drawable.ic_logout);
+        builder.setMessage("Do you want to logout?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }

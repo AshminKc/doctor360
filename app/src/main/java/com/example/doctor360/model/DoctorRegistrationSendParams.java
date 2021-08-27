@@ -24,8 +24,7 @@ public class DoctorRegistrationSendParams {
     private String userType;
     private String specialization;
     private String qualification;
-    //private String documentImage;
-    private File documentImage;
+    private String documentImage;
     private String password;
 
     public String getName() {
@@ -84,21 +83,13 @@ public class DoctorRegistrationSendParams {
         this.qualification = qualification;
     }
 
-    public File getDocumentImage() {
-        return documentImage;
-    }
-
-    public void setDocumentImage(File documentImage) {
-        this.documentImage = documentImage;
-    }
-
-    /*public String getDocumentImage() {
+    public String getDocumentImage() {
         return documentImage;
     }
 
     public void setDocumentImage(String documentImage) {
         this.documentImage = documentImage;
-    }*/
+    }
 
     public String getPassword() {
         return password;

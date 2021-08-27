@@ -4,11 +4,13 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +21,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 
 import es.dmoral.toasty.Toasty;
 
@@ -32,6 +36,7 @@ public class ImageCheck extends AppCompatActivity {
     String path;
     String filename;
     String filewithEx;
+    private Bitmap bitmap;
     private static final int SELECT_PICTURE1 = 100;
     private static final String TAG = "ImageCheck";
 
@@ -47,28 +52,32 @@ public class ImageCheck extends AppCompatActivity {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent gallery = new Intent(Intent.ACTION_GET_CONTENT);
-                gallery.setType("image/*");
-                startActivityForResult(gallery, SELECT_PICTURE1);
+                Intent intent=new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent,SELECT_PICTURE1);
             }
         });
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name1 = pricture1.toString();
-                File file = new File(name1);
-                String path = file.getPath();
-                String fileN = path.substring(path.lastIndexOf("/")+1);
-                String newFile = fileN.replace("}", ".");
-                String fileWithExtension = newFile+"jpg";
-                Toasty.success(ImageCheck.this,"Image " + fileWithExtension, 300).show();
-                Log.d(TAG, "onClick: Image " + fileWithExtension);
+                uploadImage();
             }
         });
     }
 
-    public String getPath(Uri uri)
+    private void uploadImage(){
+        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
+        byte[] imageInByte=byteArrayOutputStream.toByteArray();
+
+        String encodedImage= Base64.encodeToString(imageInByte,Base64.DEFAULT);
+        Toasty.success(ImageCheck.this, "Image " + encodedImage, 300).show();
+        Log.d(TAG, "uploadImage: " + encodedImage);
+    }
+
+   /* public String getPath(Uri uri)
     {
         String[] projection = { MediaStore.Images.Media.DATA };
         Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
@@ -79,23 +88,19 @@ public class ImageCheck extends AppCompatActivity {
         String s=cursor.getString(column_index);
         cursor.close();
         return s;
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == SELECT_PICTURE1 && resultCode == RESULT_OK){
-            imageUri = data.getData();
-            file = new File(imageUri.getPath());
-            path = file.toString();
-            filename=path.substring(path.lastIndexOf(":")+1);
-            filewithEx = filename+".jpg";
-            Picasso.with(ImageCheck.this).load(data.getData()).noPlaceholder().centerCrop().fit().into(pricture1);
-           // Toasty.success(ImageCheck.this,"Image " + filewithEx, 300).show();
-            //Log.d(TAG, "onActivityResult: Image " + filewithEx);
-           // imgView.setImageURI(imageUri);
-
+        Uri path=data.getData();
+        if(requestCode == SELECT_PICTURE1 && resultCode == RESULT_OK && data!=null){
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),path);
+                pricture1.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -19,7 +19,7 @@
             android:id="@+id/patientProfileImage"
             android:layout_width="@dimen/_70sdp"
             android:layout_height="@dimen/_70sdp"
-            android:src="@drawable/messi"/>
+            android:src="@drawable/noimage"/>
 
         <TextView
             android:layout_width="match_parent"

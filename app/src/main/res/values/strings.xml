@@ -18,7 +18,7 @@
     <string name="menu_doctors">Doctors List</string>
     <string name="menu_qna">QnA</string>
     <string name="menu_faq">FAQ</string>
-    <string name="menu_about_us">About Us</string>
+    <string name="menu_about_us">About Doctor360</string>
     <string name="menu_privacy_policy">Privacy Policy</string>
     <string name="menu_logout">Logout</string>
 
@@ -167,73 +167,130 @@
         <item>General Surgeons</item>
         <item>Urologists</item>
 
-
     </string-array>
-    <string name="title_activity_doctor_dashboard">DoctorDashboard</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
 
-    <string name="faq0_title">1.What is COVID-19?</string>
-    <string name="faq0_desc">COVID-19 is an infectious disease caused by the most recently discovered coronavirus. This new virus and disease were unknown before the outbreak began in Wuhan, China, in December 2019.</string>
+    <string name="about">About Doctor360</string>
+    <string name="about1">Doctor360 is the First Online Healthcare Service Provider from Nepal where patients can consult certified medical personnel and get additional health related services along with other information related to health online.</string>
+    <string name="about2">We understand that getting medical information and health advice from doctors should be easier and technology can bridge this gap between doctors and patients in our country. Hamro doctor is our attempt to change the face of healthcare in our country and make health care less complicated and make it widely and easily accessible.</string>
+    <string name="about3">One can get detailed , personalized research based and certified information along with expert opinions from qualified doctors. This service is used commonly in order to understand medical condition, diagnosis, treatment options or alternatives and recommendations for future therapeutic conditions.</string>
+    <string name="about4">Doctor360 is also  a virtual community where doctors and patients can engage in live chats and discussions in order to make things more convenient.  Our facilities help patients understand their health better, make better decisions related to their health and find the best doctors and the best cure.</string>
+    <string name="about5">Our services not only help doctors get patients but it also improves their overall reputation and also expands their work to a larger audience. Patients can also keep a record of their medical history along with their profiles, saving them from the hassle of carrying medical files and reports here and there.</string>
+    <string name="about6">Doctor360 was founded with a vision of making health care and medical consultation less complicated and widely accessible. We aim to develop a trustworthy health care service which is personalized and less sophisticated. Along with online consultation we also provide services like blood donation, online discussion and health feed. </string>
 
-    <string name="faq1_title">2.What is a coronavirus?</string>
-    <string name="faq1_desc">Coronaviruses are a large family of viruses that may cause illness in animals or humans. In humans, several coronaviruses are known to cause respiratory infections. The most recently discovered coronavirus causes coronavirus disease COVID-19.</string>
+    <string name="faq0_title">1.What is Doctor360?</string>
+    <string name="faq0_desc">Doctor30 is an online platform serving patients and doctors by eliminating the boundaries of quality healthcare via online video consultations, managing patient’s self and family medical records with great user experience on mobile devices.</string>
 
-    <string name="faq2_title">3.What are the symptoms of COVID-19?</string>
-    <string name="faq2_desc">The most common symptoms of COVID-19 are fever, tiredness, and dry cough. Some patients may have aches and pains, nasal congestion, runny nose, sore throat or diarrhea. These symptoms are usually mild and begin gradually. Some people become infected but don’t develop any symptoms and donot feel unwell.</string>
+    <string name="faq1_title">2.How can I access Doctor360?</string>
+    <string name="faq1_desc">Doctor360 can be access via android app. Our iOS app is being released soon.</string>
 
-    <string name="faq3_title">4.How does the COVID-19 disease transmit from person to person?</string>
-    <string name="faq3_desc">The disease can spread from person to person if they breathe in the small droplets containing the virus when that person with COVID-19 coughs or exhales. These droplets land on objects and surfaces around the person. Other people then catch COVID-19 by touching these objects or surfaces, then touching their eyes, nose or mouth.</string>
+    <string name="faq2_title">3.Is the any charges to use Doctor360?</string>
+    <string name="faq2_desc">No. There is no any charges to use this app. Its free for all users.</string>
 
-    <string name="faq4_title">5.How does the COVID-19 disease transmit from person to person?</string>
-    <string name="faq4_desc">Studies to date suggest that the virus that causes COVID-19 is mainly transmitted through contact with respiratory droplets rather than through the air.</string>
+    <string name="faq3_title">4.What I can ask to doctor?</string>
+    <string name="faq3_desc">Any medical question that you need to ask with a doctor who specializes in that area. Our doctors help with pregnancies, fevers, colds, sexual issues, weight and a whole lot more.</string>
 
-    <string name="faq5_title">6.Can COVID-19 be caught from a person who has no symptoms?</string>
-    <string name="faq5_desc">It is possible to catch COVID-19 from someone who has, for example, just a mild cough and does not feel ill.</string>
+    <string name="faq4_title">5.Is Doctor360 app safe to use?</string>
+    <string name="faq4_desc">Yes. We have a team of carefully selected and personally verified MD and MBBS doctors from across Nepal. Each doctor has received extensive training to consult you over the app. </string>
 
-    <string name="faq6_title">7.Are antibiotics effective in preventing or treating the COVID-19?</string>
-    <string name="faq6_desc">No. Antibiotics do not work against viruses, they only work on bacterial infections.</string>
+    <string name="faq5_title">6.Why do Doctor360 ask for personal details?</string>
+    <string name="faq5_desc">We need your mobile number, email to ensure that you can be immediately informed when your doctor responds or when your medicines ship or to schedule your tests.</string>
 
-    <string name="faq7_title">8.Are there any medicines to cure COVID-19?</string>
-    <string name="faq7_desc">There is no evidence that current medicine can prevent or cure the disease. There are several ongoing clinical trials that include both western and traditional medicines.</string>
+    <string name="faq6_title">7.Do you have specialists (Gynecologists, Psychologists, etc.)?</string>
+    <string name="faq6_desc">Yes, we strive hard to ensure that you get to discuss your concern with a MD or MS who specializes in that area. </string>
 
-    <string name="faq8_title">9.Will wearing a mask protect me from the COVID-19?</string>
-    <string name="faq8_desc">Not really. Only wear a mask if you are ill with COVID-19 symptoms (especially coughing) or looking after someone who may have COVID-19. The most effective ways to protect yourself and others against COVID-19 are to frequently clean your hands, cover your cough with the bend of elbow or tissue and maintain a distance of at least 1 meter (3 feet) from people.</string>
+    <string name="faq7_title">8.What are the services timings?</string>
+    <string name="faq7_desc">Our doctors are available 24/7. Only our specialty doctors are subjected to availability during late hours (11PM to 6:00AM). However, all times you can contact our support team under support chat section if you need further assistance.</string>
 
-    <string name="faq9_title">10.Can humans become infected with the COVID-19 from an animal source?</string>
-    <string name="faq9_desc">It’s possible. Handle raw meat, milk or animal organs with care to avoid contamination of uncooked foods and avoid consuming raw or undercooked animal products.</string>
+    <string name="faq8_title">9.Will my chat with the doctor remain private?</string>
+    <string name="faq8_desc">Doctor360 is a safe and secure online consultation application. We have made sure that the user data, medical records and information, and the chats are end-to-end encrypted to give users the privacy needed to use the application.</string>
 
-    <string name="faq10_title">11.Can I catch COVID-19 from my pet?</string>
-    <string name="faq10_desc">There is no evidence that a dog, cat or any pet can transmit COVID-19.</string>
+    <string name="faq9_title">10.Can I choose any doctor?</string>
+    <string name="faq9_desc">Yes. You can choose your doctor from the list provided in the Doctor360 application.</string>
 
-    <string name="faq11_title">12.How long does the virus survive on surfaces?</string>
-    <string name="faq11_desc">Studies suggest that coronaviruses (including preliminary information on the COVID-19 virus) may persist on surfaces for a few hours or up to several days.</string>
+    <string name="faq10_title">11.Can I use other user account to see a doctor?</string>
+    <string name="faq10_desc">No, you will be provided a dedicated account to get in touch with doctors. Using another user account will confuse the doctors as it will not match the medical records and information available in the user profile.</string>
 
-    <string name="faq12_title">13.Will warm weather stop the outbreak?</string>
-    <string name="faq12_desc">At this time, it is not known whether the spread of COVID-19 will decrease when weather becomes warmer.</string>
+    <string name="faq11_title">12.How can Doctor360 help to grow a doctor medical practices?</string>
+    <string name="faq11_desc">Doctor360 acts as a platform for doctors to take up online consultation and expand their medical practice into an online platform. Doctors can offer video and audio consultation with the help of appointments scheduled by the patients.</string>
 
-    <string name="faq13_title">14.Can COVID-19 be passed from a pregnant woman to the fetus or newborn?</string>
-    <string name="faq13_desc">We still do not know if a pregnant woman with COVID-19 can pass the virus that causes COVID-19 to her fetus or baby during pregnancy or delivery.</string>
+    <string name="faq12_title">13.How can I book an online consultation with a doctor and appointment before visiting a hospital?</string>
+    <string name="faq12_desc">The online consultation and appointment can be booked by going through the Consultation and Appointment option respectively on the Doctor360 Application</string>
 
-    <string name="faq14_title">15.Can the COVID-19 virus spread through drinking water?</string>
-    <string name="faq14_desc">The COVID-19 virus has not been detected in drinking water. Conventional water treatment methods that use filtration and disinfection, such as those in most municipal drinking water systems, should remove or inactivate the virus that causes COVID-19.</string>
+    <string name="faq13_title">14.I am outside Nepal. How can I book an online consultation?</string>
+    <string name="faq13_desc">That is not a problem at all. You can still book an online consultation with the doctors regarding the problem on the Doctor360 app.</string>
 
-    <string name="faq15_title">16.Is the COVID-19 virus found in feces?</string>
-    <string name="faq15_desc">The virus that causes COVID-19 has been detected in the feces of some patients diagnosed with COVID-19. The amount of virus released from the body (shed) in stool, how long the virus is shed, and whether the virus in the stool is infectious are not known.</string>
+    <string name="faq14_title">15.Can I use Doctor360 on multiple devices?</string>
+    <string name="faq14_desc">No, a user will only be able to log in through Android app at a time for now. We are going to release iOS soon.</string>
 
-    <string name="faq16_title">17.Is it possible to have the flu and COVID-19 at the same time?</string>
-    <string name="faq16_desc">Yes. It is possible to test positive for flu (as well as other respiratory infections) and COVID-19 at the same time.</string>
+    <string name="faq15_title">16.I do not know which specialty I should choose for my problem?</string>
+    <string name="faq15_desc">If you are not aware of which specialty to post your query in, the moderation team will divert your query to the right doctor.</string>
 
-    <string name="faq17_title">18.Who is at higher risk for serious illness from COVID-19?</string>
-    <string name="faq17_desc">COVID-19 is a new disease and there is limited information regarding risk factors for severe disease. Based on currently available information and clinical expertise, older adults and people of any age who have serious underlying medical conditions might be at higher risk for severe illness from COVID-19.</string>
+    <string name="faq16_title">17.Will my phone number be revealed during a phone consultation?</string>
+    <string name="faq16_desc">During a phone consultation, neither the doctor nor the user will be able to give the personal contact details of the other party. The call will be connected through an anonymous calling system.</string>
 
-    <string name="faq18_title">19.Can mosquitoes or ticks spread the virus that causes COVID-19?</string>
-    <string name="faq18_desc">At this time, CDC has no data to suggest that this new coronavirus or other similar coronaviruses are spread by mosquitoes or ticks. The main way that COVID-19 spreads is from person to person. </string>
+    <string name="faq17_title">18.How do I share this service with a friend?</string>
+    <string name="faq17_desc">vYou can provide a promotional code to your friend, who is not already registered on the site. If the new user registers using this specific promo code, referral bonuses will be added to both of your wallets.</string>
 
-    <string name="faq19_title">20.How does the virus spread?</string>
-    <string name="faq19_desc">The virus that causes COVID-19 is thought to spread mainly from person to person, mainly through respiratory droplets produced when an infected person coughs or sneezes. These droplets can land in the mouths or noses of people who are nearby or possibly be inhaled into the lungs. Spread is more likely when people are in close contact with one another (within about 6 feet).</string>
+    <string name="faq18_title">19.How do I search for a doctor?</string>
+    <string name="faq18_desc">You can search for a specific doctor registered on Doctor360 in the Doctors page. This page will also provide you the option to filter doctors based on your requirements.</string>
 
+    <string name="faq19_title">20.Are my personal details secure?</string>
+    <string name="faq19_desc">All personal details you enter in your query are secure.</string>
+
+    <string name="faq20_title">21.How long will it take for a doctor to answer my queries?</string>
+    <string name="faq20_desc">Typically, the doctor will answer as soon as they see the query. It takes around 4 to 8 hours on an average. The deadline for free queries is 24 hours, common or direct queries is 4 to 8 hours, and that of priority fast track queries is 1 hour.</string>
+
+    <string name="privacy_title">1. Introduction to Privacy Practices For Doctor360</string>
+    <string name="privacy1">Doctor360 is committed to respecting the privacy rights of all users of Doctor360 services provided via Doctor360 and to protecting your personal and medical information. This policy describes how information about you may be used, how it may be disclosed and how you may access this information.</string>
+    <string name="privacy2">This page will serve as a policy of our privacy practices and a summary of your privacy rights.</string>
+    <string name="privacy3">We created this Site Privacy Policy to give you confidence as you visit and use the Site, and to demonstrate our commitment to fair information practices and the protection of privacy.This Privacy Policy is only applicable to the Site, and not to any other websites that you may be able to access from the Site or any website of Doctor360’s partners, each of which may have data collection, storage, and use practices and policies that differ materially from this Privacy Policy. Your use of the Site is governed by this Privacy Policy and the Terms of Use. If you are registering an account or using the Site on behalf of an individual or entity other than yourself, you represent that you are authorized by such individual or entity to accept this Privacy Policy on such individual or entity behalf.</string>
+    <string name="privacy4">Please note our primary concern is to provide a platform for quick and simple online consultation.</string>
+    <string name="privacy5">Be advised, in case your medical question or consultation contains matters of high security risk or there is a high privacy concern (like matter of Federal or State importance, matters related to judiciary, matters related to police or law enforcement) we suggest you to use alternate services or to use face to face medical consultations.It is advisable to include only relevant de-identifiable Personal Information in medical history and files uploaded by you.</string>
+    <string name="privacy6">If you do not agree to terms of our Privacy Policy we kindly request you to not use this app.</string>
+
+    <string name="privacy_title1">2. Information that may be collected</string>
+    <string name="privacy7">In order to use Doctor360, you are asked to enter an email address and password, which we refer to as your User ID. After you create your ID, you can use the same ID to sign in to this service. This process will allow you to manage your profile and/or account; upload files (medical scans and documents) and ask specific queries.</string>
+    <string name="privacy8">When asking questions, you will be asked to submit personal information like date of birth, gender, height, weight, blood group etc. Providing us with other personal and identifiable information is, of course, optional and not highly recommended.</string>
+    <string name="privacy9">However, in some cases it may not be possible for us to provide the service in question without receiving specific medical information from you and in some cases you would be requested by the consulting Physician to provide additional information in order to answer your questions. Additional information could be details of your medical history, specific medical reports, etc.</string>
+    <string name="privacy10">We automatically track and collect domain servers, type of os, os version and domain servers used to access the app, referring source to the app and your interaction with the app and the os version.We also collect information you provide voluntarily in free-form text boxes on the Site and through responses to surveys, questionnaires and the like.</string>
+
+    <string name="privacy_title3">3. Application Analytics</string>
+    <string name="privacy11">We may use third party website analytics services in connection with the app. These app analytics services do not collect Personal Information that you do not voluntarily enter into the app. These services do not track your app habits across apps which do not use their services. We are using the information collected from these services to find usability problems to make the app easier to use.</string>
+    <string name="privacy12">The recordings will never identify you or your account.</string>
+
+    <string name="privacy_title4">4. How information about you may be used by Doctor360</string>
+    <string name="privacy13">Personal information like your medical history (optional), gender and age details is collected when you start a new consultation request. These are saved in your account for future reference and future consultation requests.</string>
+    <string name="privacy14">These details in conjunction with your questions are shared with Consulting Physicians to help them answer your questions to the best of their knowledge.</string>
+    <string name="privacy15">We have a no-spam policy. However, in other instances, non-personal information collected may be used for statistical analysis, improvement of services, and customization of web design, content layout and services.</string>
+
+    <string name="privacy_title5">5. Other Uses of Medical Information</string>
+    <string name="privacy16">Other uses and disclosures of medical information not covered by this Notice, or by other laws that apply to us, will be made only with your written permission. If you give your permission to use or share your medical information, you may cancel that permission, in writing, at any time. If you cancel your permission, we will no longer use or share your medical information for the reasons covered in your written permission. We cannot reverse any disclosures we have already made with your permission.</string>
+
+    <string name="privacy_title6">6. Sharing of information</string>
+    <string name="privacy17">We do not sell or rent your personal information to third parties. We do not share your information with third parties for purposes other than that of providing you the services as mentioned in point 8 in this Privacy Policy document.</string>
+    <string name="privacy18">You choose whom you want to disclose your personal information to  and how long you want to disclose it.You can even choose how long your information can be shown to your doctor. You can set a certain time limit for your information that is shown to the doctor. After the selected period of time, the doctor will not be able to gain access to your information.</string>
+    <string name="privacy19">We strictly do not share any private information regarding our patients to any other party. The information that you provide will be limited to you and your doctor and no one else.</string>
+
+    <string name="privacy_title7">7. User Choice and controlling your Personal Information</string>
+    <string name="privacy20">You may choose not to provide us with any Personal Information. In such an event, you can still access and use much of the Site; however you will not be able to access and use those portions of the Site that require your Personal Information.</string>
+    <string name="privacy21">You may choose not to share any medical history with your consultation request. But in the event of the consulting Physician requests you to share more medical information to answer your questions, it is advisable to do so. It is advisable to include only relevant de-identifiable Personal Information in medical history and files uploaded by you.</string>
+
+    <string name="privacy_title8">8. Security</string>
+    <string name="privacy22">You make the choice of making your data available to consulting doctors. We follow generally accepted industry standards to protect the Personal Information. For example we use firewall security and different degree of encryption for your sensitive personal information.</string>
+    <string name="privacy23">Our employees and consulting physicians may share medical information with each other for treatment, payment and operational purposes, only in order to provide efficient healthcare services. We encourage users not to share non-medical identifiable information other than their email and at times a made-up username for public forums.</string>
+    <string name="privacy24">We will share your medical information when required to comply with court order or other legal process. We may use and share your medical information to protect the rights, property or safety of Doctor360 or another party, or to respond to claims that any posting or other content violates the rights of third-parties.</string>
+    <string name="privacy25">Although we make good faith efforts to receive, transmit and store Personal Information in a secure operating environment that is not open to the public, you should understand that there is no such thing as complete security, and we do not guarantee that there will be no unintended disclosures of your Personal Information. If we become aware that your Personal Information has been disclosed in a manner not in accordance with this Privacy Policy, we will use reasonable efforts to notify you of the nature and extent of the disclosure (to the extent we know that information) as soon as reasonably possible and as permitted by law.</string>
+
+    <string name="privacy_title9">9. Doctors</string>
+    <string name="privacy26">Doctors and their employees should be particularly aware of their obligations of patient confidentiality, both in communicating with Doctor360 and in consulting users via the site. Doctor360 does not have, and will not accept, any obligations of confidentiality with respect to any communications other than those expressly stated in this Privacy Policy and Doctor360 Terms of Use.</string>
+
+    <string name="privacy_title10">10. Public Information</string>
+    <string name="privacy27">Any information that you may reveal in a review posting or other online discussion or free forum is intentionally open to the public and is not in any way private. You should think carefully before disclosing any personally identifiable information in any public forum. What you have written may be seen and/or collected by third parties and may be used by others in ways we are unable to control or predict.</string>
+
+    <string name="privacy_title11">11. Updates and Changes to this Privacy Policy</string>
+    <string name="privacy28">Protecting your privacy online is an evolving area, and Doctor360 is constantly evolving to meet these demands. We therefore reserve the right to modify this Privacy Policy at any time. We will post any Privacy Policy changes on this page and, if the changes are significant, we will provide a more prominent notice (including, for certain services, email notification of Privacy Policy changes).</string>
+
+    <string name="privacy_title12">12. Contact</string>
+    <string name="privacy29">If you have comments, concerns or any questions about this Privacy Policy, please contact us at support@doctor360.com.</string>
+    <string name="privacy30">If you do not agree to terms of our Privacy Policy we kindly request you to not use this app.</string>
 </resources>

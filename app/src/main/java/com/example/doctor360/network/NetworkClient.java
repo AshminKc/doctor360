@@ -24,6 +24,8 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -34,17 +36,17 @@ import retrofit2.http.Path;
 
 public interface NetworkClient {
 
-    @Multipart
+    @FormUrlEncoded
     @POST("doctor/register")
     Call<DoctorRegistrationReceiveParams> doctorRegister(
-            @Part("name") RequestBody name,
-            @Part("email") RequestBody email,
-            @Part("mobile") RequestBody mobile,
-            @Part("gender") RequestBody gender,
-            @Part("specialization") RequestBody specialization,
-            @Part("qualification") RequestBody qualification,
-            @Part("password") RequestBody password,
-            @Part MultipartBody.Part documentImage
+            @Field("name") String name,
+            @Field("email") String email,
+            @Field("mobile") String mobile,
+            @Field("gender") String gender,
+            @Field("specialization") String specialization,
+            @Field("qualification") String qualification,
+            @Field("password") String password,
+            @Field("documentImage") String encodedImage
             );
 
     @POST("patient/register")

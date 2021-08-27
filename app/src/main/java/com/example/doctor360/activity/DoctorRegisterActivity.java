@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Html;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -84,6 +85,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.doctor360.utils.Constants.REQUEST_GALLERY_CODE;
 import static com.example.doctor360.utils.Constants.RequestPermissionCode;
 
 public class DoctorRegisterActivity extends AppCompatActivity implements View.OnClickListener {
@@ -100,6 +102,7 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
     String namePattern = "^[A-Za-z\\s]+$";
     String mobilePattern = "^[0-9]{10}$";
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    private Bitmap bitmap;
     private static final String TAG = "DoctorRegisterActivity";
 
     @Override
@@ -249,44 +252,17 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         strEmail = email.getText().toString();
         strMobile = mobile.getText().toString();
         strQuali = spinnerQualification.getText().toString();
-        strGender = spinnerDoctorGender.getText().toString();
+        strMobile = spinnerDoctorGender.getText().toString();
         strSpec = spinnerSpecialization.getText().toString();
         strPassword = password.getText().toString();
 
-        /*String strImage = imgDocument.toString();
-        File file = new File(strImage);
-        String path = file.getPath();
-        String fileN = path.substring(path.lastIndexOf("/")+1);
-        String newFile = fileN.replace("}", ".");
-        String fileWithExtension = newFile+"jpg";
-        File finalPic = new File(fileWithExtension);
-       // Toasty.success(DoctorRegisterActivity.this,"Image " + path, 300).show();
-        Log.d(TAG, "onClick: Image " + path);*/
+        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
+        byte[] imageInByte=byteArrayOutputStream.toByteArray();
 
-        if(imageUrl!=null)
-            imageFile= new File(imageUrl);
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
-        MultipartBody.Part requestImage = MultipartBody.Part.createFormData("documentImage",imageFile.getName(), requestFile);
+        String encodedImage= Base64.encodeToString(imageInByte,Base64.DEFAULT);
 
-
-        RequestBody requestName = RequestBody.create(MediaType.parse("text/plain"), strName);
-        RequestBody requestEmail = RequestBody.create(MediaType.parse("text/plain"), strEmail);
-        RequestBody requestMobile = RequestBody.create(MediaType.parse("text/plain"), strMobile);
-        RequestBody requestGender = RequestBody.create(MediaType.parse("text/plain"), strGender);
-        RequestBody requestSpec = RequestBody.create(MediaType.parse("text/plain"), strSpec);
-        RequestBody requestQuali = RequestBody.create(MediaType.parse("text/plain"), strQuali);
-        RequestBody requestPassword = RequestBody.create(MediaType.parse("text/plain"), strPassword);
-        Toasty.success(DoctorRegisterActivity.this,"Image " + requestImage, 300).show();
-        Call<DoctorRegistrationReceiveParams> call = networkClient.doctorRegister(requestName, requestEmail, requestMobile, requestGender, requestSpec, requestQuali, requestPassword, requestImage);
-       /* registrationSendParams.setName(strName);
-        registrationSendParams.setEmail(strEmail);
-        registrationSendParams.setMobile(strMobile);
-        registrationSendParams.setQualification(strQuali);
-        registrationSendParams.setGender(strGender);
-        registrationSendParams.setSpecialization(strSpec);
-        registrationSendParams.setDocumentImage(fileWithExtension);
-        registrationSendParams.setUserType(Constants.USER_TYPE2);
-        registrationSendParams.setPassword(strPassword);*/
+        Call<DoctorRegistrationReceiveParams> call = networkClient.doctorRegister(strName, strEmail, strMobile, strGender, strQuali, strSpec, strPassword, encodedImage);
 
         final SweetAlertDialog pDialog = new SweetAlertDialog(DoctorRegisterActivity.this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -326,7 +302,7 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
                 } else {
                     new AestheticDialog.Builder(DoctorRegisterActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
                             .setTitle("Error")
-                            .setMessage("Some Error Occured at Server end. Please try again.")
+                            .setMessage("Some Error occurred at Server end. Please try again.")
                             .setCancelable(true)
                             .setGravity(Gravity.BOTTOM)
                             .setDuration(3000)
@@ -385,71 +361,29 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         finish();
     }
 
-   /* private String getPathFromURI(Uri contentUri) {
-        String res = null;
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-        if (cursor.moveToFirst()) {
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            res = cursor.getString(column_index);
-        }
-        cursor.close();
-        return res;
-    }*/
-
     private void selectImage() {
-        Intent gallery = new Intent(Intent.ACTION_GET_CONTENT);
-        gallery.setType("image/*");
-        startActivityForResult(gallery, Constants.REQUEST_GALLERY_CODE);
+        Intent intent=new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent,REQUEST_GALLERY_CODE);
     }
 
 
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-             if (requestCode == Constants.REQUEST_GALLERY_CODE && data!=null) {
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                if (selectedImage != null) {
-                    Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                    if (cursor != null) {
-                        cursor.moveToFirst();
+             if (resultCode == RESULT_OK && requestCode == REQUEST_GALLERY_CODE && data!=null) {
 
-                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                        imageUrl = cursor.getString(columnIndex);
-                        //imgDocument.setImageBitmap(BitmapFactory.decodeFile(imageUrl));
-                        Picasso.with(DoctorRegisterActivity.this).load(data.getData()).noPlaceholder().centerCrop().fit().into(imgDocument);
-                        cursor.close();
-                    }
-                }
+                 Uri path = data.getData();
+                 try {
+                     bitmap= MediaStore.Images.Media.getBitmap(getContentResolver(),path);
+                     imgDocument.setImageBitmap(bitmap);
+                 } catch (IOException e) {
+                     e.printStackTrace();
+                 }
             }
-        }
     }
 
-    public static File bitmapToFile(Bitmap bitmap, String fileNameToSave) { // File name like "image.png"
-        //create a file to write bitmap data
-        File file = null;
-        try {
-            file = new File(Environment.getExternalStorageDirectory() + File.separator + fileNameToSave);
-            file.createNewFile();
-
-//Convert bitmap to byte array
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 0 , bos); // YOU can also save it in JPEG
-            byte[] bitmapdata = bos.toByteArray();
-
-//write the bytes in file
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(bitmapdata);
-            fos.flush();
-            fos.close();
-            return file;
-        }catch (Exception e){
-            e.printStackTrace();
-            return file; // it will return null
-        }
-    }
 
         @Override
         public void onRequestPermissionsResult ( int requestCode, @NonNull String[] permissions,
@@ -472,7 +406,7 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
             return;
         }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Constants.REQUEST_GALLERY_CODE);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_GALLERY_CODE);
         }
     }
 

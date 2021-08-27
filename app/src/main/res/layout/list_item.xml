@@ -8,13 +8,14 @@
         android:id="@+id/lblListItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/_14sdp"
+        android:textSize="@dimen/_12sdp"
         android:paddingTop="@dimen/_3sdp"
         android:paddingBottom="@dimen/_3sdp"
         android:layout_marginTop="@dimen/_3sdp"
         android:layout_marginBottom="@dimen/_3sdp"
         android:text="test242"
-        android:paddingStart="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:paddingStart="@dimen/_10sdp"
         />
 
 </LinearLayout>

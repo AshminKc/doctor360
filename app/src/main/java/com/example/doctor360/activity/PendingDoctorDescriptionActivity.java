@@ -139,16 +139,17 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
         documentDesImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LayoutInflater factory = LayoutInflater.from(PendingDoctorDescriptionActivity.this);
-                final View view1 = factory.inflate(R.layout.image_zoom_dailog, null);
-                ImageView imageView = (ImageView) view.findViewById(R.id.dialogDocImage);
-
+                /*LayoutInflater factory = LayoutInflater.from(PendingDoctorDescriptionActivity.this);
+                final View view1 = factory.inflate(R.layout.image_zoom_dailog, null);*/
+                ImageView imageView = new ImageView(PendingDoctorDescriptionActivity.this);
+                imageView.setImageResource(R.drawable.noimage);
+/*
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 byte[] imageBytes = baos.toByteArray();
                 String imageString = pendingReceiveParams.getDocumentImage();
                 imageBytes = Base64.decode(imageString, Base64.DEFAULT);
                 Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-                imageView.setImageBitmap(decodedImage);
+                imageView.setImageBitmap(decodedImage);*/
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(PendingDoctorDescriptionActivity.this);
                 builder.setView(imageView);

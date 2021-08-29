@@ -187,6 +187,8 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
                         .setDuration(3000)
                         .show();
                 sendVerifiedEmail();
+                btnVerify.setVisibility(View.GONE);
+                btnReject.setVisibility(View.GONE);
             }
 
             @Override
@@ -257,6 +259,8 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
                         .setDuration(3000)
                         .show();
                 sendRejectedEmail();
+                btnVerify.setVisibility(View.GONE);
+                btnReject.setVisibility(View.GONE);
             }
 
             @Override
@@ -309,7 +313,6 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
         finish();
         Intent intent=new Intent(PendingDoctorDescriptionActivity.this,AdminDashboardActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.anim_slide_out_right,R.anim.anim_slide_in_left);
     }
 
     @Override
@@ -325,7 +328,6 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
         {
             finish();
             Intent intent=new Intent(PendingDoctorDescriptionActivity.this,AdminDashboardActivity.class);
-            overridePendingTransition(R.anim.anim_slide_out_right,R.anim.anim_slide_in_left);
             startActivity(intent);
         }
         return true;

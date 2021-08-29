@@ -286,6 +286,9 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
                         pDialog.dismiss();
                         verificationEmail();
 
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+
                     } else {
                         new AestheticDialog.Builder(DoctorRegisterActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
                                 .setTitle("Error")
@@ -354,7 +357,6 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         super.onBackPressed();
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
         finish();
     }
 

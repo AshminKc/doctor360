@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarAdmin"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:textColor="@color/white"
+                android:text="Update Profile"
+                android:id="@+id/patientUpdateProfileToolbar"
+                android:gravity="start"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <TextView
+            android:id="@+id/profileImageTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="Profile Image"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="@dimen/_5sdp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageDoctorDoc"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:src="@drawable/noimage"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:contentDescription="@string/app_name"
+                android:layout_weight="1.5"/>
+
+            <Button
+                android:id="@+id/btnUploadPatientProfilePic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:padding="@dimen/_10sdp"
+                android:background="@color/isolation"
+                android:text="@string/upload_photo"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold"
+                android:layout_weight="0.5"/>
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtUpdatePatientName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginEnd="@dimen/_28sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/round_border"
+            android:drawableStart="@drawable/ic_user"
+            android:drawablePadding="@dimen/_12sdp"
+            android:ems="10"
+            android:hint="@string/name"
+            android:inputType="text"
+            android:padding="@dimen/_10sdp"
+            android:lines="1"
+            />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtUpdatePatientAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_28sdp"
+            android:background="@drawable/round_border"
+            android:drawableStart="@drawable/ic_address"
+            android:drawablePadding="@dimen/_12sdp"
+            android:ems="10"
+            android:hint="@string/address"
+            android:inputType="text"
+            android:padding="@dimen/_10sdp"
+            />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtUpdatePatientEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_28sdp"
+            android:background="@drawable/round_border"
+            android:drawableStart="@drawable/ic_email"
+            android:drawablePadding="@dimen/_12sdp"
+            android:ems="10"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:padding="@dimen/_10sdp"
+            />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtUpdatePatientMobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_28sdp"
+            android:background="@drawable/round_border"
+            android:drawableStart="@drawable/ic_mobile"
+            android:drawablePadding="@dimen/_12sdp"
+            android:ems="10"
+            android:hint="@string/mobile"
+            android:inputType="phone"
+            android:padding="@dimen/_10sdp"
+            />
+
+        <TextView
+            android:id="@+id/txtUpdateAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Select Your Age"
+            android:textColor="@color/facebook"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold" />
+
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/spinnerUpdatePatientAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ms_dropdown_height="wrap_content"
+            android:hint="Select Age"
+            android:textAlignment="viewStart"
+            android:padding="@dimen/_10sdp"
+            android:ems="10"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_28sdp" />
+
+        <TextView
+            android:id="@+id/txtUpdateGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Select Your Gender"
+            android:textColor="@color/facebook"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold"
+            />
+
+
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/spinnerUpdatePatientGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ms_dropdown_height="wrap_content"
+            android:hint="Select Gender"
+            android:textAlignment="viewStart"
+            android:padding="@dimen/_10sdp"
+            android:ems="10"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_28sdp" />
+
+        <TextView
+            android:id="@+id/txtUpdateBlood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Select Your Blood Group"
+            android:textColor="@color/facebook"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold" />
+
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/spinnerUpdatePatientBlood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ms_dropdown_height="wrap_content"
+            android:hint="Select Blood Group"
+            android:textAlignment="viewStart"
+            android:padding="@dimen/_10sdp"
+            android:ems="10"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_28sdp" />
+
+        <Button
+            android:id="@+id/btnUpdatePatientProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_45sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:padding="@dimen/_10sdp"
+            android:background="@drawable/round_bg"
+            android:text="@string/update_profile"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</ScrollView>

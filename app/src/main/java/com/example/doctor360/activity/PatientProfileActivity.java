@@ -1,8 +1,11 @@
 package com.example.doctor360.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -23,12 +26,16 @@ import com.example.doctor360.model.PatientLoginReceiveParams;
 import com.example.doctor360.model.PatientProfileReceiveParams;
 import com.example.doctor360.network.NetworkClient;
 import com.example.doctor360.network.ServiceGenerator;
+import com.orhanobut.hawk.Hawk;
 import com.squareup.picasso.Picasso;
 import com.thecode.aestheticdialogs.AestheticDialog;
 import com.thecode.aestheticdialogs.DialogStyle;
 import com.thecode.aestheticdialogs.DialogType;
 
+import java.io.ByteArrayOutputStream;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,7 +47,7 @@ public class PatientProfileActivity extends AppCompatActivity {
     TextView txtName, txtAddress, txtMobile, txtEmail, txtGender, txtAge, txtBlood;
     Button btnUpdateProfile, btnChangePassword;
     ConnectionDetector connectionDetector;
-    String patientEmail, patientId, patientName;
+    String patientEmail, patientId, patientName, imagePatientProfile, idFromChangePassword, strPatientID, profileImage;
     private static final String TAG = "PatientProfileActivity";
 
     @Override
@@ -66,10 +73,14 @@ public class PatientProfileActivity extends AppCompatActivity {
         btnUpdateProfile = findViewById(R.id.buttonPatientUpdateProfile);
         btnChangePassword = findViewById(R.id.buttonPatientChangePassword);
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         patientId = intent.getStringExtra("patient_profile_id");
+        patientName  = intent.getStringExtra("patient_profile_name");
         patientEmail = intent.getStringExtra("patient_profile_email");
-        Log.d(TAG, "onCreate: Patient id" + patientId);
+        imagePatientProfile = intent.getStringExtra("patient_profile_image");
+
+        Intent intent1 = getIntent();
+        idFromChangePassword = intent1.getStringExtra("id_from_password_change");
 
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +88,22 @@ public class PatientProfileActivity extends AppCompatActivity {
                 Intent intent1 = new Intent(PatientProfileActivity.this, PatientPasswordChangeActivity.class);
                 intent1.putExtra("patient_profile_check_id", patientId);
                 intent1.putExtra("patient_profile_check_email", patientEmail);
+                intent1.putExtra("patient_profile_check_name", patientName);
+                intent1.putExtra("patient_profile_check_image", imagePatientProfile);
+                startActivity(intent1);
+                overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+                finish();
+            }
+        });
+
+        btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(PatientProfileActivity.this, PatientUpdateProfileActivity.class);
+                intent1.putExtra("patient_profile_check_id", patientId);
+                intent1.putExtra("patient_profile_check_email", patientEmail);
+                intent1.putExtra("patient_profile_check_name", patientName);
+                intent1.putExtra("patient_profile_check_image", imagePatientProfile);
                 startActivity(intent1);
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                 finish();
@@ -107,7 +134,17 @@ public class PatientProfileActivity extends AppCompatActivity {
         pDialog.setCancelable(false);
         pDialog.show();
 
-        Call<PatientProfileReceiveParams> call = networkClient.viewPatientProfile(patientId);
+        if(patientId!=null)
+            strPatientID = patientId;
+        else
+            strPatientID = idFromChangePassword;
+
+        if(idFromChangePassword!=null)
+            strPatientID = idFromChangePassword;
+        else
+            strPatientID = patientId;
+
+        Call<PatientProfileReceiveParams> call = networkClient.viewPatientProfile(strPatientID);
         call.enqueue(new Callback<PatientProfileReceiveParams>() {
             @Override
             public void onResponse(Call<PatientProfileReceiveParams> call, Response<PatientProfileReceiveParams> response) {
@@ -126,11 +163,21 @@ public class PatientProfileActivity extends AppCompatActivity {
                         txtAge.setText(String.valueOf(receiveParams.getData().getAge()));
                         txtGender.setText(receiveParams.getData().getGender());
                         txtBlood.setText(receiveParams.getData().getBloodGroup());
-                      /*  Picasso.with(PatientProfileActivity.this)
-                                .load(receiveParams.getData().get)
-                                .placeholder(R.drawable.noimage)
-                                .error(R.drawable.noimage)
-                                .into(imgProfile);*/
+
+                        if(receiveParams.getData().getProfileImg().matches("null")){
+                            Picasso.with(PatientProfileActivity.this)
+                                    .load(R.drawable.noimage)
+                                    .placeholder(R.drawable.noimage)
+                                    .error(R.drawable.noimage)
+                                    .into(imgProfile);
+                        } else {
+                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                            byte[] imageBytes = baos.toByteArray();
+                            String imageString = receiveParams.getData().getProfileImg();
+                            imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+                            Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                            imgProfile.setImageBitmap(decodedImage);
+                        }
 
                     } else {
                         new AestheticDialog.Builder(PatientProfileActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
@@ -169,12 +216,15 @@ public class PatientProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
         Intent intent=new Intent(PatientProfileActivity.this, PatientDashboardActivity.class);
-        String sendName = txtEmail.getText().toString();
-        intent.putExtra("to_dashboard", sendName);
+        String name = txtName.getText().toString();
+        String email = txtEmail.getText().toString();
+        intent.putExtra("from_profile_id", patientId);
+        intent.putExtra("from_profile_name", name);
+        intent.putExtra("from_profile_email", email);
+        intent.putExtra("from_profile_image", imagePatientProfile);
         startActivity(intent);
-        overridePendingTransition(R.anim.anim_slide_out_right,R.anim.anim_slide_in_left);
+        finish();
     }
 
     @Override
@@ -188,12 +238,16 @@ public class PatientProfileActivity extends AppCompatActivity {
         int id=item.getItemId();
         if(id==android.R.id.home)
         {
-            finish();
             Intent intent=new Intent(PatientProfileActivity.this, PatientDashboardActivity.class);
-            String sendName = txtEmail.getText().toString();
-            intent.putExtra("to_dashboard", sendName);
+            String name = txtName.getText().toString();
+            String email = txtEmail.getText().toString();
+            String patientImage = imagePatientProfile;
+            intent.putExtra("from_profile_id", patientId);
+            intent.putExtra("from_profile_name", name);
+            intent.putExtra("from_profile_email", email);
+            intent.putExtra("from_profile_image", patientImage);
             startActivity(intent);
-            overridePendingTransition(R.anim.anim_slide_out_right,R.anim.anim_slide_in_left);
+            finish();
         }
         return true;
     }

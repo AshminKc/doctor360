@@ -2,6 +2,8 @@ package com.example.doctor360.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import com.example.doctor360.R;
@@ -13,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.internal.NavigationMenuView;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -24,6 +27,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 import com.thecode.aestheticdialogs.AestheticDialog;
 import com.thecode.aestheticdialogs.DialogStyle;
 import com.thecode.aestheticdialogs.DialogType;
@@ -41,7 +45,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.ByteArrayOutputStream;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 
 public class PatientDashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -52,7 +59,10 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
     DrawerLayout drawer;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
-    String patientName, patientID, patientEmail;
+    ByteArrayOutputStream baos;
+    byte[] imageBytes;
+    Bitmap decodedImage;
+    String patientName, patientID, patientEmail, patientImageView, nameFromProfile, IdFromProfile, emailFromProfile, imageFromProfile;
     private static final String TAG = "PatientDashboardActivit";
 
     @Override
@@ -79,21 +89,88 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
         patientName =  intent.getStringExtra("patient_name");
         patientID =  intent.getStringExtra("patient_id");
         patientEmail = intent.getStringExtra("patient_email");
+        patientImageView = intent.getStringExtra("patient_image");
 
         Intent intent1 = getIntent();
-        String nameFromProfile = intent1.getStringExtra("to_dashboard");
+        IdFromProfile = intent1.getStringExtra("from_profile_id");
+        nameFromProfile = intent1.getStringExtra("from_profile_name");
+        emailFromProfile = intent1.getStringExtra("from_profile_email");
+        imageFromProfile = intent1.getStringExtra("from_profile_image");
 
-       /* if(!patientName.isEmpty())
+        if(patientName!= null)
             txtPatientLoginName.setText(patientName);
-        else*/
+        else
             txtPatientLoginName.setText(nameFromProfile);
+
+        if(nameFromProfile!= null)
+            txtPatientLoginName.setText(nameFromProfile);
+        else
+            txtPatientLoginName.setText(patientName);
+
+        baos = new ByteArrayOutputStream();
+
+        if(patientImageView!=null){
+            imageBytes = baos.toByteArray();
+            imageBytes = Base64.decode(patientImageView, Base64.DEFAULT);
+            decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            patientLoginImage.setImageBitmap(decodedImage);
+            Log.d(TAG, "onCreate: No image IFP PIV");
+        } else {
+            Log.d(TAG, "onCreate: No image PIMG");
+            patientLoginImage.setImageResource(R.drawable.noimage);
+        }
+
+        if(imageFromProfile!=null) {
+            imageBytes = baos.toByteArray();
+            imageBytes = Base64.decode(imageFromProfile, Base64.DEFAULT);
+            decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            patientLoginImage.setImageBitmap(decodedImage);
+            Log.d(TAG, "onCreate: No image IFP BIT");
+        } else {
+            Log.d(TAG, "onCreate: No image IFP");
+            patientLoginImage.setImageResource(R.drawable.noimage);
+        }
 
         txtPatientViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(PatientDashboardActivity.this, PatientProfileActivity.class);
+                if(patientID!=null)
                 intent1.putExtra("patient_profile_id", patientID);
-                intent1.putExtra("patient_profile_email", patientEmail);
+                else
+                    intent1.putExtra("patient_profile_id", IdFromProfile);
+                if(IdFromProfile!=null)
+                    intent1.putExtra("patient_profile_id", IdFromProfile);
+                else
+                    intent1.putExtra("patient_profile_id", patientID);
+
+                if(patientName!=null)
+                    intent1.putExtra("patient_profile_name", patientName);
+                else
+                    intent1.putExtra("patient_profile_name", nameFromProfile);
+                if(nameFromProfile!=null)
+                    intent1.putExtra("patient_profile_name", nameFromProfile);
+                else
+                    intent1.putExtra("patient_profile_name", patientName);
+
+                if(patientEmail!=null)
+                    intent1.putExtra("patient_profile_email", patientEmail);
+                else
+                    intent1.putExtra("patient_profile_email", emailFromProfile);
+                if(emailFromProfile!=null)
+                    intent1.putExtra("patient_profile_email", emailFromProfile);
+                else
+                    intent1.putExtra("patient_profile_email", patientEmail);
+
+                if(patientImageView!=null)
+                    intent1.putExtra("patient_profile_image", patientImageView);
+                else
+                    intent1.putExtra("patient_profile_image", imageFromProfile);
+                if(imageFromProfile!=null)
+                    intent1.putExtra("patient_profile_image", imageFromProfile);
+                else
+                    intent1.putExtra("patient_profile_image", patientImageView);
+
                 startActivity(intent1);
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                 finish();
@@ -266,7 +343,6 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
                         finish();
                         Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                         startActivity(intent);
-                        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right);
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

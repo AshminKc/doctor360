@@ -249,6 +249,8 @@ public class PatientRegisterActivity extends AppCompatActivity implements View.O
                                 .show();
                         pDialog.dismiss();
                         sendSuccessEmail();
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
                     } else {
                         new AestheticDialog.Builder(PatientRegisterActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
                                 .setTitle("Error")

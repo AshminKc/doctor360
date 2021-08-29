@@ -54,7 +54,7 @@ public class PatientPasswordChangeActivity extends AppCompatActivity {
     AppCompatEditText edtNewPassword, edtOldPasssword, edtConfirmNewPass;
     Button btnResetPass;
     ConnectionDetector connectionDetector;
-    String strNewPass, strOldPass, strConfirmNewPass;
+    String strNewPass, strOldPass, strConfirmNewPass, strPatientId, strPatientEmail, patientName, patientStringImage;
     private static final String TAG = "PatientPasswordChangeAc";
 
     @Override
@@ -74,6 +74,12 @@ public class PatientPasswordChangeActivity extends AppCompatActivity {
         edtNewPassword = findViewById(R.id.edtPatientNewPassword);
         edtConfirmNewPass = findViewById(R.id.edtPatientConfirmNewPassword);
         btnResetPass = findViewById(R.id.buttonPatientResetPassword);
+
+        Intent intent = getIntent();
+        strPatientId = intent.getStringExtra("patient_profile_check_id");
+        strPatientEmail = intent.getStringExtra("patient_profile_check_email");
+        patientName = intent.getStringExtra("patient_profile_check_name");
+        patientStringImage = intent.getStringExtra("patient_profile_check_image");
 
         connectionDetector = new ConnectionDetector(this);
 
@@ -123,23 +129,15 @@ public class PatientPasswordChangeActivity extends AppCompatActivity {
         }  else if(!strConfirmNewPass.matches(strNewPass)){
             Toasty.error(PatientPasswordChangeActivity.this,"New Password and Confirm New Password doesn't match",300).show();
         } else {
-            changePassword();
+            changePatientPassword();
         }
     }
 
-    public void changePassword(){
-        Intent intent = getIntent();
-        String id = intent.getStringExtra("patient_profile_id");
-
-        NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
-        final PatientPasswordChangeSendParams patientPasswordChangeSendParams = new PatientPasswordChangeSendParams();
-
+    public void changePatientPassword(){
         strOldPass = edtOldPasssword.getText().toString();
         strNewPass = edtNewPassword.getText().toString();
 
-        Call<PatientPasswordChangeReceiveParams> call = networkClient.patientChangePassword(id, patientPasswordChangeSendParams);
-        patientPasswordChangeSendParams.setCurrentpassword(strOldPass);
-        patientPasswordChangeSendParams.setPassword(strNewPass);
+        NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
 
         final SweetAlertDialog pDialog = new SweetAlertDialog(PatientPasswordChangeActivity.this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -147,6 +145,11 @@ public class PatientPasswordChangeActivity extends AppCompatActivity {
         pDialog.setCancelable(false);
         pDialog.show();
 
+        final PatientPasswordChangeSendParams patientPasswordChangeSendParams = new PatientPasswordChangeSendParams();
+        patientPasswordChangeSendParams.setCurrentpassword(strOldPass);
+        patientPasswordChangeSendParams.setPassword(strNewPass);
+
+        Call<PatientPasswordChangeReceiveParams> call = networkClient.patientChangePassword(strPatientId, patientPasswordChangeSendParams);
         call.enqueue(new Callback<PatientPasswordChangeReceiveParams>() {
             @Override
             public void onResponse(Call<PatientPasswordChangeReceiveParams> call, Response<PatientPasswordChangeReceiveParams> response) {
@@ -163,6 +166,7 @@ public class PatientPasswordChangeActivity extends AppCompatActivity {
                                 .setGravity(Gravity.BOTTOM)
                                 .setDuration(3000)
                                 .show();
+                        Toasty.success(getApplicationContext(),"Password Changed Successfully!!", 300).show();
                         pDialog.dismiss();
                         sendPasswordChangeSuccessEmail();
                     } else {
@@ -205,9 +209,6 @@ public class PatientPasswordChangeActivity extends AppCompatActivity {
         properties.put("mail.smtp.host","smtp.gmail.com");
         properties.put("mail.smtp.port","587");
 
-        Intent intent = getIntent();
-        String toEmail = intent.getStringExtra("patient_profile_check_email");
-
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -216,6 +217,7 @@ public class PatientPasswordChangeActivity extends AppCompatActivity {
         });
 
         try {
+            String toEmail = strPatientEmail;
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(Constants.EMAIL));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
@@ -232,9 +234,11 @@ public class PatientPasswordChangeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(getApplicationContext(), PatientProfileActivity.class);
+        Intent intent = new Intent(getApplicationContext(), PatientDashboardActivity.class);
+        intent.putExtra("from_profile_id", strPatientId);
+        intent.putExtra("from_profile_name", patientName);
+        intent.putExtra("from_profile_image", patientStringImage);
         startActivity(intent);
-        overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
         finish();
     }
 
@@ -249,10 +253,12 @@ public class PatientPasswordChangeActivity extends AppCompatActivity {
         int id=item.getItemId();
         if(id==android.R.id.home)
         {
-            finish();
-            Intent intent=new Intent(PatientPasswordChangeActivity.this, PatientProfileActivity.class);
-            overridePendingTransition(R.anim.anim_slide_out_right,R.anim.anim_slide_in_left);
+            Intent intent=new Intent(PatientPasswordChangeActivity.this, PatientDashboardActivity.class);
+            intent.putExtra("from_profile_id", strPatientId);
+            intent.putExtra("from_profile_name", patientName);
+            intent.putExtra("from_profile_image", patientStringImage);
             startActivity(intent);
+            finish();
         }
         return true;
     }

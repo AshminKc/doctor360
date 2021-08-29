@@ -53,6 +53,7 @@ public class PatientLoginReceiveParams {
          */
 
         private String usertype;
+        private String profileImg;
         private String _id;
         private String name;
         private String address;
@@ -70,6 +71,14 @@ public class PatientLoginReceiveParams {
 
         public void setUsertype(String usertype) {
             this.usertype = usertype;
+        }
+
+        public String getProfileImg() {
+            return profileImg;
+        }
+
+        public void setProfileImg(String profileImg) {
+            this.profileImg = profileImg;
         }
 
         public String get_id() {

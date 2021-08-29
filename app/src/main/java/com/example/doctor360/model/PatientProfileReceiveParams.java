@@ -40,6 +40,7 @@ public class PatientProfileReceiveParams {
         /**
          * usertype : Patient
          * _id : 60fd87ca0f1eea001535de82
+         * profileImg: null
          * name : Test Patient
          * address : Kathamndu
          * email : doct@gmail.com
@@ -52,6 +53,7 @@ public class PatientProfileReceiveParams {
          */
 
         private String usertype;
+        private String profileImg;
         private String _id;
         private String name;
         private String address;
@@ -69,6 +71,14 @@ public class PatientProfileReceiveParams {
 
         public void setUsertype(String usertype) {
             this.usertype = usertype;
+        }
+
+        public String getProfileImg() {
+            return profileImg;
+        }
+
+        public void setProfileImg(String profileImg) {
+            this.profileImg = profileImg;
         }
 
         public String get_id() {

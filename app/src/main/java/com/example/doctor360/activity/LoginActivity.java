@@ -301,6 +301,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         intent.putExtra("patient_id", receiveParams.getData().get_id());
                         intent.putExtra("patient_name", receiveParams.getData().getName());
                         intent.putExtra("patient_email", receiveParams.getData().getEmail());
+                        intent.putExtra("patient_image", receiveParams.getData().getProfileImg());
                         startActivity(intent);
                         overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                     } else {

@@ -78,7 +78,6 @@ public class DoctorProfileActivity extends AppCompatActivity {
         finish();
         Intent intent=new Intent(DoctorProfileActivity.this, DoctorDashboardActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.anim_slide_out_right,R.anim.anim_slide_in_left);
     }
 
     @Override
@@ -94,7 +93,6 @@ public class DoctorProfileActivity extends AppCompatActivity {
         {
             finish();
             Intent intent=new Intent(DoctorProfileActivity.this,DoctorDashboardActivity.class);
-            overridePendingTransition(R.anim.anim_slide_out_right,R.anim.anim_slide_in_left);
             startActivity(intent);
         }
         return true;

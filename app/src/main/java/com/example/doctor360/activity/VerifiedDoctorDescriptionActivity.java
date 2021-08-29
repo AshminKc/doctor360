@@ -128,7 +128,6 @@ public class VerifiedDoctorDescriptionActivity extends AppCompatActivity {
         finish();
         Intent intent=new Intent(VerifiedDoctorDescriptionActivity.this,AdminDashboardActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.anim_slide_out_right,R.anim.anim_slide_in_left);
     }
 
     @Override
@@ -144,7 +143,6 @@ public class VerifiedDoctorDescriptionActivity extends AppCompatActivity {
         {
             finish();
             Intent intent=new Intent(VerifiedDoctorDescriptionActivity.this,AdminDashboardActivity.class);
-            overridePendingTransition(R.anim.anim_slide_out_right,R.anim.anim_slide_in_left);
             startActivity(intent);
         }
         return true;

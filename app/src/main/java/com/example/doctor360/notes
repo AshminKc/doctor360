@@ -1,3 +1,2 @@
-when back from profile, no name is shown
-when back from password change, profile is showing static data
-patient password change
+1. Update Patient Profile
+2. Not showing image when back from patient profile activity

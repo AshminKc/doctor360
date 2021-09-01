@@ -29,6 +29,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="@dimen/_14sdp"
+            android:textAllCaps="true"
             android:id="@+id/patientLoginName" />
 
         <TextView

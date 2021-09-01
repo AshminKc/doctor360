@@ -62,7 +62,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view51"
-            />
+            android:imeOptions="actionDone" />
 
 
         <androidx.appcompat.widget.AppCompatEditText
@@ -83,7 +83,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:lines="1"
             app:layout_constraintTop_toBottomOf="@+id/edtDoctorName"
-            />
+            android:imeOptions="actionDone"/>
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/edtDoctorMobile"
@@ -103,7 +103,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:lines="1"
             app:layout_constraintTop_toBottomOf="@+id/edtDoctorEmail"
-            />
+            android:imeOptions="actionDone"/>
 
         <TextView
             android:id="@+id/txtDoctorGender"
@@ -137,7 +137,8 @@
             app:layout_constraintStart_toStartOf="parent"
             android:lines="1"
             android:background="@drawable/spinner_bg"
-            app:layout_constraintTop_toBottomOf="@+id/txtDoctorGender"/>
+            app:layout_constraintTop_toBottomOf="@+id/txtDoctorGender"
+            android:imeOptions="actionDone"/>
 
         <TextView
             android:id="@+id/txtQualification"
@@ -172,7 +173,8 @@
             app:layout_constraintStart_toStartOf="parent"
             android:lines="1"
             android:background="@drawable/spinner_bg"
-            app:layout_constraintTop_toBottomOf="@+id/txtQualification"/>
+            app:layout_constraintTop_toBottomOf="@+id/txtQualification"
+            android:imeOptions="actionDone"/>
 
         <TextView
             android:id="@+id/txtSpecialization"
@@ -206,7 +208,8 @@
             app:layout_constraintStart_toStartOf="parent"
             android:lines="1"
             android:background="@drawable/spinner_bg"
-            app:layout_constraintTop_toBottomOf="@+id/txtSpecialization"/>
+            app:layout_constraintTop_toBottomOf="@+id/txtSpecialization"
+            android:imeOptions="actionDone"/>
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/edtDoctorPassword"
@@ -225,6 +228,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:lines="1"
+            android:imeOptions="actionDone"
             app:layout_constraintTop_toBottomOf="@+id/spinnerDoctorSpecialization" />
 
         <androidx.appcompat.widget.AppCompatEditText
@@ -244,7 +248,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:lines="1"
-            app:layout_constraintTop_toBottomOf="@+id/edtDoctorPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/edtDoctorPassword"
+            android:imeOptions="actionDone"/>
 
         <TextView
             android:id="@+id/doctorDocText"
@@ -266,7 +271,7 @@
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_90sdp"
             android:src="@drawable/noimage"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_35sdp"
@@ -274,7 +279,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/doctorDocText"/>
+            app:layout_constraintTop_toBottomOf="@+id/doctorDocText"
+            android:imeOptions="actionDone"/>
 
         <Button
             android:id="@+id/btnUploadPhoto"

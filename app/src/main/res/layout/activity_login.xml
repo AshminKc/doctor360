@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_36sdp"
         android:layout_marginTop="@dimen/_5sdp"
-        android:text="Select User Type"
+        android:text="Select Role"
         android:textColor="@color/facebook"
         android:textSize="@dimen/_10sdp"
         android:textStyle="bold"
@@ -75,7 +75,7 @@
         android:layout_width="@dimen/_232sdp"
         android:layout_height="wrap_content"
         app:ms_dropdown_height="wrap_content"
-        android:hint="Select User Type"
+        android:hint="Select Role"
         android:textAlignment="viewStart"
         android:padding="@dimen/_10sdp"
         android:ems="10"
@@ -86,7 +86,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:lines="1"
         android:background="@drawable/spinner_bg"
-        app:layout_constraintTop_toBottomOf="@+id/txtUserType"/>
+        app:layout_constraintTop_toBottomOf="@+id/txtUserType"
+        android:imeOptions="actionDone"/>
 
 
     <androidx.appcompat.widget.AppCompatEditText
@@ -107,7 +108,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerUserType"
-        />
+        android:imeOptions="actionDone"/>
 
 
     <androidx.appcompat.widget.AppCompatEditText

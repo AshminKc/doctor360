@@ -54,6 +54,7 @@ public class DoctorLoginReceiveParams {
          */
 
         private int status;
+        private String profileImg;
         private String usertype;
         private String documentImage;
         private String _id;
@@ -72,6 +73,14 @@ public class DoctorLoginReceiveParams {
 
         public void setStatus(int status) {
             this.status = status;
+        }
+
+        public String getProfileImg() {
+            return profileImg;
+        }
+
+        public void setProfileImg(String profileImg) {
+            this.profileImg = profileImg;
         }
 
         public String getUsertype() {

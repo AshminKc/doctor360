@@ -1,5 +1,7 @@
 package com.example.doctor360.model;
 
+import java.io.Serializable;
+
 public class PatientLoginReceiveParams {
 
 
@@ -37,7 +39,7 @@ public class PatientLoginReceiveParams {
         this.message = message;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * usertype : Patient
          * _id : 60fd87ca0f1eea001535de82

@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/patientUpdateProfileToolbar"
+            android:id="@+id/doctorUpdateProfileToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:minHeight="?attr/actionBarSize"
@@ -55,7 +55,7 @@
             android:layout_marginTop="@dimen/_5sdp">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imageUpdatePatientImage"
+                android:id="@+id/imageUpdateDoctorImage"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_100sdp"
                 android:src="@drawable/noimage"
@@ -65,7 +65,7 @@
                 android:layout_weight="1.5"/>
 
             <Button
-                android:id="@+id/btnUploadPatientProfilePic"
+                android:id="@+id/btnUploadDoctorProfilePic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_30sdp"
@@ -81,7 +81,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/edtUpdatePatientName"
+            android:id="@+id/edtUpdateDoctorName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_25sdp"
@@ -98,23 +98,7 @@
             android:imeOptions="actionDone"/>
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/edtUpdatePatientAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_25sdp"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:layout_marginEnd="@dimen/_28sdp"
-            android:background="@drawable/round_border"
-            android:drawableStart="@drawable/ic_address"
-            android:drawablePadding="@dimen/_12sdp"
-            android:ems="10"
-            android:hint="@string/address"
-            android:inputType="text"
-            android:padding="@dimen/_10sdp"
-            android:imeOptions="actionDone"/>
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/edtUpdatePatientEmail"
+            android:id="@+id/edtUpdateDoctorEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_25sdp"
@@ -131,7 +115,7 @@
             android:imeOptions="actionDone"/>
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/edtUpdatePatientMobile"
+            android:id="@+id/edtUpdateDoctorMobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_25sdp"
@@ -147,7 +131,7 @@
             android:imeOptions="actionDone"/>
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/edtUpdatePatientGender"
+            android:id="@+id/edtUpdateDoctorGender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_25sdp"
@@ -169,19 +153,19 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txtShowCurrentAge"
+                android:id="@+id/txtShowCurrentQuali"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_25sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_3sdp"
-                android:text="Current Age:"
+                android:text="Current Qualification:"
                 android:textColor="@color/isolation"
                 android:textSize="@dimen/_10sdp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/txtCurrentAgeValue"
+                android:id="@+id/txtCurrentQualiValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -194,22 +178,22 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/txtUpdateAge"
+            android:id="@+id/txtUpdateQuali"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_25sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:text="Select Age to Update"
+            android:text="Select Qualification to Update"
             android:textColor="@color/facebook"
             android:textSize="@dimen/_10sdp"
             android:textStyle="bold" />
 
         <com.jaredrummler.materialspinner.MaterialSpinner
-            android:id="@+id/spinnerUpdatePatientAge"
+            android:id="@+id/spinnerUpdateDoctorQuali"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:ms_dropdown_height="wrap_content"
-            android:hint="Select Age"
+            android:hint="Select Qualification"
             android:textAlignment="viewStart"
             android:padding="@dimen/_10sdp"
             android:ems="10"
@@ -224,19 +208,19 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txtShowCurrentBlood"
+                android:id="@+id/txtShowCurrentSpec"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_25sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_3sdp"
-                android:text="Current Blood Group:"
+                android:text="Current Specialization:"
                 android:textColor="@color/isolation"
                 android:textSize="@dimen/_10sdp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/txtCurrentBloodValue"
+                android:id="@+id/txtCurrentSpecValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -249,22 +233,22 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/txtUpdateBlood"
+            android:id="@+id/txtUpdateSpec"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_25sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:text="Select Blood Group to Update"
+            android:text="Select Specialization to Update"
             android:textColor="@color/facebook"
             android:textSize="@dimen/_10sdp"
             android:textStyle="bold" />
 
         <com.jaredrummler.materialspinner.MaterialSpinner
-            android:id="@+id/spinnerUpdatePatientBlood"
+            android:id="@+id/spinnerUpdateDoctorSpec"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:ms_dropdown_height="wrap_content"
-            android:hint="Select Blood Group"
+            android:hint="Select Specialization"
             android:textAlignment="viewStart"
             android:padding="@dimen/_10sdp"
             android:ems="10"
@@ -273,8 +257,54 @@
             android:layout_marginEnd="@dimen/_28sdp"
             android:imeOptions="actionDone"/>
 
+        <TextView
+            android:id="@+id/documentImageTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="Document Image"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="@dimen/_5sdp">
+
+            <com.example.doctor360.utils.SquareImageView
+                android:id="@+id/imageUpdateDoctorDocument"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_90sdp"
+                android:src="@drawable/noimage"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:contentDescription="@string/app_name"
+                android:layout_weight="1.5"
+                android:layout_marginStart="@dimen/_25sdp"/>
+
+            <Button
+                android:id="@+id/btnUploadDoctorDocumentPic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_50sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:padding="@dimen/_10sdp"
+                android:background="@color/isolation"
+                android:text="@string/upload_photo"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold"
+                android:layout_weight="0.5"/>
+
+        </LinearLayout>
+
         <Button
-            android:id="@+id/btnUpdatePatientDetails"
+            android:id="@+id/btnUpdateDoctorDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_45sdp"

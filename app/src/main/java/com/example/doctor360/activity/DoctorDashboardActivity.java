@@ -2,6 +2,8 @@ package com.example.doctor360.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import com.example.doctor360.R;
@@ -11,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.internal.NavigationMenuView;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -47,6 +50,8 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
     DrawerLayout drawer;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
+    String doctorName, doctorID, doctorEmail, doctorImageView, nameFromProfile, IdFromProfile, emailFromProfile,
+            imageFromProfile, doctorSpec, doctorMobile, doctorQuali, doctorGender, doctorDocument;
     private static final String TAG = "DoctorDashboardActivity";
 
     @Override
@@ -56,6 +61,8 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        drawer = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         toolbarTitle = findViewById(R.id.toolbarDoctorTitle);
         txtDoctorLoginName = headerView.findViewById(R.id.doctorLoginName);
@@ -65,16 +72,87 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
         toolbarTitle.setText(getString(R.string.menu_home));
 
         final Intent intent = getIntent();
-        String doctorName =  intent.getStringExtra("doctor_name");
-        txtDoctorLoginName.setText(doctorName);
+        doctorName =  intent.getStringExtra("doctor_name");
+        doctorEmail = intent.getStringExtra("doctor_email");
+        doctorMobile = intent.getStringExtra("doctor_mobile");
+        doctorID =  intent.getStringExtra("doctor_id");
+        doctorImageView = intent.getStringExtra("doctor_image");
+        doctorGender = intent.getStringExtra("doctor_gender");
+        doctorQuali = intent.getStringExtra("doctor_quali");
+        doctorSpec = intent.getStringExtra("doctor_spec");
+        doctorDocument = intent.getStringExtra("doctor_document");
+
+        final Intent intent1 = getIntent();
+        IdFromProfile = intent1.getStringExtra("from_profile_id");
+        nameFromProfile = intent1.getStringExtra("from_profile_name");
+        emailFromProfile = intent1.getStringExtra("from_profile_email");
+        imageFromProfile = intent1.getStringExtra("from_profile_image");
+
+        if(nameFromProfile!= null)
+            txtDoctorLoginName.setText("DR. "+nameFromProfile);
+        else
+            txtDoctorLoginName.setText("DR. "+doctorName);
+
+        if(doctorName!= null)
+            txtDoctorLoginName.setText("DR. "+doctorName);
+        else
+            txtDoctorLoginName.setText("DR. "+nameFromProfile);
+
+        if(doctorImageView!=null){
+            byte[] decodedString = Base64.decode(doctorImageView, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            doctorLoginImage.setImageBitmap(bitmap);
+        } else if(imageFromProfile!=null) {
+            byte[] decodedString = Base64.decode(imageFromProfile, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            doctorLoginImage.setImageBitmap(bitmap);
+        } else {
+            doctorLoginImage.setImageResource(R.drawable.noimage);
+        }
 
         txtDoctorViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String patientID =  intent.getStringExtra("patient_id");
+                Intent intent1 = new Intent(DoctorDashboardActivity.this, DoctorProfileActivity.class);
 
-                Intent intent1 = new Intent(DoctorDashboardActivity.this, PatientProfileActivity.class);
-                intent1.putExtra("doctor_profile_id", patientID);
+                if(doctorID!=null)
+                    intent1.putExtra("doctor_profile_id", doctorID);
+                else
+                    intent1.putExtra("doctor_profile_id", IdFromProfile);
+                if(IdFromProfile!=null)
+                    intent1.putExtra("doctor_profile_id", IdFromProfile);
+                else
+                    intent1.putExtra("doctor_profile_id", doctorID);
+
+                if(doctorName!=null)
+                    intent1.putExtra("doctor_profile_name", doctorName);
+                else
+                    intent1.putExtra("doctor_profile_name", nameFromProfile);
+                if(nameFromProfile!=null)
+                    intent1.putExtra("doctor_profile_name", nameFromProfile);
+                else
+                    intent1.putExtra("doctor_profile_name", doctorName);
+
+                if(doctorEmail!=null)
+                    intent1.putExtra("doctor_profile_email", doctorEmail);
+                else
+                    intent1.putExtra("doctor_profile_email", emailFromProfile);
+                if(emailFromProfile!=null)
+                    intent1.putExtra("doctor_profile_email", emailFromProfile);
+                else
+                    intent1.putExtra("doctor_profile_email", doctorEmail);
+
+                if(doctorImageView!=null)
+                    intent1.putExtra("doctor_profile_image", doctorImageView);
+                else
+                    intent1.putExtra("doctor_profile_image", imageFromProfile);
+                if(imageFromProfile!=null)
+                    intent1.putExtra("doctor_profile_image", imageFromProfile);
+                else
+                    intent1.putExtra("doctor_profile_image", doctorImageView);
+
+                intent1.putExtra("doctor_document_image", doctorDocument);
+
                 startActivity(intent1);
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                 finish();
@@ -149,7 +227,7 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.doctor_dashboard, menu);
+       // getMenuInflater().inflate(R.menu.doctor_dashboard, menu);
         return true;
     }
 

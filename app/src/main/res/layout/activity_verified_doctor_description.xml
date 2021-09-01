@@ -171,7 +171,7 @@
                         android:layout_marginStart="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:src="@drawable/noimage"
-                        android:scaleType="fitXY"
+                        android:scaleType="centerCrop"
                         android:id="@+id/verifiedDoctorImage"
                         android:contentDescription="@string/app_name"
                         android:layout_below="@+id/verifiedDoctorImgTxt"/>

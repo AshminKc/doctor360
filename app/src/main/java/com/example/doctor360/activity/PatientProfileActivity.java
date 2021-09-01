@@ -43,11 +43,12 @@ import retrofit2.Response;
 public class PatientProfileActivity extends AppCompatActivity {
 
     Toolbar toolbar;
+    Bitmap decodedImage;
     CircleImageView imgProfile;
     TextView txtName, txtAddress, txtMobile, txtEmail, txtGender, txtAge, txtBlood;
     Button btnUpdateProfile, btnChangePassword;
     ConnectionDetector connectionDetector;
-    String patientEmail, patientId, patientName, imagePatientProfile, idFromChangePassword, strPatientID, profileImage;
+    String patientEmail, patientId, patientName, idFromChangePassword, strPatientID, profileImage;
     private static final String TAG = "PatientProfileActivity";
 
     @Override
@@ -77,10 +78,7 @@ public class PatientProfileActivity extends AppCompatActivity {
         patientId = intent.getStringExtra("patient_profile_id");
         patientName  = intent.getStringExtra("patient_profile_name");
         patientEmail = intent.getStringExtra("patient_profile_email");
-        imagePatientProfile = intent.getStringExtra("patient_profile_image");
-
-        Intent intent1 = getIntent();
-        idFromChangePassword = intent1.getStringExtra("id_from_password_change");
+        profileImage = intent.getStringExtra("patient_profile_image");
 
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +87,7 @@ public class PatientProfileActivity extends AppCompatActivity {
                 intent1.putExtra("patient_profile_check_id", patientId);
                 intent1.putExtra("patient_profile_check_email", patientEmail);
                 intent1.putExtra("patient_profile_check_name", patientName);
-                intent1.putExtra("patient_profile_check_image", imagePatientProfile);
+                intent1.putExtra("patient_profile_check_image", profileImage);
                 startActivity(intent1);
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                 finish();
@@ -100,15 +98,23 @@ public class PatientProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(PatientProfileActivity.this, PatientUpdateProfileActivity.class);
-                intent1.putExtra("patient_profile_check_id", patientId);
-                intent1.putExtra("patient_profile_check_email", patientEmail);
-                intent1.putExtra("patient_profile_check_name", patientName);
-                intent1.putExtra("patient_profile_check_image", imagePatientProfile);
+                intent1.putExtra("patient_update_id", patientId);
+                intent1.putExtra("patient_update_address", txtAddress.getText().toString());
+                intent1.putExtra("patient_update_mobile", txtMobile.getText().toString());
+                intent1.putExtra("patient_update_email", txtEmail.getText().toString());
+                intent1.putExtra("patient_update_name", txtName.getText().toString());
+                intent1.putExtra("patient_update_age", txtAge.getText().toString());
+                intent1.putExtra("patient_update_gender", txtGender.getText().toString());
+                intent1.putExtra("patient_update_blood", txtBlood.getText().toString());
+                intent1.putExtra("patient_update_image", profileImage);
                 startActivity(intent1);
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                 finish();
             }
         });
+
+        Intent intent1 = getIntent();
+        idFromChangePassword = intent1.getStringExtra("id_from_password_change");
 
         connectionDetector = new ConnectionDetector(PatientProfileActivity.this);
 
@@ -151,7 +157,7 @@ public class PatientProfileActivity extends AppCompatActivity {
                 pDialog.dismiss();
 
                 PatientProfileReceiveParams receiveParams = response.body();
-                Log.d(TAG, "onResponse: Success " + receiveParams.getData().getAge());
+
                 if(response.body()!=null){
                     String success = receiveParams.getSuccess();
 
@@ -175,14 +181,14 @@ public class PatientProfileActivity extends AppCompatActivity {
                             byte[] imageBytes = baos.toByteArray();
                             String imageString = receiveParams.getData().getProfileImg();
                             imageBytes = Base64.decode(imageString, Base64.DEFAULT);
-                            Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                            decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                             imgProfile.setImageBitmap(decodedImage);
                         }
 
                     } else {
                         new AestheticDialog.Builder(PatientProfileActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
                                 .setTitle("Error")
-                                .setMessage(receiveParams.getMessage())
+                                .setMessage("Couldn't View Profile at the moment. Please try again.")
                                 .setCancelable(true)
                                 .setGravity(Gravity.BOTTOM)
                                 .setDuration(3000)
@@ -222,7 +228,7 @@ public class PatientProfileActivity extends AppCompatActivity {
         intent.putExtra("from_profile_id", patientId);
         intent.putExtra("from_profile_name", name);
         intent.putExtra("from_profile_email", email);
-        intent.putExtra("from_profile_image", imagePatientProfile);
+        intent.putExtra("from_profile_image", profileImage);
         startActivity(intent);
         finish();
     }
@@ -241,11 +247,10 @@ public class PatientProfileActivity extends AppCompatActivity {
             Intent intent=new Intent(PatientProfileActivity.this, PatientDashboardActivity.class);
             String name = txtName.getText().toString();
             String email = txtEmail.getText().toString();
-            String patientImage = imagePatientProfile;
             intent.putExtra("from_profile_id", patientId);
             intent.putExtra("from_profile_name", name);
             intent.putExtra("from_profile_email", email);
-            intent.putExtra("from_profile_image", patientImage);
+            intent.putExtra("from_profile_image", profileImage);
             startActivity(intent);
             finish();
         }

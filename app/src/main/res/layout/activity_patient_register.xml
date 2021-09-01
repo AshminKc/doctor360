@@ -62,7 +62,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view51"
-        />
+        android:imeOptions="actionDone"/>
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/edtPatientAddress"
@@ -82,7 +82,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:lines="1"
         app:layout_constraintTop_toBottomOf="@+id/edtPatientName"
-        />
+        android:imeOptions="actionDone"/>
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/edtPatientEmail"
@@ -102,7 +102,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:lines="1"
         app:layout_constraintTop_toBottomOf="@+id/edtPatientAddress"
-        />
+        android:imeOptions="actionDone"/>
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/edtPatientMobile"
@@ -122,7 +122,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:lines="1"
         app:layout_constraintTop_toBottomOf="@+id/edtPatientEmail"
-        />
+        android:imeOptions="actionDone"/>
 
     <TextView
         android:id="@+id/txtAge"
@@ -138,7 +138,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:lines="1"
-        app:layout_constraintTop_toBottomOf="@+id/edtPatientMobile" />
+        app:layout_constraintTop_toBottomOf="@+id/edtPatientMobile"
+        android:imeOptions="actionDone"/>
 
     <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/spinnerPatientAge"
@@ -156,7 +157,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:lines="1"
         android:background="@drawable/spinner_bg"
-        app:layout_constraintTop_toBottomOf="@+id/txtAge"/>
+        app:layout_constraintTop_toBottomOf="@+id/txtAge"
+        android:imeOptions="actionDone"/>
 
     <TextView
         android:id="@+id/txtGender"
@@ -191,7 +193,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:lines="1"
         android:background="@drawable/spinner_bg"
-        app:layout_constraintTop_toBottomOf="@+id/txtGender"/>
+        app:layout_constraintTop_toBottomOf="@+id/txtGender"
+        android:imeOptions="actionDone"/>
 
     <TextView
         android:id="@+id/txtBlood"
@@ -225,7 +228,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:lines="1"
         android:background="@drawable/spinner_bg"
-        app:layout_constraintTop_toBottomOf="@+id/txtBlood"/>
+        app:layout_constraintTop_toBottomOf="@+id/txtBlood"
+        android:imeOptions="actionDone"/>
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/edtPatientPassword"
@@ -244,7 +248,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:lines="1"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerPatientBlood" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerPatientBlood"
+        android:imeOptions="actionDone"/>
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/edtPatientConfirmPassword"
@@ -263,7 +268,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:lines="1"
-        app:layout_constraintTop_toBottomOf="@+id/edtPatientPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/edtPatientPassword"
+        android:imeOptions="actionDone"/>
 
 
     <Button

@@ -2,7 +2,6 @@ package com.example.doctor360.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,71 +19,57 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.cazaea.sweetalert.SweetAlertDialog;
 import com.example.doctor360.R;
 import com.example.doctor360.helper.ConnectionDetector;
-import com.example.doctor360.model.PatientPasswordChangeReceiveParams;
-import com.example.doctor360.model.PatientPasswordChangeSendParams;
-import com.example.doctor360.model.PatientRegistrationSendParams;
-import com.example.doctor360.model.PendingDoctorReceiveParams;
+import com.example.doctor360.model.DoctorChangePasswordReceiveParams;
+import com.example.doctor360.model.DoctorChangePasswordSendParams;
 import com.example.doctor360.network.NetworkClient;
 import com.example.doctor360.network.ServiceGenerator;
-import com.example.doctor360.utils.Constants;
 import com.thecode.aestheticdialogs.AestheticDialog;
 import com.thecode.aestheticdialogs.DialogStyle;
 import com.thecode.aestheticdialogs.DialogType;
-
-import java.util.Properties;
-
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PatientPasswordChangeActivity extends AppCompatActivity {
+public class DoctorPasswordChangeActivity extends AppCompatActivity {
 
     CoordinatorLayout coordinatorLayout;
     Toolbar toolbar;
     AppCompatEditText edtNewPassword, edtOldPasssword, edtConfirmNewPass;
     Button btnResetPass;
     ConnectionDetector connectionDetector;
-    String strNewPass, strOldPass, strConfirmNewPass, strPatientId, strPatientEmail, patientName, patientStringImage;
-    private static final String TAG = "PatientPasswordChangeAc";
+    String strNewPass, strOldPass, strConfirmNewPass, strDoctorId, strDoctorEmail, doctorName, doctorStringImage;
+    private static final String TAG = "DoctorPasswordChangeAct";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_change_password);
+        setContentView(R.layout.activity_doctor_change_password);
 
-        toolbar = findViewById(R.id.patientPasswordToolbar);
+        toolbar = findViewById(R.id.doctorPasswordToolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        coordinatorLayout = findViewById(R.id.patientPasswordCoordinatorLayout);
-        edtOldPasssword = findViewById(R.id.edtPatientOldPassword);
-        edtNewPassword = findViewById(R.id.edtPatientNewPassword);
-        edtConfirmNewPass = findViewById(R.id.edtPatientConfirmNewPassword);
-        btnResetPass = findViewById(R.id.buttonPatientResetPassword);
+        coordinatorLayout = findViewById(R.id.doctorPasswordCoordinatorLayout);
+        edtOldPasssword = findViewById(R.id.edtDoctorOldPassword);
+        edtNewPassword = findViewById(R.id.edtDoctorNewPassword);
+        edtConfirmNewPass = findViewById(R.id.edtDoctorConfirmNewPassword);
+        btnResetPass = findViewById(R.id.buttonDoctorResetPassword);
 
         Intent intent = getIntent();
-        strPatientId = intent.getStringExtra("patient_profile_check_id");
-        strPatientEmail = intent.getStringExtra("patient_profile_check_email");
-        patientName = intent.getStringExtra("patient_profile_check_name");
-        patientStringImage = intent.getStringExtra("patient_profile_check_image");
+        strDoctorId = intent.getStringExtra("doctor_profile_check_id");
+        strDoctorEmail = intent.getStringExtra("doctor_profile_check_email");
+        doctorName = intent.getStringExtra("doctor_profile_check_name");
+        doctorStringImage = intent.getStringExtra("doctor_profile_check_image");
 
         connectionDetector = new ConnectionDetector(this);
 
         if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
-            new AestheticDialog.Builder(PatientPasswordChangeActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+            new AestheticDialog.Builder(DoctorPasswordChangeActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
                     .setTitle("Error")
                     .setMessage("No Internet Connection!!")
                     .setCancelable(true)
@@ -97,7 +82,7 @@ public class PatientPasswordChangeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
-                    new AestheticDialog.Builder(PatientPasswordChangeActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                    new AestheticDialog.Builder(DoctorPasswordChangeActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
                             .setTitle("Error")
                             .setMessage("No Internet Connection!!")
                             .setCancelable(true)
@@ -112,73 +97,73 @@ public class PatientPasswordChangeActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
-    private void checkFields(){
+    public void checkFields(){
         strOldPass = edtOldPasssword.getText().toString();
         strNewPass = edtNewPassword.getText().toString();
         strConfirmNewPass = edtConfirmNewPass.getText().toString();
 
         if(strOldPass.isEmpty()){
-            Toasty.error(PatientPasswordChangeActivity.this,"Please Enter Current Password",300).show();
+            Toasty.error(DoctorPasswordChangeActivity.this,"Please Enter Current Password",300).show();
         } else if(strNewPass.isEmpty()){
-            Toasty.error(PatientPasswordChangeActivity.this,"Please Enter New Password",300).show();
+            Toasty.error(DoctorPasswordChangeActivity.this,"Please Enter New Password",300).show();
         } else if(strConfirmNewPass.isEmpty()){
-            Toasty.error(PatientPasswordChangeActivity.this,"Please Enter Confirm Password",300).show();
+            Toasty.error(DoctorPasswordChangeActivity.this,"Please Enter Confirm Password",300).show();
         }  else if(!strConfirmNewPass.matches(strNewPass)){
-            Toasty.error(PatientPasswordChangeActivity.this,"New Password and Confirm New Password doesn't match",300).show();
+            Toasty.error(DoctorPasswordChangeActivity.this,"New Password and Confirm New Password doesn't match",300).show();
         } else {
-            changePatientPassword();
+            changeDoctorPassword();
         }
     }
 
-    public void changePatientPassword(){
+    public void changeDoctorPassword(){
         strOldPass = edtOldPasssword.getText().toString();
         strNewPass = edtNewPassword.getText().toString();
 
         NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
 
-        final SweetAlertDialog pDialog = new SweetAlertDialog(PatientPasswordChangeActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        final SweetAlertDialog pDialog = new SweetAlertDialog(DoctorPasswordChangeActivity.this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
         pDialog.setTitleText("Submitting Data....");
         pDialog.setCancelable(false);
         pDialog.show();
 
-        final PatientPasswordChangeSendParams patientPasswordChangeSendParams = new PatientPasswordChangeSendParams();
-        patientPasswordChangeSendParams.setCurrentpassword(strOldPass);
-        patientPasswordChangeSendParams.setPassword(strNewPass);
+        final DoctorChangePasswordSendParams sendParams = new DoctorChangePasswordSendParams();
+        sendParams.setCurrentpassword(strOldPass);
+        sendParams.setPassword(strNewPass);
 
-        Call<PatientPasswordChangeReceiveParams> call = networkClient.patientChangePassword(strPatientId, patientPasswordChangeSendParams);
-        call.enqueue(new Callback<PatientPasswordChangeReceiveParams>() {
+        Call<DoctorChangePasswordReceiveParams> call = networkClient.doctorChangePassword(strDoctorId, sendParams);
+        call.enqueue(new Callback<DoctorChangePasswordReceiveParams>() {
             @Override
-            public void onResponse(Call<PatientPasswordChangeReceiveParams> call, Response<PatientPasswordChangeReceiveParams> response) {
-                PatientPasswordChangeReceiveParams patientPasswordChangeReceiveParams = response.body();
+            public void onResponse(Call<DoctorChangePasswordReceiveParams> call, Response<DoctorChangePasswordReceiveParams> response) {
+                DoctorChangePasswordReceiveParams receiveParams = response.body();
 
                 if(response.body()!=null){
-                    String Status = patientPasswordChangeReceiveParams.getSuccess();
+                    String status = receiveParams.getSuccess();
 
-                    if(Status.matches("true")){
-                        new AestheticDialog.Builder(PatientPasswordChangeActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                    if(status.matches("true")){
+                        new AestheticDialog.Builder(DoctorPasswordChangeActivity.this, DialogStyle.RAINBOW, DialogType.SUCCESS)
                                 .setTitle("Error")
-                                .setMessage(patientPasswordChangeReceiveParams.getMessage())
+                                .setMessage(receiveParams.getMessage())
                                 .setCancelable(true)
                                 .setGravity(Gravity.BOTTOM)
                                 .setDuration(3000)
                                 .show();
                         pDialog.dismiss();
                     } else {
-                        new AestheticDialog.Builder(PatientPasswordChangeActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                        new AestheticDialog.Builder(DoctorPasswordChangeActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
                                 .setTitle("Error")
-                                .setMessage(patientPasswordChangeReceiveParams.getMessage())
+                                .setMessage(receiveParams.getMessage())
                                 .setCancelable(true)
                                 .setGravity(Gravity.BOTTOM)
                                 .setDuration(3000)
                                 .show();
                         pDialog.dismiss();
                     }
+
                 } else {
-                    new AestheticDialog.Builder(PatientPasswordChangeActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                    new AestheticDialog.Builder(DoctorPasswordChangeActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
                             .setTitle("Error")
                             .setMessage("Some Error occured at Server end. Please try again.")
                             .setCancelable(true)
@@ -190,23 +175,22 @@ public class PatientPasswordChangeActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<PatientPasswordChangeReceiveParams> call, Throwable t) {
+            public void onFailure(Call<DoctorChangePasswordReceiveParams> call, Throwable t) {
                 Log.d(TAG, "onFailure: "+ t.toString());
                 if(pDialog!= null && pDialog.isShowing()){
                     pDialog.dismiss();
                 }
             }
         });
-
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(getApplicationContext(), PatientDashboardActivity.class);
-        intent.putExtra("from_profile_id", strPatientId);
-        intent.putExtra("from_profile_name", patientName);
-        intent.putExtra("from_profile_image", patientStringImage);
+        Intent intent = new Intent(DoctorPasswordChangeActivity.this, DoctorDashboardActivity.class);
+        intent.putExtra("from_profile_id", strDoctorId);
+        intent.putExtra("from_profile_name", doctorName);
+        intent.putExtra("from_profile_image", doctorStringImage);
         startActivity(intent);
         finish();
     }
@@ -222,10 +206,10 @@ public class PatientPasswordChangeActivity extends AppCompatActivity {
         int id=item.getItemId();
         if(id==android.R.id.home)
         {
-            Intent intent=new Intent(PatientPasswordChangeActivity.this, PatientDashboardActivity.class);
-            intent.putExtra("from_profile_id", strPatientId);
-            intent.putExtra("from_profile_name", patientName);
-            intent.putExtra("from_profile_image", patientStringImage);
+            Intent intent=new Intent(DoctorPasswordChangeActivity.this, DoctorDashboardActivity.class);
+            intent.putExtra("from_profile_id", strDoctorId);
+            intent.putExtra("from_profile_name", doctorName);
+            intent.putExtra("from_profile_image", doctorStringImage);
             startActivity(intent);
             finish();
         }

@@ -3,11 +3,14 @@ package com.example.doctor360.network;
 
 import com.example.doctor360.model.AdminLoginReceiveParams;
 import com.example.doctor360.model.AdminLoginSendParams;
+import com.example.doctor360.model.DoctorChangePasswordReceiveParams;
+import com.example.doctor360.model.DoctorChangePasswordSendParams;
 import com.example.doctor360.model.DoctorLoginReceiveParams;
 import com.example.doctor360.model.DoctorLoginSendParams;
 import com.example.doctor360.model.DoctorProfileReceiveParams;
 import com.example.doctor360.model.DoctorRegistrationReceiveParams;
 import com.example.doctor360.model.DoctorRegistrationSendParams;
+import com.example.doctor360.model.DoctorUpdateProfileReceiveParams;
 import com.example.doctor360.model.PatientLoginReceiveParams;
 import com.example.doctor360.model.PatientLoginSendParams;
 import com.example.doctor360.model.PatientPasswordChangeReceiveParams;
@@ -15,6 +18,7 @@ import com.example.doctor360.model.PatientPasswordChangeSendParams;
 import com.example.doctor360.model.PatientProfileReceiveParams;
 import com.example.doctor360.model.PatientRegistrationReceiveParams;
 import com.example.doctor360.model.PatientRegistrationSendParams;
+import com.example.doctor360.model.PatientUpdateProfileReceiveParams;
 import com.example.doctor360.model.PendingDoctorReceiveParams;
 import com.example.doctor360.model.RejectDoctorReceiveParams;
 import com.example.doctor360.model.VerifiedDoctorReceiveParams;
@@ -78,10 +82,41 @@ public interface NetworkClient {
     @GET("patient/view/{id}")
     Call<PatientProfileReceiveParams> viewPatientProfile(@Path("id") String id);
 
+    @PUT("patient/changepassword/{id}")
+    Call<PatientPasswordChangeReceiveParams> patientChangePassword(@Path("id") String id, @Body PatientPasswordChangeSendParams passwordChangeSendParams);
+
+    @FormUrlEncoded
+    @PUT("patient/updateprofile/{id}")
+    Call<PatientUpdateProfileReceiveParams> updatePatientProfile(
+            @Path("id") String id,
+            @Field("name") String name,
+            @Field("address") String address,
+            @Field("email") String email,
+            @Field("mobile") String mobile,
+            @Field("gender") String gender,
+            @Field("age") String age,
+            @Field("bloodGroup") String blood,
+            @Field("profileImg") String encodedImage
+    );
+
     @GET("doctor/view/{id}")
     Call<DoctorProfileReceiveParams> viewDoctorProfile(@Path("id") String id);
 
-    @PUT("patient/changepassword/{id}")
-    Call<PatientPasswordChangeReceiveParams> patientChangePassword(@Path("id") String id, @Body PatientPasswordChangeSendParams passwordChangeSendParams);
+    @PUT("doctor/changepassword/{id}")
+    Call<DoctorChangePasswordReceiveParams> doctorChangePassword(@Path("id") String id, @Body DoctorChangePasswordSendParams passwordChangeSendParams);
+
+    @FormUrlEncoded
+    @PUT("doctor/updateprofile/{id}")
+    Call<DoctorUpdateProfileReceiveParams> updateDoctorProfile(
+            @Path("id") String id,
+            @Field("name") String name,
+            @Field("email") String email,
+            @Field("mobile") String mobile,
+            @Field("gender") String gender,
+            @Field("specialization") String specialization,
+            @Field("qualification") String qualification,
+            @Field("profileImg") String encodedImage,
+            @Field("documentImage") String encodedImage1
+    );
 
 }

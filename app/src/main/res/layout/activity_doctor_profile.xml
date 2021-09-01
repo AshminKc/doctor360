@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -87,6 +92,7 @@
                         android:textColor="@color/quarantine"
                         android:id="@+id/viewDoctorProfileName"
                         android:text="Mr. Samir Prasai"
+                        android:textAllCaps="true"
                         android:drawableStart="@drawable/ic_user"
                         android:drawablePadding="@dimen/_5sdp"
                         android:layout_marginStart="@dimen/_10sdp"
@@ -158,23 +164,6 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:padding="@dimen/_5sdp"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/_12sdp"
-                        android:textStyle="bold"
-                        android:textColor="@color/quarantine"
-                        android:id="@+id/txtViewDoctorProfileDocument"
-                        android:text="Document"
-                        android:layout_marginStart="@dimen/_18sdp" />
-
-                    <com.example.doctor360.utils.SquareImageView
-                        android:layout_width="@dimen/_70sdp"
-                        android:layout_height="@dimen/_70sdp"
-                        android:src="@drawable/noimage"
-                        android:layout_marginStart="@dimen/_18sdp"
-                        android:id="@+id/viewDoctorProfileDocument"/>
-
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -185,6 +174,7 @@
                 android:orientation="horizontal"
                 android:padding="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginBottom="@dimen/_25sdp"
                 android:weightSum="2">
 
                 <Button
@@ -221,3 +211,4 @@
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</ScrollView>

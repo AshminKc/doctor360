@@ -5,12 +5,15 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -63,6 +66,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
+    Bitmap bitmap;
     private SharedPreferences loginPreferences;
     private SharedPreferences.Editor loginPrefsEditor;
     private Boolean saveLogin;
@@ -71,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Button buttonSubmit, btnRegisterDoctor, btnRegisterPatient;
     CheckBox rememberCheck;
     ConnectionDetector connectionDetector;
-    String strEmail, strPassword, strUserType, strStatus;
+    String strEmail, strPassword, strUserType, strProfileImage, encodedImage, encodedImageDocProfile, strDoctorImage, strDoctorDocument, encodedImageDocument;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     private static final String TAG = "LoginActivity";
 
@@ -236,6 +240,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             Intent intent = new Intent(getApplicationContext(), DoctorDashboardActivity.class);
                             intent.putExtra("doctor_id", receiveParams.getData().get_id());
                             intent.putExtra("doctor_name", receiveParams.getData().getName());
+                            intent.putExtra("doctor_email", receiveParams.getData().getEmail());
+                            intent.putExtra("doctor_mobile", receiveParams.getData().getMobile());
+                            strDoctorImage = receiveParams.getData().getProfileImg();
+                            if(receiveParams.getData().getProfileImg()!=null){
+                                byte[] decodedString = Base64.decode(strDoctorImage, Base64.DEFAULT);
+                                bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                                encodedImageDocProfile = Base64.encodeToString(decodedString, Base64.DEFAULT);
+                                intent.putExtra("doctor_image", encodedImageDocProfile);
+                            } else {
+                                intent.putExtra("doctor_image", receiveParams.getData().getProfileImg());
+                            }
+
+                            strDoctorDocument = receiveParams.getData().getDocumentImage();
+                            if(receiveParams.getData().getDocumentImage()!=null){
+                                byte[] decodedString = Base64.decode(strDoctorDocument, Base64.DEFAULT);
+                                bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                                encodedImageDocument = Base64.encodeToString(decodedString, Base64.DEFAULT);
+                                intent.putExtra("doctor_document", encodedImageDocument);
+                            } else {
+                                intent.putExtra("doctor_document", receiveParams.getData().getDocumentImage());
+                            }
+
+                            intent.putExtra("doctor_quali", receiveParams.getData().getQualification());
+                            intent.putExtra("doctor_spec", receiveParams.getData().getSpecialization());
+                            intent.putExtra("doctor_gender", receiveParams.getData().getGender());
                             startActivity(intent);
                             overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                         } else {
@@ -301,7 +330,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         intent.putExtra("patient_id", receiveParams.getData().get_id());
                         intent.putExtra("patient_name", receiveParams.getData().getName());
                         intent.putExtra("patient_email", receiveParams.getData().getEmail());
-                        intent.putExtra("patient_image", receiveParams.getData().getProfileImg());
+                        strProfileImage = receiveParams.getData().getProfileImg();
+                        if(receiveParams.getData().getProfileImg()!=null){
+                            byte[] decodedString = Base64.decode(strProfileImage, Base64.DEFAULT);
+                            bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                            encodedImage = Base64.encodeToString(decodedString, Base64.DEFAULT);
+                            intent.putExtra("patient_image", encodedImage);
+                        } else {
+                            intent.putExtra("patient_image", receiveParams.getData().getProfileImg());
+                        }
+
+                        intent.putExtra("patient_address", receiveParams.getData().getAddress());
+                        intent.putExtra("patient_mobile", receiveParams.getData().getMobile());
+                        intent.putExtra("patient_age", receiveParams.getData().getAge());
+                        intent.putExtra("patient_blood", receiveParams.getData().getBloodGroup());
+                        intent.putExtra("patient_gender", receiveParams.getData().getGender());
                         startActivity(intent);
                         overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                     } else {

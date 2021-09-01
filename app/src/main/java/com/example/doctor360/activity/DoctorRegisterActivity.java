@@ -249,7 +249,7 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
         strEmail = email.getText().toString();
         strMobile = mobile.getText().toString();
         strQuali = spinnerQualification.getText().toString();
-        strMobile = spinnerDoctorGender.getText().toString();
+        strGender = spinnerDoctorGender.getText().toString();
         strSpec = spinnerSpecialization.getText().toString();
         strPassword = password.getText().toString();
 
@@ -259,7 +259,7 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
 
         String encodedImage= Base64.encodeToString(imageInByte,Base64.DEFAULT);
 
-        Call<DoctorRegistrationReceiveParams> call = networkClient.doctorRegister(strName, strEmail, strMobile, strGender, strQuali, strSpec, strPassword, encodedImage);
+        Call<DoctorRegistrationReceiveParams> call = networkClient.doctorRegister(strName, strEmail, strMobile, strGender, strSpec, strQuali, strPassword, encodedImage);
 
         final SweetAlertDialog pDialog = new SweetAlertDialog(DoctorRegisterActivity.this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -285,9 +285,6 @@ public class DoctorRegisterActivity extends AppCompatActivity implements View.On
                                 .show();
                         pDialog.dismiss();
                         verificationEmail();
-
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivity(intent);
 
                     } else {
                         new AestheticDialog.Builder(DoctorRegisterActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)

@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
 import com.example.doctor360.R;
@@ -44,6 +45,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 
@@ -59,10 +61,8 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
     DrawerLayout drawer;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
-    ByteArrayOutputStream baos;
-    byte[] imageBytes;
-    Bitmap decodedImage;
-    String patientName, patientID, patientEmail, patientImageView, nameFromProfile, IdFromProfile, emailFromProfile, imageFromProfile;
+    String patientName, patientID, patientEmail, patientImageView, nameFromProfile, IdFromProfile, emailFromProfile,
+            imageFromProfile, patientAddress, patientAge, patientMobile, patientBlood, patientGender;
     private static final String TAG = "PatientDashboardActivit";
 
     @Override
@@ -87,47 +87,36 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
 
         final Intent intent = getIntent();
         patientName =  intent.getStringExtra("patient_name");
+        patientAddress = intent.getStringExtra("patient_address");
+        patientMobile = intent.getStringExtra("patient_mobile");
         patientID =  intent.getStringExtra("patient_id");
         patientEmail = intent.getStringExtra("patient_email");
         patientImageView = intent.getStringExtra("patient_image");
+        patientGender = intent.getStringExtra("patient_gender");
+        patientAge = intent.getStringExtra("patient_age");
+        patientBlood = intent.getStringExtra("patient_blood");
 
-        Intent intent1 = getIntent();
+        final Intent intent1 = getIntent();
         IdFromProfile = intent1.getStringExtra("from_profile_id");
         nameFromProfile = intent1.getStringExtra("from_profile_name");
         emailFromProfile = intent1.getStringExtra("from_profile_email");
         imageFromProfile = intent1.getStringExtra("from_profile_image");
-
-        if(patientName!= null)
-            txtPatientLoginName.setText(patientName);
-        else
-            txtPatientLoginName.setText(nameFromProfile);
 
         if(nameFromProfile!= null)
             txtPatientLoginName.setText(nameFromProfile);
         else
             txtPatientLoginName.setText(patientName);
 
-        baos = new ByteArrayOutputStream();
+        if(patientName!= null)
+            txtPatientLoginName.setText(patientName);
+        else
+            txtPatientLoginName.setText(nameFromProfile);
 
         if(patientImageView!=null){
-            imageBytes = baos.toByteArray();
-            imageBytes = Base64.decode(patientImageView, Base64.DEFAULT);
-            decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-            patientLoginImage.setImageBitmap(decodedImage);
-            Log.d(TAG, "onCreate: No image IFP PIV");
+            byte[] decodedString = Base64.decode(patientImageView, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            patientLoginImage.setImageBitmap(bitmap);
         } else {
-            Log.d(TAG, "onCreate: No image PIMG");
-            patientLoginImage.setImageResource(R.drawable.noimage);
-        }
-
-        if(imageFromProfile!=null) {
-            imageBytes = baos.toByteArray();
-            imageBytes = Base64.decode(imageFromProfile, Base64.DEFAULT);
-            decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-            patientLoginImage.setImageBitmap(decodedImage);
-            Log.d(TAG, "onCreate: No image IFP BIT");
-        } else {
-            Log.d(TAG, "onCreate: No image IFP");
             patientLoginImage.setImageResource(R.drawable.noimage);
         }
 

@@ -29,7 +29,8 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="@dimen/_14sdp"
-            android:id="@+id/doctorLoginName" />
+            android:id="@+id/doctorLoginName"
+            android:textAllCaps="true"/>
 
         <TextView
             android:id="@+id/doctorViewProfile"

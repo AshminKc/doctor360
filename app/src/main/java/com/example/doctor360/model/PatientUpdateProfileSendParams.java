@@ -19,6 +19,7 @@ public class PatientUpdateProfileSendParams {
     private String email;
     private String gender;
     private String age;
+    private String bloodGroup;
     private String profileImg;
 
     public String getName() {
@@ -71,6 +72,14 @@ public class PatientUpdateProfileSendParams {
 
     public String getProfileImg() {
         return profileImg;
+    }
+
+    public String getBloodGroup() {
+        return bloodGroup;
+    }
+
+    public void setBloodGroup(String bloodGroup) {
+        this.bloodGroup = bloodGroup;
     }
 
     public void setProfileImg(String profileImg) {

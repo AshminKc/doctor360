@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,8 +27,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.example.doctor360.R;
+import com.example.doctor360.helper.ConnectionDetector;
 import com.example.doctor360.model.VerifiedDoctorReceiveParams;
 import com.squareup.picasso.Picasso;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
 
 import java.io.ByteArrayOutputStream;
 
@@ -42,6 +47,7 @@ public class VerifiedDoctorDescriptionActivity extends AppCompatActivity {
     VerifiedDoctorReceiveParams.DataBean verifiedReceiveParams;
     CoordinatorLayout coordinatorLayout;
     Toolbar toolbar;
+    ConnectionDetector connectionDetector;
     private static final String TAG = "VerifiedDoctorDescripti";
 
     @Override
@@ -67,11 +73,23 @@ public class VerifiedDoctorDescriptionActivity extends AppCompatActivity {
         statusDesTxt = findViewById(R.id.verifiedDoctorStatus);
         coordinatorLayout = findViewById(R.id.verifiedCoordinatorLayout);
 
+        connectionDetector = new ConnectionDetector(VerifiedDoctorDescriptionActivity.this);
+
+        if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
+            new AestheticDialog.Builder(VerifiedDoctorDescriptionActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                    .setTitle("Error")
+                    .setMessage("No Internet Connection!!")
+                    .setCancelable(true)
+                    .setGravity(Gravity.BOTTOM)
+                    .setDuration(3000)
+                    .show();
+        }
+
         Intent intent = getIntent();
         verifiedReceiveParams = (VerifiedDoctorReceiveParams.DataBean) intent.getSerializableExtra("obj");
 
         toolbarText.setText("Details of " + verifiedReceiveParams.getName());
-        nameDecTxt.setText(verifiedReceiveParams.getName());
+        nameDecTxt.setText("DR. "+verifiedReceiveParams.getName());
         mobileDesTxt.setText(verifiedReceiveParams.getMobile());
         emailDesTxt.setText(verifiedReceiveParams.getEmail());
         genderDesTxt.setText(verifiedReceiveParams.getGender());

@@ -167,6 +167,10 @@
             android:name=".activity.DoctorUpdateProfileActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RequestDoctorDetailsActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

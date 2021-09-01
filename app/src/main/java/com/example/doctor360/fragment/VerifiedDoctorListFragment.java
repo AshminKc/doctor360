@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.cazaea.sweetalert.SweetAlertDialog;
 import com.example.doctor360.R;
+import com.example.doctor360.activity.DoctorUpdateProfileActivity;
 import com.example.doctor360.adapter.PendingDoctorListAdapter;
 import com.example.doctor360.adapter.VerifiedDoctorListAdapter;
 import com.example.doctor360.helper.ConnectionDetector;
@@ -28,6 +30,9 @@ import com.example.doctor360.network.NetworkClient;
 import com.example.doctor360.network.ServiceGenerator;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.orhanobut.hawk.Hawk;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +67,6 @@ public class VerifiedDoctorListFragment extends Fragment {
 
         context= getContext();
         connectionDetector = new ConnectionDetector(context);
-        Hawk.init(context).build();
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -110,15 +114,24 @@ public class VerifiedDoctorListFragment extends Fragment {
             @Override
             public void onResponse(Call<VerifiedDoctorReceiveParams> call, Response<VerifiedDoctorReceiveParams> response) {
                 Log.d(TAG, "onResponse: Success");
-
-
-                final VerifiedDoctorReceiveParams doctorReceiveParams = response.body();
-                verifiedList = new ArrayList<VerifiedDoctorReceiveParams.DataBean>(doctorReceiveParams.getData());
-                verifiedDoctorListAdapter = new VerifiedDoctorListAdapter(verifiedList, context);
-                recyclerView.setAdapter(verifiedDoctorListAdapter);
-                refreshLayout.setRefreshing(false);
-                mShimmerLayout.stopShimmerAnimation();
-                mShimmerLayout.setVisibility(View.GONE);
+                if(response.body()!=null){
+                    final VerifiedDoctorReceiveParams doctorReceiveParams = response.body();
+                    verifiedList = new ArrayList<VerifiedDoctorReceiveParams.DataBean>(doctorReceiveParams.getData());
+                    verifiedDoctorListAdapter = new VerifiedDoctorListAdapter(verifiedList, context);
+                    recyclerView.setAdapter(verifiedDoctorListAdapter);
+                    refreshLayout.setRefreshing(false);
+                    mShimmerLayout.stopShimmerAnimation();
+                    mShimmerLayout.setVisibility(View.GONE);
+                } else {
+                    new AestheticDialog.Builder(getActivity(), DialogStyle.RAINBOW, DialogType.ERROR)
+                            .setTitle("Error")
+                            .setMessage("Some Error occurred at Server end. Please try again.")
+                            .setCancelable(true)
+                            .setGravity(Gravity.BOTTOM)
+                            .setDuration(3000)
+                            .show();
+                    refreshLayout.setRefreshing(false);
+                }
             }
 
             @Override

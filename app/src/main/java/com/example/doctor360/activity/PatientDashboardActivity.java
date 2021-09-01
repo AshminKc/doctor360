@@ -11,6 +11,7 @@ import com.example.doctor360.R;
 import com.example.doctor360.fragment.AboutUsFragment;
 import com.example.doctor360.fragment.FAQFragment;
 import com.example.doctor360.fragment.PrivacyPolicyFragment;
+import com.example.doctor360.fragment.RequestDoctorFragment;
 import com.example.doctor360.helper.ConnectionDetector;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.internal.NavigationMenuView;
@@ -28,6 +29,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.orhanobut.hawk.Hawk;
 import com.squareup.picasso.Picasso;
 import com.thecode.aestheticdialogs.AestheticDialog;
 import com.thecode.aestheticdialogs.DialogStyle;
@@ -95,6 +97,9 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
         patientGender = intent.getStringExtra("patient_gender");
         patientAge = intent.getStringExtra("patient_age");
         patientBlood = intent.getStringExtra("patient_blood");
+
+        Hawk.init(getApplicationContext()).build();
+        Hawk.put("request_patient_id", patientID);
 
         final Intent intent1 = getIntent();
         IdFromProfile = intent1.getStringExtra("from_profile_id");
@@ -266,6 +271,15 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
                 imgToolbar.setImageResource(R.drawable.logo);
                 break;*/
             }
+
+            case R.id.nav_request_doctor:{
+                getSupportFragmentManager().popBackStackImmediate();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer1,new RequestDoctorFragment()).addToBackStack("").commit();
+                toolbarTitle.setText(getString(R.string.menu_request_doctor));
+                break;
+            }
+
 
             case R.id.nav_patient_faq: {
                 getSupportFragmentManager().popBackStackImmediate();

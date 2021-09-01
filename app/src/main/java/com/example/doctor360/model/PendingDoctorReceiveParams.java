@@ -48,6 +48,7 @@ public class PendingDoctorReceiveParams {
 
         private int status;
         private String usertype;
+        private String profileImg;
         private String documentImage;
         private String _id;
         private String name;
@@ -73,6 +74,14 @@ public class PendingDoctorReceiveParams {
 
         public void setUsertype(String usertype) {
             this.usertype = usertype;
+        }
+
+        public String getProfileImg() {
+            return profileImg;
+        }
+
+        public void setProfileImg(String profileImg) {
+            this.profileImg = profileImg;
         }
 
         public String getDocumentImage() {

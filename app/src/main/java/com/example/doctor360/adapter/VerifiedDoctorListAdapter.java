@@ -44,7 +44,7 @@ public class VerifiedDoctorListAdapter extends RecyclerView.Adapter<RecyclerView
         final VerifiedDoctorReceiveParams.DataBean receiveParams = verifiedDoctorList.get(position);
 
         final VerifiedDoctorListAdapter.DoctorViewHolder doctorViewHolder = (VerifiedDoctorListAdapter.DoctorViewHolder) holder;
-        doctorViewHolder.nameTxt.setText(receiveParams.getName());
+        doctorViewHolder.nameTxt.setText("DR. "+receiveParams.getName());
         doctorViewHolder.mobileTxt.setText(receiveParams.getMobile());
         doctorViewHolder.emailTxt.setText(receiveParams.getEmail());
         doctorViewHolder.genderTxt.setText(receiveParams.getGender());

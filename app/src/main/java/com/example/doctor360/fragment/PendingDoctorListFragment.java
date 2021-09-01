@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,9 @@ import com.example.doctor360.network.NetworkClient;
 import com.example.doctor360.network.ServiceGenerator;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.orhanobut.hawk.Hawk;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,13 +112,25 @@ public class PendingDoctorListFragment extends Fragment {
             public void onResponse(Call<PendingDoctorReceiveParams> call, Response<PendingDoctorReceiveParams> response) {
                 Log.d(TAG, "onResponse: Success");
 
-                final PendingDoctorReceiveParams doctorReceiveParams = response.body();
-                pendingList = new ArrayList<PendingDoctorReceiveParams.DataBean>(doctorReceiveParams.getData());
-                pendingDoctorListAdapter = new PendingDoctorListAdapter(pendingList, context);
-                recyclerView.setAdapter(pendingDoctorListAdapter);
-                refreshLayout.setRefreshing(false);
-                mShimmerLayout.stopShimmerAnimation();
-                mShimmerLayout.setVisibility(View.GONE);
+                if(response.body()!=null){
+                    final PendingDoctorReceiveParams doctorReceiveParams = response.body();
+                    pendingList = new ArrayList<PendingDoctorReceiveParams.DataBean>(doctorReceiveParams.getData());
+                    pendingDoctorListAdapter = new PendingDoctorListAdapter(pendingList, context);
+                    recyclerView.setAdapter(pendingDoctorListAdapter);
+                    refreshLayout.setRefreshing(false);
+                    mShimmerLayout.stopShimmerAnimation();
+                    mShimmerLayout.setVisibility(View.GONE);
+                } else {
+                    new AestheticDialog.Builder(getActivity(), DialogStyle.RAINBOW, DialogType.ERROR)
+                            .setTitle("Error")
+                            .setMessage("Some Error occurred at Server end. Please try again.")
+                            .setCancelable(true)
+                            .setGravity(Gravity.BOTTOM)
+                            .setDuration(3000)
+                            .show();
+                    refreshLayout.setRefreshing(false);
+                }
+
             }
 
             @Override

@@ -43,7 +43,7 @@ public class PendingDoctorListAdapter extends RecyclerView.Adapter<RecyclerView.
         final PendingDoctorReceiveParams.DataBean receiveParams = pendingDoctorList.get(position);
 
         final PendingDoctorListAdapter.DoctorViewHolder doctorViewHolder = (DoctorViewHolder) holder;
-        doctorViewHolder.nameTxt.setText(receiveParams.getName());
+        doctorViewHolder.nameTxt.setText("DR. "+receiveParams.getName());
         doctorViewHolder.mobileTxt.setText(receiveParams.getMobile());
         doctorViewHolder.emailTxt.setText(receiveParams.getEmail());
         doctorViewHolder.genderTxt.setText(receiveParams.getGender());

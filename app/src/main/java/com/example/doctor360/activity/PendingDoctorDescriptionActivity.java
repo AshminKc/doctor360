@@ -30,6 +30,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.cazaea.sweetalert.SweetAlertDialog;
 import com.example.doctor360.R;
+import com.example.doctor360.helper.ConnectionDetector;
 import com.example.doctor360.model.PendingDoctorReceiveParams;
 import com.example.doctor360.model.RejectDoctorReceiveParams;
 import com.example.doctor360.model.VerifiedDoctorReceiveParams;
@@ -66,6 +67,7 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
     PendingDoctorReceiveParams.DataBean pendingReceiveParams;
     CoordinatorLayout coordinatorLayout;
     Toolbar toolbar;
+    ConnectionDetector connectionDetector;
     private static final String TAG = "PendingDoctorDescriptio";
 
     @Override
@@ -97,7 +99,7 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
         pendingReceiveParams = (PendingDoctorReceiveParams.DataBean) intent.getSerializableExtra("obj");
 
         toolbarText.setText("Details of " + pendingReceiveParams.getName());
-        nameDecTxt.setText(pendingReceiveParams.getName());
+        nameDecTxt.setText("DR. "+pendingReceiveParams.getName());
         mobileDesTxt.setText(pendingReceiveParams.getMobile());
         emailDesTxt.setText(pendingReceiveParams.getEmail());
         genderDesTxt.setText(pendingReceiveParams.getGender());
@@ -117,17 +119,49 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
         Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
         documentDesImage.setImageBitmap(decodedImage);
 
+        connectionDetector = new ConnectionDetector(PendingDoctorDescriptionActivity.this);
+
+        if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
+            new AestheticDialog.Builder(PendingDoctorDescriptionActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                    .setTitle("Error")
+                    .setMessage("No Internet Connection!!")
+                    .setCancelable(true)
+                    .setGravity(Gravity.BOTTOM)
+                    .setDuration(3000)
+                    .show();
+        }
+
         btnVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                verifyDoctor();
+                if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
+                    new AestheticDialog.Builder(PendingDoctorDescriptionActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                            .setTitle("Error")
+                            .setMessage("No Internet Connection!!")
+                            .setCancelable(true)
+                            .setGravity(Gravity.BOTTOM)
+                            .setDuration(3000)
+                            .show();
+                } else {
+                    verifyDoctor();
+                }
             }
         });
 
         btnReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rejectDoctor();
+                if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
+                    new AestheticDialog.Builder(PendingDoctorDescriptionActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                            .setTitle("Error")
+                            .setMessage("No Internet Connection!!")
+                            .setCancelable(true)
+                            .setGravity(Gravity.BOTTOM)
+                            .setDuration(3000)
+                            .show();
+                } else {
+                    rejectDoctor();
+                }
             }
         });
 

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/requestCoordinatorLayoutDetails"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/requestDoctorToolbarDetails"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:textColor="@color/white"
+                android:text="Request Doctor Details"
+                android:id="@+id/requestDoctorToolbarTitleDetails"
+                android:gravity="start"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_7sdp"
+            android:layout_margin="@dimen/_7sdp">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_90sdp"
+                        android:src="@drawable/noimage"
+                        android:scaleType="centerCrop"
+                        android:id="@+id/requestDoctorProfileImageDetails"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginStart="@dimen/_70sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Doctor Name"
+                        android:textSize="@dimen/_14sdp"
+                        android:textColor="@color/grey"
+                        android:id="@+id/requestDoctorNameDetails"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_below="@+id/requestDoctorProfileImageDetails"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Doctor Mobile"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/grey"
+                        android:gravity="center_vertical"
+                        android:id="@+id/requestDoctorMobileDetails"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/requestDoctorNameDetails"
+                        android:drawableStart="@drawable/ic_mobile"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Doctor Email"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/grey"
+                        android:id="@+id/requestDoctorEmailDetails"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/requestDoctorMobileDetails"
+                        android:drawableStart="@drawable/ic_email"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/requestDoctorGenderDetails"
+                        android:text="Male"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:drawableStart="@drawable/ic_user"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_below="@+id/requestDoctorEmailDetails"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Doctor Qualification"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/grey"
+                        android:id="@+id/requestDoctorQualificationDetails"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/requestDoctorGenderDetails"
+                        android:drawableStart="@drawable/ic_qualification"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Doctor Specialization"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/grey"
+                        android:id="@+id/requestDoctorSpecializationDetails"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/requestDoctorQualificationDetails"
+                        android:drawableStart="@drawable/ic_specialization"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Doctor Status"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/grey"
+                        android:id="@+id/requestDoctorStatusDetails"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/requestDoctorSpecializationDetails"
+                        android:drawableStart="@drawable/ic_status"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Document"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary"
+                        android:id="@+id/requestDoctorImgTxtDetails"
+                        android:layout_marginStart="@dimen/_25sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/requestDoctorStatusDetails"/>
+
+                    <com.example.doctor360.utils.SquareImageView
+                        android:layout_width="@dimen/_180sdp"
+                        android:layout_height="@dimen/_120sdp"
+                        android:layout_marginStart="@dimen/_25sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:src="@drawable/noimage"
+                        android:scaleType="centerCrop"
+                        android:id="@+id/requestDoctorDocumentImageDetails"
+                        android:contentDescription="@string/app_name"
+                        android:layout_below="@+id/requestDoctorImgTxtDetails"/>
+
+                    <Button
+                        android:id="@+id/btnSendRequestDoctorDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:layout_marginStart="@dimen/_25sdp"
+                        android:layout_marginBottom="@dimen/_20sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:background="@drawable/doctor_round_bg"
+                        android:text="@string/request"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_10sdp"
+                        android:textStyle="bold"
+                        android:drawableStart="@drawable/ic_verify"
+                        android:drawablePadding="@dimen/_2sdp"
+                        android:layout_below="@+id/requestDoctorDocumentImageDetails"/>
+
+                    <Button
+                        android:id="@+id/btnCancelRequestDoctorDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginBottom="@dimen/_20sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:background="@drawable/reject_round_bg"
+                        android:text="@string/cancel"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_10sdp"
+                        android:textStyle="bold"
+                        android:drawableStart="@drawable/ic_reject"
+                        android:drawablePadding="@dimen/_2sdp"
+                        android:layout_below="@+id/requestDoctorDocumentImageDetails"
+                        android:layout_toRightOf="@+id/btnSendRequestDoctorDetails"/>
+
+                </RelativeLayout>
+
+            </ScrollView>
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

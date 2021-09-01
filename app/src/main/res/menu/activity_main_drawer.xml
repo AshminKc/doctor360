@@ -9,17 +9,17 @@
             android:icon="@drawable/ic_home_black_24dp"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_doctor_request"
+            android:id="@+id/nav_request_doctor"
+            android:icon="@drawable/ic_person"
+            android:title="@string/menu_request_doctor" />
+        <item
+            android:id="@+id/nav_referred_doctors"
             android:icon="@drawable/ic_touch_app_black_24dp"
             android:title="@string/menu_request" />
         <item
             android:id="@+id/nav_patient_chat_room"
             android:icon="@drawable/ic_voice_chat_black_24dp"
             android:title="@string/menu_chat_room" />
-        <item
-            android:id="@+id/nav_doctors_list"
-            android:icon="@drawable/ic_person"
-            android:title="@string/menu_doctors" />
         <item
             android:id="@+id/nav_patient_faq"
             android:icon="@drawable/ic_question_answer_black_24dp"

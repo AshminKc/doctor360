@@ -12,7 +12,7 @@
             android:id="@+id/dialogDocImage"
             android:contentDescription="@string/app_name"
             android:src="@drawable/noimage"
-            android:scaleType="fitXY"/>
+            android:scaleType="centerCrop"/>
 
 
 </RelativeLayout >

@@ -258,7 +258,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 intent.putExtra("doctor_email", receiveParams.getData().getEmail());
                                 intent.putExtra("doctor_mobile", receiveParams.getData().getMobile());
                                 intent.putExtra("doctor_image", receiveParams.getData().getProfileImg());
-                                intent.putExtra("doctor_document", receiveParams.getData().getDocumentImage());
                                 intent.putExtra("doctor_quali", receiveParams.getData().getQualification());
                                 intent.putExtra("doctor_spec", receiveParams.getData().getSpecialization());
                                 intent.putExtra("doctor_gender", receiveParams.getData().getGender());

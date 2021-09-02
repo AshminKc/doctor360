@@ -64,7 +64,7 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     String patientName, patientID, patientEmail, patientImageView, nameFromProfile, IdFromProfile, emailFromProfile,
-            imageFromProfile, patientAddress, patientAge, patientMobile, patientBlood, patientGender;
+            imageFromProfile, patientAddress, patientAge, patientMobile, patientBlood, patientGender, strPatientID;
     private static final String TAG = "PatientDashboardActivit";
 
     @Override
@@ -107,6 +107,16 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
         emailFromProfile = intent1.getStringExtra("from_profile_email");
         imageFromProfile = intent1.getStringExtra("from_profile_image");
 
+        if(IdFromProfile!= null)
+           strPatientID  = IdFromProfile;
+        else
+            strPatientID = patientID;
+
+        if(patientID!= null)
+            strPatientID = patientID;
+        else
+            strPatientID = IdFromProfile;
+
         if(nameFromProfile!= null)
             txtPatientLoginName.setText(nameFromProfile);
         else
@@ -133,10 +143,14 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(PatientDashboardActivity.this, PatientProfileActivity.class);
-                intent1.putExtra("patient_profile_id", patientID);
+                intent1.putExtra("patient_profile_id", strPatientID);
                 intent1.putExtra("patient_profile_name", patientName);
                 intent1.putExtra("patient_profile_email", patientEmail);
-                intent1.putExtra("patient_profile_image", patientImageView);
+                if(patientImageView!=null){
+                    intent1.putExtra("patient_profile_image", patientImageView);
+                } else  {
+                    intent1.putExtra("patient_profile_image", imageFromProfile);
+                }
                 startActivity(intent1);
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                 finish();

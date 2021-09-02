@@ -25,6 +25,7 @@ import com.cazaea.sweetalert.SweetAlertDialog;
 import com.example.doctor360.R;
 import com.example.doctor360.helper.ConnectionDetector;
 import com.example.doctor360.model.DoctorRegistrationReceiveParams;
+import com.example.doctor360.model.PatientProfileReceiveParams;
 import com.example.doctor360.model.PatientUpdateProfileReceiveParams;
 import com.example.doctor360.network.NetworkClient;
 import com.example.doctor360.network.ServiceGenerator;
@@ -89,30 +90,85 @@ public class PatientUpdateProfileActivity extends AppCompatActivity implements V
         Intent intent = getIntent();
         strPatientId = intent.getStringExtra("patient_update_id");
         strUpdateName = intent.getStringExtra("patient_update_name");
-        strUpdateAddress = intent.getStringExtra("patient_update_address");
-        strUpdateMobile = intent.getStringExtra("patient_update_mobile");
-        strUpdateEmail = intent.getStringExtra("patient_update_email");
-        strUpdateGender = intent.getStringExtra("patient_update_gender");
-        strUpdateAge = intent.getStringExtra("patient_update_age");
-        strUpdateBlood = intent.getStringExtra("patient_update_blood");
         strUpdatePP = intent.getStringExtra("patient_update_image");
 
-        edtUpdateName.setText(strUpdateName);
-        edtUpdateAddress.setText(strUpdateAddress);
-        edtUpdateMobile.setText(strUpdateMobile);
-        edtUpdateEmail.setText(strUpdateEmail);
-        edtUpdateGender.setText(strUpdateGender);
-        txtCurrentAge.setText(strUpdateAge);
-        txtCurrentBlood.setText(strUpdateBlood);
+        connectionDetector = new ConnectionDetector(PatientUpdateProfileActivity.this);
 
-        if(strUpdatePP!=null){
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] imageBytes = baos.toByteArray();
-            imageBytes = Base64.decode(strUpdatePP, Base64.DEFAULT);
-            Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-            imagePatientProfile.setImageBitmap(decodedImage);
+        if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
+            new AestheticDialog.Builder(PatientUpdateProfileActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                    .setTitle("Error")
+                    .setMessage("No Internet Connection!!")
+                    .setCancelable(true)
+                    .setGravity(Gravity.BOTTOM)
+                    .setDuration(2500)
+                    .show();
         } else {
-            imagePatientProfile.setImageResource(R.drawable.noimage);
+            NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
+            final SweetAlertDialog pDialog = new SweetAlertDialog(PatientUpdateProfileActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog.setTitleText("Fetching Data..");
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+            Call<PatientProfileReceiveParams> call = networkClient.viewPatientProfile(strPatientId);
+            call.enqueue(new Callback<PatientProfileReceiveParams>() {
+                @Override
+                public void onResponse(Call<PatientProfileReceiveParams> call, Response<PatientProfileReceiveParams> response) {
+                    pDialog.dismiss();
+
+                    PatientProfileReceiveParams receiveParams = response.body();
+
+                    if(response.body()!=null){
+                        String success = receiveParams.getSuccess();
+
+                        if(success.matches("true")){
+                            edtUpdateName.setText(receiveParams.getData().getName());
+                            edtUpdateAddress.setText(receiveParams.getData().getAddress());
+                            edtUpdateMobile.setText(receiveParams.getData().getMobile());
+                            edtUpdateEmail.setText(receiveParams.getData().getEmail());
+                            edtUpdateGender.setText(receiveParams.getData().getGender());
+                            txtCurrentAge.setText(String.valueOf(receiveParams.getData().getAge()));
+                            txtCurrentBlood.setText(receiveParams.getData().getBloodGroup());
+
+                            if(receiveParams.getData().getProfileImg()!=null){
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                byte[] imageBytes = baos.toByteArray();
+                                imageBytes = Base64.decode(receiveParams.getData().getProfileImg(), Base64.DEFAULT);
+                                Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                                imagePatientProfile.setImageBitmap(decodedImage);
+                            } else {
+                                imagePatientProfile.setImageResource(R.drawable.noimage);
+                            }
+                        } else {
+                            new AestheticDialog.Builder(PatientUpdateProfileActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                    .setTitle("Error")
+                                    .setMessage("Couldn't fetch data at the moment.")
+                                    .setCancelable(true)
+                                    .setGravity(Gravity.BOTTOM)
+                                    .setDuration(3000)
+                                    .show();
+                            pDialog.dismiss();
+                        }
+                    } else {
+                        new AestheticDialog.Builder(PatientUpdateProfileActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                .setTitle("Error")
+                                .setMessage("Some Error occured at Server end. Please try again.")
+                                .setCancelable(true)
+                                .setGravity(Gravity.BOTTOM)
+                                .setDuration(3000)
+                                .show();
+                        pDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<PatientProfileReceiveParams> call, Throwable t) {
+                    Log.d(TAG, "onFailure: Verify " + t.toString());
+                    if(pDialog!= null && pDialog.isShowing()){
+                        pDialog.dismiss();
+                    }
+                }
+            });
         }
 
         spinnerUpdateBlood.setItems("Select", "A+","A-","B+","B-","O+","O-","AB+","AB-");
@@ -155,7 +211,6 @@ public class PatientUpdateProfileActivity extends AppCompatActivity implements V
             }
         });
 
-        connectionDetector = new ConnectionDetector(PatientUpdateProfileActivity.this);
 
         if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
             new AestheticDialog.Builder(PatientUpdateProfileActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)

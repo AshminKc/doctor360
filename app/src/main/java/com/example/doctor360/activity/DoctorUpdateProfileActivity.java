@@ -24,6 +24,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.cazaea.sweetalert.SweetAlertDialog;
 import com.example.doctor360.R;
 import com.example.doctor360.helper.ConnectionDetector;
+import com.example.doctor360.model.DoctorProfileReceiveParams;
 import com.example.doctor360.model.DoctorUpdateProfileReceiveParams;
 import com.example.doctor360.network.NetworkClient;
 import com.example.doctor360.network.ServiceGenerator;
@@ -64,7 +65,7 @@ public class DoctorUpdateProfileActivity extends AppCompatActivity implements Vi
     private static final String TAG = "DoctorUpdateProfileActi";
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activty_doctor_update_profile);
 
@@ -92,42 +93,96 @@ public class DoctorUpdateProfileActivity extends AppCompatActivity implements Vi
         Intent intent = getIntent();
         strDoctorId = intent.getStringExtra("doctor_update_id");
         strUpdateName = intent.getStringExtra("doctor_update_name");
-        strUpdateMobile = intent.getStringExtra("doctor_update_mobile");
-        strUpdateEmail = intent.getStringExtra("doctor_update_email");
-        strUpdateGender = intent.getStringExtra("doctor_update_gender");
-        strUpdateQuali = intent.getStringExtra("doctor_update_quali");
-        strUpdateSpec = intent.getStringExtra("doctor_update_spec");
         strUpdatePP = intent.getStringExtra("doctor_update_image");
-        strUpdateDocumentPic = intent.getStringExtra("doctor_update_document");
 
-        edtUpdateName.setText(strUpdateName);
-        edtUpdateMobile.setText(strUpdateMobile);
-        edtUpdateEmail.setText(strUpdateEmail);
-        edtUpdateGender.setText(strUpdateGender);
-        txtCurrentQuali.setText(strUpdateQuali);
-        txtCurrentSpec.setText(strUpdateSpec);
+        connectionDetector = new ConnectionDetector(DoctorUpdateProfileActivity.this);
 
-        if(strUpdateDocumentPic!=null){
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] imageBytes = baos.toByteArray();
-            imageBytes = Base64.decode(strUpdateDocumentPic, Base64.DEFAULT);
-            Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-            imageDoctorDocument.setImageBitmap(decodedImage);
+        if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
+            new AestheticDialog.Builder(DoctorUpdateProfileActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                    .setTitle("Error")
+                    .setMessage("No Internet Connection!!")
+                    .setCancelable(true)
+                    .setGravity(Gravity.BOTTOM)
+                    .setDuration(3000)
+                    .show();
         } else {
-            imageDoctorDocument.setImageResource(R.drawable.noimage);
-        }
+            NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
+            final SweetAlertDialog pDialog = new SweetAlertDialog(DoctorUpdateProfileActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog.setTitleText("Fetching Data..");
+            pDialog.setCancelable(false);
+            pDialog.show();
 
-        if(strUpdatePP!=null){
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] imageBytes = baos.toByteArray();
-            imageBytes = Base64.decode(strUpdatePP, Base64.DEFAULT);
-            Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-            imageDoctorProfile.setImageBitmap(decodedImage);
-        } else {
-            imageDoctorProfile.setImageResource(R.drawable.noimage);
-        }
+            Call<DoctorProfileReceiveParams> call = networkClient.viewDoctorProfile(strDoctorId);
+            call.enqueue(new Callback<DoctorProfileReceiveParams>() {
+                @Override
+                public void onResponse(Call<DoctorProfileReceiveParams> call, Response<DoctorProfileReceiveParams> response) {
+                    pDialog.dismiss();
 
-        imageDoctorProfile.setImageResource(R.drawable.noimage);
+                    final DoctorProfileReceiveParams receiveParams = response.body();
+                    if(response.body()!=null){
+                        String status = receiveParams.getSuccess();
+
+                        if(status.matches("true")){
+
+                            edtUpdateName.setText(receiveParams.getData().getName());
+                            edtUpdateMobile.setText(receiveParams.getData().getMobile());
+                            edtUpdateEmail.setText(receiveParams.getData().getEmail());
+                            edtUpdateGender.setText(receiveParams.getData().getGender());
+                            txtCurrentQuali.setText(receiveParams.getData().getQualification());
+                            txtCurrentSpec.setText(receiveParams.getData().getSpecialization());
+
+                            if(receiveParams.getData().getDocumentImage()!=null){
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                byte[] imageBytes = baos.toByteArray();
+                                imageBytes = Base64.decode(receiveParams.getData().getDocumentImage(), Base64.DEFAULT);
+                                Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                                imageDoctorDocument.setImageBitmap(decodedImage);
+                            } else {
+                                imageDoctorDocument.setImageResource(R.drawable.noimage);
+                            }
+
+                            if(receiveParams.getData().getProfileImg()!=null){
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                byte[] imageBytes = baos.toByteArray();
+                                imageBytes = Base64.decode(receiveParams.getData().getProfileImg(), Base64.DEFAULT);
+                                Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                                imageDoctorProfile.setImageBitmap(decodedImage);
+                            } else {
+                                imageDoctorProfile.setImageResource(R.drawable.noimage);
+                            }
+
+                        } else {
+                            new AestheticDialog.Builder(DoctorUpdateProfileActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                    .setTitle("Error")
+                                    .setMessage("Couldn't fetch data at the moment.")
+                                    .setCancelable(true)
+                                    .setGravity(Gravity.BOTTOM)
+                                    .setDuration(3000)
+                                    .show();
+                            pDialog.dismiss();
+                        }
+                    } else {
+                        new AestheticDialog.Builder(DoctorUpdateProfileActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                .setTitle("Error")
+                                .setMessage("Some Error occured at Server end. Please try again.")
+                                .setCancelable(true)
+                                .setGravity(Gravity.BOTTOM)
+                                .setDuration(3000)
+                                .show();
+                        pDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<DoctorProfileReceiveParams> call, Throwable t) {
+                    Log.d(TAG, "onFailure: Verify " + t.toString());
+                    if(pDialog!= null && pDialog.isShowing()){
+                        pDialog.dismiss();
+                    }
+                }
+            });
+        }
 
         spinnerUpdateQuali.setItems("Select", "Bachelor of Medicine (MBBS, BMBS, MBChB, MBBCh)","Bachelor of Surgery (MBBS, BMBS, MBChB, MBBCh)",
                 "Bachelor of Medicine (B.Med)","Bachelor of Surgery (B.S)/(B.Surg)","Doctor of Medicine (MD, Dr.MuD, Dr.Med)",
@@ -176,8 +231,6 @@ public class DoctorUpdateProfileActivity extends AppCompatActivity implements Vi
             public void onNothingSelected(MaterialSpinner spinner) {
             }
         });
-
-        connectionDetector = new ConnectionDetector(DoctorUpdateProfileActivity.this);
 
         if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
             new AestheticDialog.Builder(DoctorUpdateProfileActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)

@@ -38,6 +38,7 @@ import com.thecode.aestheticdialogs.DialogType;
 import java.io.ByteArrayOutputStream;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -75,6 +76,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
         btnUpdateProfile = findViewById(R.id.buttonDoctorUpdateProfile);
         btnChangePassword = findViewById(R.id.buttonDoctorChangePassword);
 
+
         final Intent intent = getIntent();
         doctorId = intent.getStringExtra("doctor_profile_id");
         doctorName  = intent.getStringExtra("doctor_profile_name");
@@ -88,7 +90,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
                 Intent intent1 = new Intent(DoctorProfileActivity.this, DoctorPasswordChangeActivity.class);
                 intent1.putExtra("doctor_profile_check_id", doctorId);
                 intent1.putExtra("doctor_profile_check_email", doctorEmail);
-                intent1.putExtra("doctor_profile_check_name", doctorName);
+                intent1.putExtra("doctor_profile_check_name", txtName.getText().toString().substring(4));
                 intent1.putExtra("doctor_profile_check_image", profileImage);
                 startActivity(intent1);
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
@@ -101,14 +103,8 @@ public class DoctorProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent1 = new Intent(DoctorProfileActivity.this, DoctorUpdateProfileActivity.class);
                 intent1.putExtra("doctor_update_id", doctorId);
-                intent1.putExtra("doctor_update_name", strDisplayName);
-                intent1.putExtra("doctor_update_mobile", txtMobile.getText().toString());
-                intent1.putExtra("doctor_update_email", txtEmail.getText().toString());
-                intent1.putExtra("doctor_update_spec", txtSpec.getText().toString());
-                intent1.putExtra("doctor_update_gender", txtGender.getText().toString());
-                intent1.putExtra("doctor_update_quali", txtQuali.getText().toString());
+                intent1.putExtra("doctor_update_name", txtName.getText().toString().substring(4));
                 intent1.putExtra("doctor_update_image", profileImage);
-                intent1.putExtra("doctor_update_document", documentImage);
                 startActivity(intent1);
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                 finish();
@@ -172,6 +168,12 @@ public class DoctorProfileActivity extends AppCompatActivity {
                         txtSpec.setText(receiveParams.getData().getSpecialization());
                         txtQuali.setText(receiveParams.getData().getQualification());
 
+                        ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                        byte[] imageBytes1 = baos1.toByteArray();
+                        String imageString1 = receiveParams.getData().getDocumentImage();
+                        imageBytes1 = Base64.decode(imageString1, Base64.DEFAULT);
+                        decodedImage1 = BitmapFactory.decodeByteArray(imageBytes1, 0, imageBytes1.length);
+
                         if(receiveParams.getData().getProfileImg() == null){
                             Picasso.with(DoctorProfileActivity.this)
                                     .load(R.drawable.noimage)
@@ -227,7 +229,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
         finish();
         Intent intent=new Intent(DoctorProfileActivity.this, DoctorDashboardActivity.class);
         String email = txtEmail.getText().toString();
-        intent.putExtra("from_profile_id", doctorId);
+        intent.putExtra("from_profile_id", strDoctorID);
         intent.putExtra("from_profile_name", strDisplayName);
         intent.putExtra("from_profile_email", email);
         intent.putExtra("from_profile_image", profileImage);
@@ -248,7 +250,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
             finish();
             Intent intent=new Intent(DoctorProfileActivity.this,DoctorDashboardActivity.class);
             String email = txtEmail.getText().toString();
-            intent.putExtra("from_profile_id", doctorId);
+            intent.putExtra("from_profile_id", strDoctorID);
             intent.putExtra("from_profile_name", strDisplayName);
             intent.putExtra("from_profile_email", email);
             intent.putExtra("from_profile_image", profileImage);

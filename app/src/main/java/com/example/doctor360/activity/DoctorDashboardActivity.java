@@ -40,6 +40,7 @@ import android.view.Menu;
 import android.widget.TextView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 
 public class DoctorDashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -51,7 +52,7 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     String doctorName, doctorID, doctorEmail, doctorImageView, nameFromProfile, IdFromProfile, emailFromProfile,
-            imageFromProfile, doctorSpec, doctorMobile, doctorQuali, doctorGender, doctorDocument;
+            imageFromProfile, doctorSpec, doctorMobile, doctorQuali, doctorGender, doctorDocument, strDoctorID;
     private static final String TAG = "DoctorDashboardActivity";
 
     @Override
@@ -88,6 +89,16 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
         emailFromProfile = intent1.getStringExtra("from_profile_email");
         imageFromProfile = intent1.getStringExtra("from_profile_image");
 
+        if(IdFromProfile!= null)
+            strDoctorID = IdFromProfile;
+        else
+           strDoctorID = doctorID;
+
+        if(doctorID!= null)
+            strDoctorID = doctorID;
+        else
+           strDoctorID = IdFromProfile;
+
         if(nameFromProfile!= null)
             txtDoctorLoginName.setText("DR. "+nameFromProfile);
         else
@@ -114,11 +125,16 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(DoctorDashboardActivity.this, DoctorProfileActivity.class);
-                intent1.putExtra("doctor_profile_id", doctorID);
+                intent1.putExtra("doctor_profile_id", strDoctorID);
                 intent1.putExtra("doctor_profile_name", doctorName);
                 intent1.putExtra("doctor_profile_email", doctorEmail);
-                intent1.putExtra("doctor_profile_image", doctorImageView);
-                intent1.putExtra("doctor_document_image", doctorDocument);
+                if(doctorImageView!=null){
+                    intent1.putExtra("doctor_profile_image", doctorImageView);
+                } else  {
+                    intent1.putExtra("doctor_profile_image", imageFromProfile);
+                }
+
+              //  intent1.putExtra("doctor_document_image", doctorDocument);
                 startActivity(intent1);
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                 finish();

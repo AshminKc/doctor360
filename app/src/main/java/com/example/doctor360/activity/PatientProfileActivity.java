@@ -86,7 +86,7 @@ public class PatientProfileActivity extends AppCompatActivity {
                 Intent intent1 = new Intent(PatientProfileActivity.this, PatientPasswordChangeActivity.class);
                 intent1.putExtra("patient_profile_check_id", patientId);
                 intent1.putExtra("patient_profile_check_email", patientEmail);
-                intent1.putExtra("patient_profile_check_name", patientName);
+                intent1.putExtra("patient_profile_check_name", txtName.getText().toString());
                 intent1.putExtra("patient_profile_check_image", profileImage);
                 startActivity(intent1);
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
@@ -99,13 +99,7 @@ public class PatientProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent1 = new Intent(PatientProfileActivity.this, PatientUpdateProfileActivity.class);
                 intent1.putExtra("patient_update_id", patientId);
-                intent1.putExtra("patient_update_address", txtAddress.getText().toString());
-                intent1.putExtra("patient_update_mobile", txtMobile.getText().toString());
-                intent1.putExtra("patient_update_email", txtEmail.getText().toString());
                 intent1.putExtra("patient_update_name", txtName.getText().toString());
-                intent1.putExtra("patient_update_age", txtAge.getText().toString());
-                intent1.putExtra("patient_update_gender", txtGender.getText().toString());
-                intent1.putExtra("patient_update_blood", txtBlood.getText().toString());
                 intent1.putExtra("patient_update_image", profileImage);
                 startActivity(intent1);
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
@@ -225,7 +219,7 @@ public class PatientProfileActivity extends AppCompatActivity {
         Intent intent=new Intent(PatientProfileActivity.this, PatientDashboardActivity.class);
         String name = txtName.getText().toString();
         String email = txtEmail.getText().toString();
-        intent.putExtra("from_profile_id", patientId);
+        intent.putExtra("from_profile_id", strPatientID);
         intent.putExtra("from_profile_name", name);
         intent.putExtra("from_profile_email", email);
         intent.putExtra("from_profile_image", profileImage);
@@ -247,7 +241,7 @@ public class PatientProfileActivity extends AppCompatActivity {
             Intent intent=new Intent(PatientProfileActivity.this, PatientDashboardActivity.class);
             String name = txtName.getText().toString();
             String email = txtEmail.getText().toString();
-            intent.putExtra("from_profile_id", patientId);
+            intent.putExtra("from_profile_id", strPatientID);
             intent.putExtra("from_profile_name", name);
             intent.putExtra("from_profile_email", email);
             intent.putExtra("from_profile_image", profileImage);

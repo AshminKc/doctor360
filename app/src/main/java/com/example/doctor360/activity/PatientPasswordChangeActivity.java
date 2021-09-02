@@ -159,8 +159,8 @@ public class PatientPasswordChangeActivity extends AppCompatActivity {
                     String Status = patientPasswordChangeReceiveParams.getSuccess();
 
                     if(Status.matches("true")){
-                        new AestheticDialog.Builder(PatientPasswordChangeActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
-                                .setTitle("Error")
+                        new AestheticDialog.Builder(PatientPasswordChangeActivity.this, DialogStyle.RAINBOW, DialogType.SUCCESS)
+                                .setTitle("Success")
                                 .setMessage(patientPasswordChangeReceiveParams.getMessage())
                                 .setCancelable(true)
                                 .setGravity(Gravity.BOTTOM)

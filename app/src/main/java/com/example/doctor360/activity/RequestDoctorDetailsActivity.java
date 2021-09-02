@@ -84,9 +84,6 @@ public class RequestDoctorDetailsActivity extends AppCompatActivity {
         if(Hawk.contains("request_patient_id"))
             strPatientID = Hawk.get("request_patient_id");
 
-        Toasty.success(getApplicationContext(),"Doctor ID" + strDoctorID, 300).show();
-        Toasty.success(getApplicationContext(),"Patient ID" + strPatientID, 300).show();
-
         toolbarText.setText("Request to DR. "+ verifiedReceiveParams.getName());
         nameDecTxt.setText("DR. "+ verifiedReceiveParams.getName());
         mobileDesTxt.setText(verifiedReceiveParams.getMobile());

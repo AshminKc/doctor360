@@ -1,4 +1,6 @@
 package com.example.doctor360.fragment;
 
-public class DoctorHomeFragment {
+import androidx.fragment.app.Fragment;
+
+public class DoctorHomeFragment extends Fragment {
 }

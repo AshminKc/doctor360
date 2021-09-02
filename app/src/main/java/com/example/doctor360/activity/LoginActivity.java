@@ -48,6 +48,7 @@ import com.thecode.aestheticdialogs.AestheticDialog;
 import com.thecode.aestheticdialogs.DialogStyle;
 import com.thecode.aestheticdialogs.DialogType;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -179,18 +180,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onResponse(Call<AdminLoginReceiveParams> call, Response<AdminLoginReceiveParams> response) {
                     AdminLoginReceiveParams receiveParams = response.body();
-                    String success = receiveParams.getSuccess();
 
-                    if (success.equals("true")) {
-                        pDialog.dismiss();
-                        finish();
-                        Intent intent = new Intent(getApplicationContext(), AdminDashboardActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+                    if(response.body()!=null){
+                        String success = receiveParams.getSuccess();
+
+                        if (success.equals("true")) {
+                            pDialog.dismiss();
+                            finish();
+                            Intent intent = new Intent(getApplicationContext(), AdminDashboardActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+                        } else {
+                            new AestheticDialog.Builder(LoginActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                    .setTitle("Error")
+                                    .setMessage("Invalid Login Credentials")
+                                    .setCancelable(true)
+                                    .setGravity(Gravity.BOTTOM)
+                                    .setDuration(3000)
+                                    .show();
+                            pDialog.dismiss();
+                        }
                     } else {
                         new AestheticDialog.Builder(LoginActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
                                 .setTitle("Error")
-                                .setMessage("Invalid Login Credentials")
+                                .setMessage("Some error occcured at server end. Please try again.")
                                 .setCancelable(true)
                                 .setGravity(Gravity.BOTTOM)
                                 .setDuration(3000)
@@ -230,63 +243,58 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onResponse(Call<DoctorLoginReceiveParams> call, Response<DoctorLoginReceiveParams> response) {
                     DoctorLoginReceiveParams receiveParams = response.body();
-                    String success = receiveParams.getSuccess();
 
-                    if (success.equals("true")) {
-                        int status = receiveParams.getData().getStatus();
-                        if (status == 1) {
-                            pDialog.dismiss();
-                            finish();
-                            Intent intent = new Intent(getApplicationContext(), DoctorDashboardActivity.class);
-                            intent.putExtra("doctor_id", receiveParams.getData().get_id());
-                            intent.putExtra("doctor_name", receiveParams.getData().getName());
-                            intent.putExtra("doctor_email", receiveParams.getData().getEmail());
-                            intent.putExtra("doctor_mobile", receiveParams.getData().getMobile());
-                            strDoctorImage = receiveParams.getData().getProfileImg();
-                            if(receiveParams.getData().getProfileImg()!=null){
-                                byte[] decodedString = Base64.decode(strDoctorImage, Base64.DEFAULT);
-                                bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                                encodedImageDocProfile = Base64.encodeToString(decodedString, Base64.DEFAULT);
-                                intent.putExtra("doctor_image", encodedImageDocProfile);
-                            } else {
+                    if(response.body()!=null){
+                        String success = receiveParams.getSuccess();
+
+                        if (success.equals("true")) {
+                            int status = receiveParams.getData().getStatus();
+                            if (status == 1) {
+                                pDialog.dismiss();
+                                finish();
+                                Intent intent = new Intent(getApplicationContext(), DoctorDashboardActivity.class);
+                                intent.putExtra("doctor_id", receiveParams.getData().get_id());
+                                intent.putExtra("doctor_name", receiveParams.getData().getName());
+                                intent.putExtra("doctor_email", receiveParams.getData().getEmail());
+                                intent.putExtra("doctor_mobile", receiveParams.getData().getMobile());
                                 intent.putExtra("doctor_image", receiveParams.getData().getProfileImg());
-                            }
-
-                            strDoctorDocument = receiveParams.getData().getDocumentImage();
-                            if(receiveParams.getData().getDocumentImage()!=null){
-                                byte[] decodedString = Base64.decode(strDoctorDocument, Base64.DEFAULT);
-                                bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                                encodedImageDocument = Base64.encodeToString(decodedString, Base64.DEFAULT);
-                                intent.putExtra("doctor_document", encodedImageDocument);
-                            } else {
                                 intent.putExtra("doctor_document", receiveParams.getData().getDocumentImage());
+                                intent.putExtra("doctor_quali", receiveParams.getData().getQualification());
+                                intent.putExtra("doctor_spec", receiveParams.getData().getSpecialization());
+                                intent.putExtra("doctor_gender", receiveParams.getData().getGender());
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+                            } else {
+                                new AestheticDialog.Builder(LoginActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                        .setTitle("Info")
+                                        .setMessage("Your profile is not verified. You can login once you are verified. You will get notified via email for verification")
+                                        .setCancelable(true)
+                                        .setGravity(Gravity.BOTTOM)
+                                        .setDuration(3000)
+                                        .show();
+                                pDialog.dismiss();
                             }
-
-                            intent.putExtra("doctor_quali", receiveParams.getData().getQualification());
-                            intent.putExtra("doctor_spec", receiveParams.getData().getSpecialization());
-                            intent.putExtra("doctor_gender", receiveParams.getData().getGender());
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                         } else {
+                                new AestheticDialog.Builder(LoginActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                        .setTitle("Error")
+                                        .setMessage("Invalid Login Credentials")
+                                        .setCancelable(true)
+                                        .setGravity(Gravity.BOTTOM)
+                                        .setDuration(3000)
+                                        .show();
+                                pDialog.dismiss();
+                        }
+                    } else {
                             new AestheticDialog.Builder(LoginActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
-                                    .setTitle("Info")
-                                    .setMessage("Your profile is not verified. You can login once you are verified. You will get notified via email for verification")
+                                    .setTitle("Error")
+                                    .setMessage("Some error occured at server end. Please try again.")
                                     .setCancelable(true)
                                     .setGravity(Gravity.BOTTOM)
                                     .setDuration(3000)
                                     .show();
                             pDialog.dismiss();
-                        }
-                    } else {
-                        new AestheticDialog.Builder(LoginActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
-                                .setTitle("Error")
-                                .setMessage("Invalid Login Credentials")
-                                .setCancelable(true)
-                                .setGravity(Gravity.BOTTOM)
-                                .setDuration(3000)
-                                .show();
-                        pDialog.dismiss();
                     }
+
                 }
 
                 @Override
@@ -321,41 +329,44 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onResponse(Call<PatientLoginReceiveParams> call, Response<PatientLoginReceiveParams> response) {
                     PatientLoginReceiveParams receiveParams = response.body();
-                    String success = receiveParams.getSuccess();
 
-                    if (success.equals("true")) {
-                        pDialog.dismiss();
-                        finish();
-                        Intent intent = new Intent(getApplicationContext(), PatientDashboardActivity.class);
-                        intent.putExtra("patient_id", receiveParams.getData().get_id());
-                        intent.putExtra("patient_name", receiveParams.getData().getName());
-                        intent.putExtra("patient_email", receiveParams.getData().getEmail());
-                        strProfileImage = receiveParams.getData().getProfileImg();
-                        if(receiveParams.getData().getProfileImg()!=null){
-                            byte[] decodedString = Base64.decode(strProfileImage, Base64.DEFAULT);
-                            bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                            encodedImage = Base64.encodeToString(decodedString, Base64.DEFAULT);
-                            intent.putExtra("patient_image", encodedImage);
-                        } else {
+                    if(response.body()!=null){
+                        String success = receiveParams.getSuccess();
+
+                        if (success.equals("true")) {
+                            pDialog.dismiss();
+                            finish();
+                            Intent intent = new Intent(getApplicationContext(), PatientDashboardActivity.class);
+                            intent.putExtra("patient_id", receiveParams.getData().get_id());
+                            intent.putExtra("patient_name", receiveParams.getData().getName());
+                            intent.putExtra("patient_email", receiveParams.getData().getEmail());
                             intent.putExtra("patient_image", receiveParams.getData().getProfileImg());
+                            intent.putExtra("patient_address", receiveParams.getData().getAddress());
+                            intent.putExtra("patient_mobile", receiveParams.getData().getMobile());
+                            intent.putExtra("patient_age", receiveParams.getData().getAge());
+                            intent.putExtra("patient_blood", receiveParams.getData().getBloodGroup());
+                            intent.putExtra("patient_gender", receiveParams.getData().getGender());
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+                        } else {
+                            pDialog.dismiss();
+                            new AestheticDialog.Builder(LoginActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                    .setTitle("Error")
+                                    .setMessage("Invalid Login Credentials")
+                                    .setCancelable(true)
+                                    .setGravity(Gravity.BOTTOM)
+                                    .setDuration(3000)
+                                    .show();
                         }
-
-                        intent.putExtra("patient_address", receiveParams.getData().getAddress());
-                        intent.putExtra("patient_mobile", receiveParams.getData().getMobile());
-                        intent.putExtra("patient_age", receiveParams.getData().getAge());
-                        intent.putExtra("patient_blood", receiveParams.getData().getBloodGroup());
-                        intent.putExtra("patient_gender", receiveParams.getData().getGender());
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                     } else {
-                        pDialog.dismiss();
                         new AestheticDialog.Builder(LoginActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
                                 .setTitle("Error")
-                                .setMessage("Invalid Login Credentials")
+                                .setMessage("Some error occcured. Please try again.")
                                 .setCancelable(true)
                                 .setGravity(Gravity.BOTTOM)
                                 .setDuration(3000)
                                 .show();
+                        pDialog.dismiss();
                     }
                 }
 

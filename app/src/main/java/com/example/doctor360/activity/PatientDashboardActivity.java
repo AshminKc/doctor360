@@ -121,6 +121,10 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
             byte[] decodedString = Base64.decode(patientImageView, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             patientLoginImage.setImageBitmap(bitmap);
+        } else if(imageFromProfile!=null){
+            byte[] decodedString = Base64.decode(imageFromProfile, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            patientLoginImage.setImageBitmap(bitmap);
         } else {
             patientLoginImage.setImageResource(R.drawable.noimage);
         }
@@ -129,42 +133,10 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(PatientDashboardActivity.this, PatientProfileActivity.class);
-                if(patientID!=null)
                 intent1.putExtra("patient_profile_id", patientID);
-                else
-                    intent1.putExtra("patient_profile_id", IdFromProfile);
-                if(IdFromProfile!=null)
-                    intent1.putExtra("patient_profile_id", IdFromProfile);
-                else
-                    intent1.putExtra("patient_profile_id", patientID);
-
-                if(patientName!=null)
-                    intent1.putExtra("patient_profile_name", patientName);
-                else
-                    intent1.putExtra("patient_profile_name", nameFromProfile);
-                if(nameFromProfile!=null)
-                    intent1.putExtra("patient_profile_name", nameFromProfile);
-                else
-                    intent1.putExtra("patient_profile_name", patientName);
-
-                if(patientEmail!=null)
-                    intent1.putExtra("patient_profile_email", patientEmail);
-                else
-                    intent1.putExtra("patient_profile_email", emailFromProfile);
-                if(emailFromProfile!=null)
-                    intent1.putExtra("patient_profile_email", emailFromProfile);
-                else
-                    intent1.putExtra("patient_profile_email", patientEmail);
-
-                if(patientImageView!=null)
-                    intent1.putExtra("patient_profile_image", patientImageView);
-                else
-                    intent1.putExtra("patient_profile_image", imageFromProfile);
-                if(imageFromProfile!=null)
-                    intent1.putExtra("patient_profile_image", imageFromProfile);
-                else
-                    intent1.putExtra("patient_profile_image", patientImageView);
-
+                intent1.putExtra("patient_profile_name", patientName);
+                intent1.putExtra("patient_profile_email", patientEmail);
+                intent1.putExtra("patient_profile_image", patientImageView);
                 startActivity(intent1);
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                 finish();

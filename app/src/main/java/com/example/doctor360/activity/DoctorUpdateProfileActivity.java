@@ -117,6 +117,16 @@ public class DoctorUpdateProfileActivity extends AppCompatActivity implements Vi
             imageDoctorDocument.setImageResource(R.drawable.noimage);
         }
 
+        if(strUpdatePP!=null){
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] imageBytes = baos.toByteArray();
+            imageBytes = Base64.decode(strUpdatePP, Base64.DEFAULT);
+            Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            imageDoctorProfile.setImageBitmap(decodedImage);
+        } else {
+            imageDoctorProfile.setImageResource(R.drawable.noimage);
+        }
+
         imageDoctorProfile.setImageResource(R.drawable.noimage);
 
         spinnerUpdateQuali.setItems("Select", "Bachelor of Medicine (MBBS, BMBS, MBChB, MBBCh)","Bachelor of Surgery (MBBS, BMBS, MBChB, MBBCh)",

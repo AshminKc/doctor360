@@ -1,1 +1,26 @@
-Placeholder image not showing in dashboard and update profile page for new patients
+E/Binder: Unreasonably large binder buffer: on android.os.BinderProxy@2703956 calling 3 size 1595204 (data: 20971524, 28, 7209057)
+E/JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 1595204)
+D/AndroidRuntime: Shutting down VM
+E/AndroidRuntime: FATAL EXCEPTION: main
+    Process: com.example.doctor360, PID: 29155
+    java.lang.RuntimeException: Failure from system
+        at android.app.Instrumentation.execStartActivity(Instrumentation.java:1527)
+        at android.app.Activity.startActivityForResult(Activity.java:4396)
+        at androidx.activity.ComponentActivity.startActivityForResult(ComponentActivity.java:574)
+        at android.app.Activity.startActivityForResult(Activity.java:4355)
+        at androidx.activity.ComponentActivity.startActivityForResult(ComponentActivity.java:560)
+        at android.app.Activity.startActivity(Activity.java:4679)
+        at android.app.Activity.startActivity(Activity.java:4647)
+        at com.example.doctor360.activity.LoginActivity$4.onResponse(LoginActivity.java:251)
+        at retrofit2.ExecutorCallAdapterFactory$ExecutorCallbackCall$1$1.run(ExecutorCallAdapterFactory.java:70)
+        at android.os.Handler.handleCallback(Handler.java:754)
+        at android.os.Handler.dispatchMessage(Handler.java:95)
+        at android.os.Looper.loop(Looper.java:165)
+        at android.app.ActivityThread.main(ActivityThread.java:6375)
+        at java.lang.reflect.Method.invoke(Native Method)
+        at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:912)
+        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:802)
+     Caused by: android.os.TransactionTooLargeException: data parcel size 1595204 bytes
+        at android.os.BinderProxy.transactNative(Native Method)
+        at android.os.BinderProxy.transact(Binder.java:622)
+        at android.app.ActivityManagerProxy.startActivity(ActivityManagerNative.java:3152)

@@ -114,45 +114,11 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(DoctorDashboardActivity.this, DoctorProfileActivity.class);
-
-                if(doctorID!=null)
-                    intent1.putExtra("doctor_profile_id", doctorID);
-                else
-                    intent1.putExtra("doctor_profile_id", IdFromProfile);
-                if(IdFromProfile!=null)
-                    intent1.putExtra("doctor_profile_id", IdFromProfile);
-                else
-                    intent1.putExtra("doctor_profile_id", doctorID);
-
-                if(doctorName!=null)
-                    intent1.putExtra("doctor_profile_name", doctorName);
-                else
-                    intent1.putExtra("doctor_profile_name", nameFromProfile);
-                if(nameFromProfile!=null)
-                    intent1.putExtra("doctor_profile_name", nameFromProfile);
-                else
-                    intent1.putExtra("doctor_profile_name", doctorName);
-
-                if(doctorEmail!=null)
-                    intent1.putExtra("doctor_profile_email", doctorEmail);
-                else
-                    intent1.putExtra("doctor_profile_email", emailFromProfile);
-                if(emailFromProfile!=null)
-                    intent1.putExtra("doctor_profile_email", emailFromProfile);
-                else
-                    intent1.putExtra("doctor_profile_email", doctorEmail);
-
-                if(doctorImageView!=null)
-                    intent1.putExtra("doctor_profile_image", doctorImageView);
-                else
-                    intent1.putExtra("doctor_profile_image", imageFromProfile);
-                if(imageFromProfile!=null)
-                    intent1.putExtra("doctor_profile_image", imageFromProfile);
-                else
-                    intent1.putExtra("doctor_profile_image", doctorImageView);
-
+                intent1.putExtra("doctor_profile_id", doctorID);
+                intent1.putExtra("doctor_profile_name", doctorName);
+                intent1.putExtra("doctor_profile_email", doctorEmail);
+                intent1.putExtra("doctor_profile_image", doctorImageView);
                 intent1.putExtra("doctor_document_image", doctorDocument);
-
                 startActivity(intent1);
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                 finish();
@@ -321,5 +287,11 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.clear();
     }
 }

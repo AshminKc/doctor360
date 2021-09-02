@@ -170,7 +170,7 @@ public class PatientProfileActivity extends AppCompatActivity {
                         txtGender.setText(receiveParams.getData().getGender());
                         txtBlood.setText(receiveParams.getData().getBloodGroup());
 
-                        if(receiveParams.getData().getProfileImg().matches("null")){
+                        if(receiveParams.getData().getProfileImg()==null){
                             Picasso.with(PatientProfileActivity.this)
                                     .load(R.drawable.noimage)
                                     .placeholder(R.drawable.noimage)

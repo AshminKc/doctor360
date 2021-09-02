@@ -172,7 +172,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
                         txtSpec.setText(receiveParams.getData().getSpecialization());
                         txtQuali.setText(receiveParams.getData().getQualification());
 
-                        if(receiveParams.getData().getProfileImg().matches("null")){
+                        if(receiveParams.getData().getProfileImg() == null){
                             Picasso.with(DoctorProfileActivity.this)
                                     .load(R.drawable.noimage)
                                     .placeholder(R.drawable.noimage)

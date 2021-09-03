@@ -10,7 +10,9 @@ import android.os.Bundle;
 import com.example.doctor360.R;
 import com.example.doctor360.fragment.AboutUsFragment;
 import com.example.doctor360.fragment.FAQFragment;
+import com.example.doctor360.fragment.PatientHomeFragment;
 import com.example.doctor360.fragment.PrivacyPolicyFragment;
+import com.example.doctor360.fragment.RequestAppointmentDoctorFragment;
 import com.example.doctor360.fragment.RequestDoctorFragment;
 import com.example.doctor360.helper.ConnectionDetector;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -250,12 +252,11 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
 
         switch (id) {
             case R.id.nav_patient_home: {
-               /* getSupportFragmentManager().popBackStackImmediate();
+                getSupportFragmentManager().popBackStackImmediate();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentContainer,new HomeFragment()).addToBackStack("").commit();
-                titleText.setText(getString(R.string.app_name));
-                imgToolbar.setImageResource(R.drawable.logo);
-                break;*/
+                transaction.replace(R.id.fragmentContainer1,new PatientHomeFragment()).addToBackStack("").commit();
+                toolbarTitle.setText(getString(R.string.menu_home));
+                break;
             }
 
             case R.id.nav_request_doctor:{
@@ -266,6 +267,13 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
                 break;
             }
 
+            case R.id.nav_appointment_request:{
+                getSupportFragmentManager().popBackStackImmediate();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer1,new RequestAppointmentDoctorFragment()).addToBackStack("").commit();
+                toolbarTitle.setText(getString(R.string.menu_appointment_request));
+                break;
+            }
 
             case R.id.nav_patient_faq: {
                 getSupportFragmentManager().popBackStackImmediate();

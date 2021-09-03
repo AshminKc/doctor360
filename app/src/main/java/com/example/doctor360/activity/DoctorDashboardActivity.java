@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import com.example.doctor360.R;
+import com.example.doctor360.fragment.DoctorHomeFragment;
 import com.example.doctor360.fragment.FAQFragment;
 import com.example.doctor360.helper.ConnectionDetector;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -159,6 +160,8 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
                     .show();
         }
 
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer2, new DoctorHomeFragment()).commit();
+
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         toggle = new ActionBarDrawerToggle(
@@ -237,18 +240,17 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
 
         switch (id) {
             case R.id.nav_doctor_chat_room: {
-               /* getSupportFragmentManager().popBackStackImmediate();
+                getSupportFragmentManager().popBackStackImmediate();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentContainer,new HomeFragment()).addToBackStack("").commit();
-                titleText.setText(getString(R.string.app_name));
-                imgToolbar.setImageResource(R.drawable.logo);
-                break;*/
+                transaction.replace(R.id.fragmentContainer2,new DoctorHomeFragment()).addToBackStack("").commit();
+                toolbarTitle.setText(getString(R.string.menu_home));
+                break;
             }
 
             case R.id.nav_doctor_faq: {
                 getSupportFragmentManager().popBackStackImmediate();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentContainer1,new FAQFragment()).addToBackStack("").commit();
+                transaction.replace(R.id.fragmentContainer2,new FAQFragment()).addToBackStack("").commit();
                 toolbarTitle.setText(getString(R.string.menu_faq));
                 break;
             }

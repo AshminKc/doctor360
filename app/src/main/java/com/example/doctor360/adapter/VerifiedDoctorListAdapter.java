@@ -60,7 +60,8 @@ public class VerifiedDoctorListAdapter extends RecyclerView.Adapter<RecyclerView
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Position " + position);
                 Intent intent=new Intent(view.getContext(), VerifiedDoctorDescriptionActivity.class);
-                intent.putExtra("obj", receiveParams);
+                intent.putExtra("doctor_id_adapter", receiveParams.get_id());
+                intent.putExtra("doctor_name_adapter", receiveParams.getName());
                 Activity activity = (Activity) context;
                 activity.startActivity(intent);
                 activity.overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);

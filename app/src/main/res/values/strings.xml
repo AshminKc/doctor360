@@ -17,6 +17,7 @@
     <string name="menu_patient_request">Patient Request</string>
     <string name="menu_chat_room">Chat Room</string>
     <string name="menu_request_doctor">Request Doctor</string>
+    <string name="menu_appointment_request">Request Appointment</string>
     <string name="menu_qna">QnA</string>
     <string name="menu_faq">FAQ</string>
     <string name="menu_about_us">About App</string>
@@ -36,6 +37,10 @@
     <string name="signup_doctor">As Doctor</string>
     <string name="remember_me">Remember Me</string>
 
+    <string name="problem">Problem</string>
+    <string name="description">Description</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
     <string name="name">Name</string>
     <string name="address">Address</string>
     <string name="mobile">Mobile No</string>

@@ -13,6 +13,10 @@
             android:icon="@drawable/ic_person"
             android:title="@string/menu_request_doctor" />
         <item
+            android:id="@+id/nav_appointment_request"
+            android:icon="@drawable/ic_date_range_black_24dp"
+            android:title="@string/menu_appointment_request" />
+        <item
             android:id="@+id/nav_referred_doctors"
             android:icon="@drawable/ic_touch_app_black_24dp"
             android:title="@string/menu_request" />

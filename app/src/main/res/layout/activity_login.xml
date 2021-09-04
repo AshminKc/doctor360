@@ -8,7 +8,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".activity.LoginActivity">
+    tools:context=".activity.LoginActivity"
+    android:focusableInTouchMode="true"
+    android:focusable="false">
 
     <View
         android:id="@+id/topView"
@@ -98,7 +100,7 @@
         android:layout_marginEnd="@dimen/_28sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/round_border"
-        android:drawableStart="@drawable/ic_user"
+        android:drawableStart="@drawable/ic_email"
         android:drawablePadding="@dimen/_12sdp"
         android:ems="10"
         android:hint="@string/email"

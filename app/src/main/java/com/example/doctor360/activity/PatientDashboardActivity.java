@@ -9,10 +9,12 @@ import android.os.Bundle;
 
 import com.example.doctor360.R;
 import com.example.doctor360.fragment.AboutUsFragment;
+import com.example.doctor360.fragment.DoctorHomeFragment;
 import com.example.doctor360.fragment.FAQFragment;
 import com.example.doctor360.fragment.PatientHomeFragment;
 import com.example.doctor360.fragment.PrivacyPolicyFragment;
 import com.example.doctor360.fragment.RequestAppointmentDoctorFragment;
+import com.example.doctor360.fragment.RequestAppointmentPatientFragment;
 import com.example.doctor360.fragment.RequestDoctorFragment;
 import com.example.doctor360.helper.ConnectionDetector;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -177,6 +179,7 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
                     .show();
         }
 
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer1, new PatientHomeFragment()).commit();
 
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -270,8 +273,8 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
             case R.id.nav_appointment_request:{
                 getSupportFragmentManager().popBackStackImmediate();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentContainer1,new RequestAppointmentDoctorFragment()).addToBackStack("").commit();
-                toolbarTitle.setText(getString(R.string.menu_appointment_request));
+                transaction.replace(R.id.fragmentContainer1,new RequestAppointmentPatientFragment()).addToBackStack("").commit();
+                toolbarTitle.setText(getString(R.string.menu_request_appointment));
                 break;
             }
 

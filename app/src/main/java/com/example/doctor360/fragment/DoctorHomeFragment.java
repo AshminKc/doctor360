@@ -1,5 +1,6 @@
 package com.example.doctor360.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +10,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doctor360.MainModel;
 import com.example.doctor360.R;
+import com.example.doctor360.activity.DoctorDashboardActivity;
+import com.example.doctor360.adapter.AppointRequestPatientAdapter;
 import com.example.doctor360.adapter.ChatRequestPatientAdapter;
 import com.example.doctor360.adapter.ImageSliderAdapter;
 import com.example.doctor360.helper.ConnectionDetector;
@@ -34,6 +39,7 @@ public class DoctorHomeFragment extends Fragment {
     TextView viewAllChatTXT, viewAllAppointTXT;
     RecyclerView chatRecyclerView, appointRecyclerView;
     ChatRequestPatientAdapter chatRequestPatientAdapter;
+    AppointRequestPatientAdapter appointRequestPatientAdapter;
     ConnectionDetector connectionDetector;
     ArrayList<MainModel> mainModels;
     private static final String TAG = "DoctorHomeFragment";
@@ -78,8 +84,32 @@ public class DoctorHomeFragment extends Fragment {
 
         chatRequestPatientAdapter = new ChatRequestPatientAdapter(mainModels, getContext());
         chatRecyclerView.setAdapter(chatRequestPatientAdapter);
-        appointRecyclerView.setAdapter(chatRequestPatientAdapter);
+
+        appointRequestPatientAdapter = new AppointRequestPatientAdapter(mainModels, getContext());
+        appointRecyclerView.setAdapter(appointRequestPatientAdapter);
+
+        viewAllChatTXT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getFragmentManager();
+                fm.popBackStackImmediate();
+                FragmentTransaction ft = fm.beginTransaction();
+                RequestAppointmentDoctorFragment technologyNewsFragment = new RequestAppointmentDoctorFragment();
+                ft.replace(R.id.fragmentContainer2, technologyNewsFragment,"educationFragment").addToBackStack("educationFragment").commit();
+                ((DoctorDashboardActivity) getActivity()).setToolbarAndNavView(getContext(),3, getResources().getString(R.string.menu_appointment_request));
+            }
+        });
+
+        viewAllAppointTXT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), DoctorDashboardActivity.class);
+                intent.putExtra("view_all_appoint_request", 2);
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }
+
 }

@@ -17,9 +17,12 @@
     <string name="menu_patient_request">Patient Request</string>
     <string name="menu_chat_room">Chat Room</string>
     <string name="menu_request_doctor">Request Doctor</string>
-    <string name="menu_appointment_request">Request Appointment</string>
+    <string name="menu_appointment_request">Appointment Request</string>
+    <string name="menu_request_appointment">Request Appointment</string>
     <string name="menu_qna">QnA</string>
     <string name="menu_faq">FAQ</string>
+    <string name="menu_question">Ask Question</string>
+    <string name="menu_question_from_patient">Questions from Patient</string>
     <string name="menu_about_us">About App</string>
     <string name="menu_privacy_policy">Privacy Policy</string>
     <string name="menu_logout">Logout</string>

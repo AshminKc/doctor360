@@ -1,16 +1,9 @@
 package com.example.doctor360.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,15 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doctor360.MainModel;
 import com.example.doctor360.R;
-import com.example.doctor360.activity.VerifiedDoctorDescriptionActivity;
-import com.example.doctor360.model.VerifiedDoctorReceiveParams;
 import com.example.doctor360.utils.SquareImageView;
 
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public class ChatRequestPatientAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
+    private final int limit = 3;
     Context context;
     List<MainModel> models;
     private static final String TAG = "VerifiedDoctorListAdapt";
@@ -39,7 +30,7 @@ public class ChatRequestPatientAdapter extends RecyclerView.Adapter<RecyclerView
     @NonNull
     @Override
     public ChatRequestPatientAdapter.DoctorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_request_single_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.request_single_item, parent, false);
         ChatRequestPatientAdapter.DoctorViewHolder viewHolder= new ChatRequestPatientAdapter.DoctorViewHolder(view);
         return viewHolder;
     }
@@ -81,7 +72,13 @@ public class ChatRequestPatientAdapter extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public int getItemCount() {
-        return models.size();
+        if(models.size() > limit){
+            return limit;
+        }
+        else
+        {
+            return models.size();
+        }
     }
 
     public class DoctorViewHolder extends RecyclerView.ViewHolder {

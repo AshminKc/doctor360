@@ -9,7 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:focusable="false"
+        android:focusableInTouchMode="true">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/doctorUpdateProfileToolbar"
@@ -52,6 +54,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="2"
+            android:focusable="false"
+            android:focusableInTouchMode="true"
             android:layout_marginTop="@dimen/_5sdp">
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -150,7 +154,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:focusable="false"
+            android:focusableInTouchMode="true">
 
             <TextView
                 android:id="@+id/txtShowCurrentQuali"
@@ -205,7 +211,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:focusable="false"
+            android:focusableInTouchMode="true">
 
             <TextView
                 android:id="@+id/txtShowCurrentSpec"

@@ -1,5 +1,6 @@
 package com.example.doctor360.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -312,4 +313,10 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
         super.onSaveInstanceState(outState);
         outState.clear();
     }
+
+    public void setToolbarAndNavView(Context context, int checked, String title){
+        navigationView.getMenu().getItem(checked).setChecked(true);
+        toolbarTitle.setText(title);
+    }
+
 }

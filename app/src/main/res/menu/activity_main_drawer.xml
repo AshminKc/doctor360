@@ -15,7 +15,7 @@
         <item
             android:id="@+id/nav_appointment_request"
             android:icon="@drawable/ic_date_range_black_24dp"
-            android:title="@string/menu_appointment_request" />
+            android:title="@string/menu_request_appointment" />
         <item
             android:id="@+id/nav_referred_doctors"
             android:icon="@drawable/ic_touch_app_black_24dp"
@@ -26,7 +26,7 @@
             android:title="@string/menu_chat_room" />
         <item
             android:id="@+id/nav_patient_faq"
-            android:icon="@drawable/ic_question_answer_black_24dp"
+            android:icon="@drawable/ic_live_help_black_24dp"
             android:title="@string/menu_faq" />
         <item
             android:id="@+id/nav_about_us"

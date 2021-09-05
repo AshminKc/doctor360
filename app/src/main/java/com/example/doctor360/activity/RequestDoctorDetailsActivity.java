@@ -4,8 +4,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,9 +23,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import com.cazaea.sweetalert.SweetAlertDialog;
 import com.example.doctor360.R;
 import com.example.doctor360.helper.ConnectionDetector;
+import com.example.doctor360.model.DoctorProfileReceiveParams;
 import com.example.doctor360.model.VerifiedDoctorReceiveParams;
+import com.example.doctor360.network.NetworkClient;
+import com.example.doctor360.network.ServiceGenerator;
 import com.example.doctor360.utils.SquareImageView;
 import com.orhanobut.hawk.Hawk;
 import com.thecode.aestheticdialogs.AestheticDialog;
@@ -34,6 +40,9 @@ import java.io.ByteArrayOutputStream;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RequestDoctorDetailsActivity extends AppCompatActivity {
 
@@ -44,7 +53,7 @@ public class RequestDoctorDetailsActivity extends AppCompatActivity {
     CoordinatorLayout coordinatorLayout;
     Toolbar toolbar;
     Button btnRequest, btnCancel;
-    String strPatientID, strDoctorID;
+    String strPatientID, strDoctorID, strDoctorName;
     ConnectionDetector connectionDetector;
     private static final String TAG = "RequestDoctorDetailsAct";
 
@@ -76,79 +85,14 @@ public class RequestDoctorDetailsActivity extends AppCompatActivity {
         coordinatorLayout = findViewById(R.id.requestDoctorCoordinatorLayout);
 
         Intent intent = getIntent();
-        verifiedReceiveParams = (VerifiedDoctorReceiveParams.DataBean) intent.getSerializableExtra("obj1");
-
-        strDoctorID = verifiedReceiveParams.get_id();
+        strDoctorID = intent.getStringExtra("request_doctor_id");
+        strDoctorName = intent.getStringExtra("request_doctor_name");
 
         Hawk.init(getApplicationContext()).build();
         if(Hawk.contains("request_patient_id"))
             strPatientID = Hawk.get("request_patient_id");
 
-        toolbarText.setText("Request to DR. "+ verifiedReceiveParams.getName());
-        nameDecTxt.setText("DR. "+ verifiedReceiveParams.getName());
-        mobileDesTxt.setText(verifiedReceiveParams.getMobile());
-        emailDesTxt.setText(verifiedReceiveParams.getEmail());
-        genderDesTxt.setText(verifiedReceiveParams.getGender());
-        qualiDesText.setText(verifiedReceiveParams.getQualification());
-        specDesTxt.setText(verifiedReceiveParams.getSpecialization());
-
-        int status = verifiedReceiveParams.getStatus();
-        if(status == 0)
-            statusDesTxt.setText(R.string.unverified);
-        else
-            statusDesTxt.setText(R.string.verified);
-
-        if(verifiedReceiveParams.getProfileImg()!=null){
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] imageBytes = baos.toByteArray();
-            String imageString = verifiedReceiveParams.getProfileImg();
-            imageBytes = Base64.decode(imageString, Base64.DEFAULT);
-            Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-            profileDesImage.setImageBitmap(decodedImage);
-        } else {
-            profileDesImage.setImageResource(R.drawable.noimage);
-        }
-
-        try{
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] imageBytes = baos.toByteArray();
-            String imageString = verifiedReceiveParams.getDocumentImage();
-            imageBytes = Base64.decode(imageString, Base64.DEFAULT);
-            Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-            documentDesImage.setImageBitmap(decodedImage);
-
-            documentDesImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    LayoutInflater factory = LayoutInflater.from(RequestDoctorDetailsActivity.this);
-                    final View view1 = factory.inflate(R.layout.image_zoom_dailog, null);
-                    ImageView imageDocument = (ImageView) view1.findViewById(R.id.dialogDocImage);
-
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    byte[] imageBytes = baos.toByteArray();
-                    String imageString = verifiedReceiveParams.getDocumentImage();
-                    imageBytes = Base64.decode(imageString, Base64.DEFAULT);
-                    Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-                    imageDocument.setImageBitmap(decodedImage);
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(RequestDoctorDetailsActivity.this);
-                    builder.setView(imageDocument);
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.getWindow().setLayout(600,500);
-
-                    builder.setView(view1)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    builder.show();
-                }
-            });
-        } catch (IllegalArgumentException e) {
-            Toasty.error(getApplicationContext(),"Couldn't process image", 300).show();
-        }
+        toolbarText.setText("Request to DR. "+ strDoctorName);
 
         connectionDetector = new ConnectionDetector(RequestDoctorDetailsActivity.this);
 
@@ -160,6 +104,121 @@ public class RequestDoctorDetailsActivity extends AppCompatActivity {
                     .setGravity(Gravity.BOTTOM)
                     .setDuration(3000)
                     .show();
+        } else {
+            NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
+            Call<DoctorProfileReceiveParams> call = networkClient.viewDoctorProfile(strDoctorID);
+
+            final SweetAlertDialog pDialog = new SweetAlertDialog(RequestDoctorDetailsActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog.setTitleText("Fetching Data....");
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+            call.enqueue(new Callback<DoctorProfileReceiveParams>() {
+                @Override
+                public void onResponse(Call<DoctorProfileReceiveParams> call, Response<DoctorProfileReceiveParams> response) {
+                    pDialog.dismiss();
+                    final DoctorProfileReceiveParams receiveParams = response.body();
+
+                    if(response.body()!=null){
+                        String success = receiveParams.getSuccess();
+                        if(success.matches("true")){
+                            nameDecTxt.setText("DR. "+receiveParams.getData().getName());
+                            mobileDesTxt.setText(receiveParams.getData().getMobile());
+                            emailDesTxt.setText(receiveParams.getData().getEmail());
+                            genderDesTxt.setText(receiveParams.getData().getGender());
+                            qualiDesText.setText(receiveParams.getData().getQualification());
+                            specDesTxt.setText(receiveParams.getData().getSpecialization());
+
+                            int status = receiveParams.getData().getStatus();
+                            if(status == 0)
+                                statusDesTxt.setText(R.string.unverified);
+                            else
+                                statusDesTxt.setText(R.string.verified);
+
+                            if(receiveParams.getData().getProfileImg()!=null){
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                byte[] imageBytes = baos.toByteArray();
+                                String imageString = receiveParams.getData().getProfileImg();
+                                imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+                                Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                                profileDesImage.setImageBitmap(decodedImage);
+                            } else {
+                                profileDesImage.setImageResource(R.drawable.noimage);
+                            }
+
+                            if(receiveParams.getData().getDocumentImage()!=null){
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                byte[] imageBytes = baos.toByteArray();
+                                String imageString = receiveParams.getData().getDocumentImage();
+                                imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+                                Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                                documentDesImage.setImageBitmap(decodedImage);
+                            } else {
+                                documentDesImage.setImageResource(R.drawable.noimage);
+                            }
+
+                            documentDesImage.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    LayoutInflater factory = LayoutInflater.from(RequestDoctorDetailsActivity.this);
+                                    final View view1 = factory.inflate(R.layout.image_zoom_dailog, null);
+                                    ImageView imageDocument = (ImageView) view1.findViewById(R.id.dialogDocImage);
+
+                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                    byte[] imageBytes = baos.toByteArray();
+                                    String imageString = receiveParams.getData().getDocumentImage();
+                                    imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+                                    Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                                    imageDocument.setImageBitmap(decodedImage);
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(RequestDoctorDetailsActivity.this);
+                                    builder.setView(imageDocument);
+                                    AlertDialog alertDialog = builder.create();
+                                    alertDialog.getWindow().setLayout(600,500);
+
+                                    builder.setView(view1)
+                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                    builder.show();
+                                }
+                            });
+
+                        } else {
+                            new AestheticDialog.Builder(RequestDoctorDetailsActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                    .setTitle("Error")
+                                    .setMessage("Couldn't fetch data at the moment.")
+                                    .setCancelable(true)
+                                    .setGravity(Gravity.BOTTOM)
+                                    .setDuration(3000)
+                                    .show();
+                            pDialog.dismiss();
+                        }
+
+                    } else {
+                        new AestheticDialog.Builder(RequestDoctorDetailsActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                .setTitle("Error")
+                                .setMessage("Some Error occurred at Server end. Please try again.")
+                                .setCancelable(true)
+                                .setGravity(Gravity.BOTTOM)
+                                .setDuration(3000)
+                                .show();
+                        pDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<DoctorProfileReceiveParams> call, Throwable t) {
+                    Log.d(TAG, "onFailure: "+ t.toString());
+                    if(pDialog!= null && pDialog.isShowing()){
+                        pDialog.dismiss();
+                    }
+                }
+            });
         }
 
         btnRequest.setOnClickListener(new View.OnClickListener() {
@@ -185,6 +244,10 @@ public class RequestDoctorDetailsActivity extends AppCompatActivity {
                 cancelRequestToDoctor();
             }
         });
+    }
+
+    private void viewAllVerifiedDoctors(){
+
     }
 
     public void sendRequestToDoctor(){

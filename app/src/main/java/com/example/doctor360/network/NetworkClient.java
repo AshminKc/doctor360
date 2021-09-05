@@ -18,6 +18,8 @@ import com.example.doctor360.model.PatientPasswordChangeSendParams;
 import com.example.doctor360.model.PatientProfileReceiveParams;
 import com.example.doctor360.model.PatientRegistrationReceiveParams;
 import com.example.doctor360.model.PatientRegistrationSendParams;
+import com.example.doctor360.model.PatientRequestAppointmentReceiveParams;
+import com.example.doctor360.model.PatientRequestAppointmentSendParams;
 import com.example.doctor360.model.PatientUpdateProfileReceiveParams;
 import com.example.doctor360.model.PendingDoctorReceiveParams;
 import com.example.doctor360.model.RejectDoctorReceiveParams;
@@ -119,4 +121,6 @@ public interface NetworkClient {
             @Field("documentImage") String encodedImage1
     );
 
+    @POST("patient/appointment")
+    Call<PatientRequestAppointmentReceiveParams> requestAppointment (@Body PatientRequestAppointmentSendParams sendParams);
 }

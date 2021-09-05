@@ -70,7 +70,8 @@
                 android:imeOptions="actionDone"
                 android:gravity="start"
                 android:layout_below="@+id/spinnerRequestDoctorName"
-                android:layout_toEndOf="@+id/edtRequestPatientDate"/>
+                android:layout_toEndOf="@+id/edtRequestPatientDate"
+                />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/edtRequestPatientRemarks"

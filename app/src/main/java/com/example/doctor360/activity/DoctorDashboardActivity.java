@@ -308,12 +308,6 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
         alert.show();
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.clear();
-    }
-
     public void setToolbarAndNavView(Context context, int checked, String title){
         navigationView.getMenu().getItem(checked).setChecked(true);
         toolbarTitle.setText(title);

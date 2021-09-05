@@ -1,5 +1,6 @@
 package com.example.doctor360.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 
 import com.example.doctor360.R;
 import com.example.doctor360.fragment.AboutUsFragment;
+import com.example.doctor360.fragment.AllHospitalListFragment;
 import com.example.doctor360.fragment.DoctorHomeFragment;
 import com.example.doctor360.fragment.FAQFragment;
 import com.example.doctor360.fragment.PatientHomeFragment;
@@ -60,6 +62,7 @@ import es.dmoral.toasty.Toasty;
 
 public class PatientDashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    Context _context;
     TextView toolbarTitle, txtPatientLoginName, txtPatientViewProfile;
     CircleImageView patientLoginImage;
     ConnectionDetector connectionDetector;
@@ -76,6 +79,8 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_dashboard);
 
+        _context = getApplicationContext();
+
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
@@ -86,8 +91,8 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
         toolbar = findViewById(R.id.toolbarPatient);
         setSupportActionBar(toolbar);
 
-       // final FrameLayout frameLayout= findViewById(R.id.fragmentContainer1);
-       // final ViewGroup.MarginLayoutParams params= (ViewGroup.MarginLayoutParams) frameLayout.getLayoutParams();
+        final FrameLayout frameLayout= findViewById(R.id.fragmentContainer1);
+        final ViewGroup.MarginLayoutParams params= (ViewGroup.MarginLayoutParams) frameLayout.getLayoutParams();
 
         toolbarTitle.setText(getString(R.string.menu_home));
 
@@ -278,6 +283,14 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
                 break;
             }
 
+            case R.id.nav_hospitals: {
+                getSupportFragmentManager().popBackStackImmediate();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer1,new AllHospitalListFragment()).addToBackStack("").commit();
+                toolbarTitle.setText(getString(R.string.menu_hospitals));
+                break;
+            }
+
             case R.id.nav_patient_faq: {
                 getSupportFragmentManager().popBackStackImmediate();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -352,6 +365,30 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    public void setToolbarAndNavViewData(Context context, int checked, String title){
+        navigationView.getMenu().getItem(checked).setChecked(true);
+        toolbarTitle.setText(title);
+        _context = context;
+    }
+
+    public void setToolbarAndNavViewData1(Context context, int checked, String title){
+        navigationView.getMenu().getItem(checked).setChecked(true);
+        toolbarTitle.setText(title);
+        _context = context;
+    }
+
+    public void setToolbarAndNavViewData2(Context context, int checked, String title){
+        navigationView.getMenu().getItem(checked).setChecked(true);
+        toolbarTitle.setText(title);
+        _context = context;
+    }
+
+    public void setToolbarAndNavViewData3(Context context, int checked, String title){
+        navigationView.getMenu().getItem(checked).setChecked(true);
+        toolbarTitle.setText(title);
+        _context = context;
     }
 
 }

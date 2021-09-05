@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:layout_margin="@dimen/_5sdp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginLeft="@dimen/_14sdp"
+                android:layout_marginRight="@dimen/_14sdp"
+                android:layout_marginBottom="@dimen/_6sdp"
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hospitalNameTXT"
+                        android:text="Ashmin KC"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/_14sdp"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_2sdp" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hospitalPhoneTXT"
+                        android:text="9862565305"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="normal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:drawableStart="@drawable/ic_mobile"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_3sdp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hospitalEmailTXT"
+                        android:text="asminkc27@gmail.com"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="normal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:drawableStart="@drawable/ic_email"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hospitalWebsiteTXT"
+                        android:text="Male"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="normal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:drawableStart="@drawable/ic_status"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hospitalContactNameTXT"
+                        android:text="Male"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="normal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:drawableStart="@drawable/ic_user"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hospitalContactMobileTXT"
+                        android:text="Male"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="normal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:drawableStart="@drawable/ic_phone_iphone_black_24dp"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

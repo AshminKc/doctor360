@@ -1,6 +1,7 @@
 package com.example.doctor360.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -110,6 +111,12 @@ public class VerifiedDoctorListFragment extends Fragment {
         NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
         Call<VerifiedDoctorReceiveParams> call = networkClient.getVerifiedDoctorList();
 
+        final SweetAlertDialog pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Fetching Data..");
+        pDialog.setCancelable(false);
+        pDialog.show();
+
         call.enqueue(new Callback<VerifiedDoctorReceiveParams>() {
             @Override
             public void onResponse(Call<VerifiedDoctorReceiveParams> call, Response<VerifiedDoctorReceiveParams> response) {
@@ -122,6 +129,7 @@ public class VerifiedDoctorListFragment extends Fragment {
                     refreshLayout.setRefreshing(false);
                     mShimmerLayout.stopShimmerAnimation();
                     mShimmerLayout.setVisibility(View.GONE);
+                    pDialog.dismiss();
                 } else {
                     new AestheticDialog.Builder(getActivity(), DialogStyle.RAINBOW, DialogType.ERROR)
                             .setTitle("Error")
@@ -131,6 +139,7 @@ public class VerifiedDoctorListFragment extends Fragment {
                             .setDuration(3000)
                             .show();
                     refreshLayout.setRefreshing(false);
+                    pDialog.dismiss();
                 }
             }
 
@@ -140,9 +149,14 @@ public class VerifiedDoctorListFragment extends Fragment {
 
                 mShimmerLayout.stopShimmerAnimation();
                 refreshLayout.setRefreshing(false);
+                pDialog.dismiss();
 
                 if (refreshLayout.isRefreshing() && refreshLayout != null) {
                     refreshLayout.setRefreshing(false);
+                }
+
+                if(pDialog!= null && pDialog.isShowing()){
+                    pDialog.dismiss();
                 }
             }
         });

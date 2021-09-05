@@ -1,6 +1,7 @@
 package com.example.doctor360.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -20,6 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.cazaea.sweetalert.SweetAlertDialog;
 import com.example.doctor360.R;
+import com.example.doctor360.activity.PatientProfileActivity;
 import com.example.doctor360.adapter.PendingDoctorListAdapter;
 import com.example.doctor360.helper.ConnectionDetector;
 import com.example.doctor360.model.PendingDoctorReceiveParams;
@@ -107,6 +109,12 @@ public class PendingDoctorListFragment extends Fragment {
         NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
         Call<PendingDoctorReceiveParams> call = networkClient.getPendingDoctorList();
 
+        final SweetAlertDialog pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Fetching Data..");
+        pDialog.setCancelable(false);
+        pDialog.show();
+
         call.enqueue(new Callback<PendingDoctorReceiveParams>() {
             @Override
             public void onResponse(Call<PendingDoctorReceiveParams> call, Response<PendingDoctorReceiveParams> response) {
@@ -120,6 +128,7 @@ public class PendingDoctorListFragment extends Fragment {
                     refreshLayout.setRefreshing(false);
                     mShimmerLayout.stopShimmerAnimation();
                     mShimmerLayout.setVisibility(View.GONE);
+                    pDialog.dismiss();
                 } else {
                     new AestheticDialog.Builder(getActivity(), DialogStyle.RAINBOW, DialogType.ERROR)
                             .setTitle("Error")
@@ -128,6 +137,7 @@ public class PendingDoctorListFragment extends Fragment {
                             .setGravity(Gravity.BOTTOM)
                             .setDuration(3000)
                             .show();
+                    pDialog.dismiss();
                     refreshLayout.setRefreshing(false);
                 }
 
@@ -142,6 +152,10 @@ public class PendingDoctorListFragment extends Fragment {
 
                 if (refreshLayout.isRefreshing() && refreshLayout != null) {
                     refreshLayout.setRefreshing(false);
+                }
+
+                if(pDialog!= null && pDialog.isShowing()){
+                    pDialog.dismiss();
                 }
             }
         });

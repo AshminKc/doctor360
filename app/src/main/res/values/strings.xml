@@ -14,11 +14,14 @@
     <string name="menu_home">Home</string>
     <string name="request">Request</string>
     <string name="menu_request">Referred Doctors</string>
-    <string name="menu_patient_request">Patient Request</string>
+    <string name="menu_patient_request">Pending Requests</string>
+    <string name="menu_accepted_request">Accepted Requests</string>
     <string name="menu_chat_room">Chat Room</string>
+    <string name="menu_hospitals">Hospitals</string>
     <string name="menu_request_doctor">Request Doctor</string>
-    <string name="menu_appointment_request">Appointment Request</string>
+    <string name="menu_appointment_request">Pending Appointments</string>
     <string name="menu_request_appointment">Request Appointment</string>
+    <string name="menu_scheduled_appointment">Scheduled Appointments</string>
     <string name="menu_qna">QnA</string>
     <string name="menu_faq">FAQ</string>
     <string name="menu_question">Ask Question</string>

@@ -77,7 +77,8 @@ public class RequestDoctorListAdapter extends RecyclerView.Adapter<RecyclerView.
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Position " + position);
                 Intent intent=new Intent(view.getContext(), RequestDoctorDetailsActivity.class);
-                intent.putExtra("obj1", receiveParams);
+                intent.putExtra("request_doctor_id", receiveParams.get_id());
+                intent.putExtra("request_doctor_name", receiveParams.getName());
                 Activity activity = (Activity) context;
                 activity.startActivity(intent);
                 activity.overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);

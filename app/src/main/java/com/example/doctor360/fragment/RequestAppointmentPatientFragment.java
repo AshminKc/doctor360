@@ -23,7 +23,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.cazaea.sweetalert.SweetAlertDialog;
-import com.example.doctor360.MainModel;
 import com.example.doctor360.R;
 import com.example.doctor360.activity.LoginActivity;
 import com.example.doctor360.helper.ConnectionDetector;

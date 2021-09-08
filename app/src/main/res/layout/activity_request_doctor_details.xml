@@ -183,6 +183,7 @@
                         android:scaleType="centerCrop"
                         android:id="@+id/requestDoctorDocumentImageDetails"
                         android:contentDescription="@string/app_name"
+                        android:layout_marginBottom="@dimen/_15sdp"
                         android:layout_below="@+id/requestDoctorImgTxtDetails"/>
 
                     <Button
@@ -201,6 +202,7 @@
                         android:textStyle="bold"
                         android:drawableStart="@drawable/ic_verify"
                         android:drawablePadding="@dimen/_2sdp"
+                        android:textAllCaps="true"
                         android:layout_below="@+id/requestDoctorDocumentImageDetails"/>
 
                     <Button
@@ -214,6 +216,7 @@
                         android:padding="@dimen/_10sdp"
                         android:background="@drawable/reject_round_bg"
                         android:text="@string/cancel"
+                        android:textAllCaps="true"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_10sdp"
                         android:textStyle="bold"

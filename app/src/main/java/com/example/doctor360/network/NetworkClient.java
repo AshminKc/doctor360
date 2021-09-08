@@ -3,6 +3,10 @@ package com.example.doctor360.network;
 
 import com.example.doctor360.model.AdminLoginReceiveParams;
 import com.example.doctor360.model.AdminLoginSendParams;
+import com.example.doctor360.model.ChatAcceptedPatientReceiveParams;
+import com.example.doctor360.model.ChatAccptedDoctorReceiveParams;
+import com.example.doctor360.model.DoctorAcceptAppointmentReceiveParams;
+import com.example.doctor360.model.DoctorAcceptChatRequestReceiveParams;
 import com.example.doctor360.model.DoctorChangePasswordReceiveParams;
 import com.example.doctor360.model.DoctorChangePasswordSendParams;
 import com.example.doctor360.model.DoctorLoginReceiveParams;
@@ -10,7 +14,12 @@ import com.example.doctor360.model.DoctorLoginSendParams;
 import com.example.doctor360.model.DoctorProfileReceiveParams;
 import com.example.doctor360.model.DoctorRegistrationReceiveParams;
 import com.example.doctor360.model.DoctorRegistrationSendParams;
+import com.example.doctor360.model.DoctorRejectAppointmentReceiveParams;
+import com.example.doctor360.model.DoctorRejectChatRequestReceiveParams;
+import com.example.doctor360.model.DoctorRequestAppoitmentReceiveParams;
 import com.example.doctor360.model.DoctorUpdateProfileReceiveParams;
+import com.example.doctor360.model.PatientChatRequestReceiveParams;
+import com.example.doctor360.model.PatientChatRequestSendParams;
 import com.example.doctor360.model.PatientLoginReceiveParams;
 import com.example.doctor360.model.PatientLoginSendParams;
 import com.example.doctor360.model.PatientPasswordChangeReceiveParams;
@@ -25,6 +34,9 @@ import com.example.doctor360.model.PendingDoctorReceiveParams;
 import com.example.doctor360.model.RejectDoctorReceiveParams;
 import com.example.doctor360.model.VerifiedDoctorReceiveParams;
 import com.example.doctor360.model.VerifyDoctorReceiveParams;
+import com.example.doctor360.model.ViewChatRequestDoctorReceiveParams;
+import com.example.doctor360.model.ViewDoctorScheduledAppointmentReceiveParams;
+import com.example.doctor360.model.ViewPatientScheduledAppointmentReceiveParams;
 
 import okhttp3.MultipartBody;
 import okhttp3.Request;
@@ -123,4 +135,38 @@ public interface NetworkClient {
 
     @POST("patient/appointment")
     Call<PatientRequestAppointmentReceiveParams> requestAppointment (@Body PatientRequestAppointmentSendParams sendParams);
+
+    @GET("doctor/viewappointments/requests/{id}")
+    Call<DoctorRequestAppoitmentReceiveParams> viewAllPendingAppointments (@Path("id") String id);
+
+    @PUT("doctor/acceptappointments/{id}")
+    Call<DoctorAcceptAppointmentReceiveParams> acceptAppointment(@Path("id") String id);
+
+    @DELETE("doctor/rejectappointment/{id}")
+    Call<DoctorRejectAppointmentReceiveParams> rejectAppointment(@Path("id") String id);
+
+    @GET("doctor/viewappointments/accepted/{id}")
+    Call<ViewDoctorScheduledAppointmentReceiveParams> viewDoctorScheduledAppointment(@Path("id") String id);
+
+    @GET("patient/viewappointments/accepted/{id}")
+    Call<ViewPatientScheduledAppointmentReceiveParams> viewPatientScheduledAppointment(@Path("id") String id);
+
+    @POST("patient/chatrequest")
+    Call<PatientChatRequestReceiveParams> sendChatRequest (@Body PatientChatRequestSendParams sendParams);
+
+    @GET("doctor/viewchats/requests/{id}")
+    Call<ViewChatRequestDoctorReceiveParams> viewDoctorChatRequest (@Path("id") String id);
+
+    @GET("patient/viewchats/accepted/{id}")
+    Call<ChatAcceptedPatientReceiveParams> viewPatientChats(@Path("id") String id);
+
+    @PUT("doctor/acceptchat/{id}")
+    Call<DoctorAcceptChatRequestReceiveParams> acceptChatRequest(@Path("id") String id);
+
+    @DELETE("doctor/rejectchat/{id}")
+    Call<DoctorRejectChatRequestReceiveParams> rejectChatRequest (@Path("id") String id);
+
+    @GET("doctor/viewchats/accepted/{id}")
+    Call<ChatAccptedDoctorReceiveParams> viewDoctorChats(@Path("id") String id);
+
 }

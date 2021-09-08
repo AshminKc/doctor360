@@ -1,6 +1,8 @@
 package com.example.doctor360.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,7 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.cazaea.sweetalert.SweetAlertDialog;
-import com.example.doctor360.MainModel;
 import com.example.doctor360.R;
 import com.example.doctor360.activity.DoctorDashboardActivity;
 import com.example.doctor360.activity.PatientDashboardActivity;
@@ -47,6 +48,7 @@ import com.thecode.aestheticdialogs.DialogType;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import me.relex.circleindicator.CircleIndicator;
 import pl.pzienowicz.autoscrollviewpager.AutoScrollViewPager;
 import retrofit2.Call;
@@ -61,7 +63,6 @@ public class PatientHomeFragment extends Fragment {
     HospitalListAdapter hospitalListAdapter;
     private AutoScrollViewPager viewPager;
     private CircleIndicator pageIndicatorView;
-    TextView viewAllDoctorTXT, viewAllHospitalTXT, txtRequest, txtViewAppoint;
     RecyclerView doctorRecyclerView, hospitalRecyclerView;
     DoctorListAdapter doctorListAdapter;
     ConnectionDetector connectionDetector;
@@ -77,10 +78,6 @@ public class PatientHomeFragment extends Fragment {
 
         viewPager = rootView.findViewById(R.id.sliderViewPager);
         pageIndicatorView = rootView.findViewById(R.id.pageIndicator);
-        viewAllDoctorTXT = rootView.findViewById(R.id.txtViewAllDoctor);
-        viewAllHospitalTXT = rootView.findViewById(R.id.txtViewAllHospitals);
-        txtRequest = rootView.findViewById(R.id.txtRequestForAppointment);
-        txtViewAppoint = rootView.findViewById(R.id.txtViewAllAppointment);
         doctorRecyclerView = rootView.findViewById(R.id.allDoctorRecyclerView);
         hospitalRecyclerView = rootView.findViewById(R.id.allHospitalRecyclerView);
 
@@ -110,42 +107,6 @@ public class PatientHomeFragment extends Fragment {
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         hospitalRecyclerView.setLayoutManager(linearLayoutManager1);
         hospitalRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        viewAllDoctorTXT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fm = getFragmentManager();
-                fm.popBackStackImmediate();
-                FragmentTransaction ft = fm.beginTransaction();
-                RequestDoctorFragment requestDoctorFragment = new RequestDoctorFragment();
-                ft.replace(R.id.fragmentContainer1, requestDoctorFragment,"requestDoctorFragment").addToBackStack("requestDoctorFragment").commit();
-                ((PatientDashboardActivity) getActivity()).setToolbarAndNavViewData(getContext(),1, getResources().getString(R.string.menu_request_doctor));
-            }
-        });
-
-        viewAllHospitalTXT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fm = getFragmentManager();
-                fm.popBackStackImmediate();
-                FragmentTransaction ft = fm.beginTransaction();
-                AllHospitalListFragment allHospitalListFragment = new AllHospitalListFragment();
-                ft.replace(R.id.fragmentContainer1, allHospitalListFragment,"allHospitalFragment").addToBackStack("allHospitalFragment").commit();
-                ((PatientDashboardActivity) getActivity()).setToolbarAndNavViewData1(getContext(),7, getResources().getString(R.string.menu_hospitals));
-            }
-        });
-
-        txtRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fm = getFragmentManager();
-                fm.popBackStackImmediate();
-                FragmentTransaction ft = fm.beginTransaction();
-                RequestAppointmentPatientFragment requestAppointmentPatientFragment = new RequestAppointmentPatientFragment();
-                ft.replace(R.id.fragmentContainer1, requestAppointmentPatientFragment,"requestAppointmentFragment").addToBackStack("requestAppointmentFragment").commit();
-                ((PatientDashboardActivity) getActivity()).setToolbarAndNavViewData2(getContext(),3, getResources().getString(R.string.menu_request_appointment));
-            }
-        });
 
         return rootView;
     }

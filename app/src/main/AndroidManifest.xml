@@ -171,6 +171,18 @@
             android:name=".activity.RequestDoctorDetailsActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AppointRequestPatientDetails"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChatRequestPatientDetailsActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PatientChatActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

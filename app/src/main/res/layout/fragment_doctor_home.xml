@@ -57,18 +57,6 @@
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:textColor="@color/white" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtViewAllChat"
-                android:layout_weight="0.2"
-                android:text="View All"
-                android:textSize="@dimen/_12sdp"
-                android:textStyle="normal"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:textColor="@color/white" />
 
         </LinearLayout>
 
@@ -112,19 +100,6 @@
                 android:textStyle="bold"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtViewAllAppoint"
-                android:layout_weight="0.2"
-                android:text="View All"
-                android:textSize="@dimen/_12sdp"
-                android:textStyle="normal"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:textColor="@color/white" />
 

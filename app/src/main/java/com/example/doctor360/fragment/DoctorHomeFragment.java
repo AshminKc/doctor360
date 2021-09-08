@@ -1,7 +1,12 @@
 package com.example.doctor360.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Path;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +21,33 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.doctor360.MainModel;
+import com.cazaea.sweetalert.SweetAlertDialog;
 import com.example.doctor360.R;
 import com.example.doctor360.activity.DoctorDashboardActivity;
 import com.example.doctor360.adapter.AppointRequestPatientAdapter;
 import com.example.doctor360.adapter.ChatRequestPatientAdapter;
+import com.example.doctor360.adapter.DoctorListAdapter;
 import com.example.doctor360.adapter.ImageSliderAdapter;
 import com.example.doctor360.helper.ConnectionDetector;
+import com.example.doctor360.model.DoctorRequestAppoitmentReceiveParams;
+import com.example.doctor360.model.VerifiedDoctorReceiveParams;
+import com.example.doctor360.model.ViewChatRequestDoctorReceiveParams;
+import com.example.doctor360.network.NetworkClient;
+import com.example.doctor360.network.ServiceGenerator;
+import com.orhanobut.hawk.Hawk;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import me.relex.circleindicator.CircleIndicator;
 import pl.pzienowicz.autoscrollviewpager.AutoScrollViewPager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DoctorHomeFragment extends Fragment {
 
@@ -36,12 +56,14 @@ public class DoctorHomeFragment extends Fragment {
     ImageSliderAdapter imageSliderAdapter;
     private AutoScrollViewPager viewPager;
     private CircleIndicator pageIndicatorView;
-    TextView viewAllChatTXT, viewAllAppointTXT;
     RecyclerView chatRecyclerView, appointRecyclerView;
     ChatRequestPatientAdapter chatRequestPatientAdapter;
     AppointRequestPatientAdapter appointRequestPatientAdapter;
     ConnectionDetector connectionDetector;
-    ArrayList<MainModel> mainModels;
+    String strDoctorID;
+    List<DoctorRequestAppoitmentReceiveParams.DataBean> requestAppointment = new ArrayList<>();
+    List<ViewChatRequestDoctorReceiveParams.DataBean> chatRequestList = new ArrayList<>();
+    Context context;
     private static final String TAG = "DoctorHomeFragment";
 
     @Nullable
@@ -51,8 +73,6 @@ public class DoctorHomeFragment extends Fragment {
 
         viewPager = rootView.findViewById(R.id.sliderViewPager);
         pageIndicatorView = rootView.findViewById(R.id.pageIndicator);
-        viewAllChatTXT = rootView.findViewById(R.id.txtViewAllChat);
-        viewAllAppointTXT = rootView.findViewById(R.id.txtViewAllAppoint);
         chatRecyclerView = rootView.findViewById(R.id.chatRequestRecyclerView);
         appointRecyclerView = rootView.findViewById(R.id.appointRequestRecyclerView);
 
@@ -64,14 +84,18 @@ public class DoctorHomeFragment extends Fragment {
         viewPager.setAdapter(imageSliderAdapter);
         pageIndicatorView.setViewPager(viewPager);
 
-        Integer[] logo = {R.drawable.image1, R.drawable.image2, R.drawable.image3, R.drawable.image4, R.drawable.image5};
-        String[] name = {"Ram", "Sita","Gita","Shiva","Sudeep"};
-        String [] mobile = {"1111","0000","2222","3333","4444"};
+        context = getContext();
 
-        mainModels = new ArrayList<>();
-        for(int i=0;i<logo.length;i++){
-            MainModel mainModel = new MainModel(logo[i], name[i], mobile[i]);
-            mainModels.add(mainModel);
+        Hawk.init(context).build();
+        strDoctorID = Hawk.get("request_doctor_id");
+
+        connectionDetector = new ConnectionDetector(context);
+
+        if (!connectionDetector.isDataAvailable() || !connectionDetector.isNetworkAvailable()) {
+            showNoInternetMessage();
+        } else {
+            getAppointmentRequest(strDoctorID);
+            getChatRequest(strDoctorID);
         }
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -82,34 +106,106 @@ public class DoctorHomeFragment extends Fragment {
         appointRecyclerView.setLayoutManager(linearLayoutManager1);
         appointRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        chatRequestPatientAdapter = new ChatRequestPatientAdapter(mainModels, getContext());
-        chatRecyclerView.setAdapter(chatRequestPatientAdapter);
-
-        appointRequestPatientAdapter = new AppointRequestPatientAdapter(mainModels, getContext());
-        appointRecyclerView.setAdapter(appointRequestPatientAdapter);
-
-        viewAllChatTXT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fm = getFragmentManager();
-                fm.popBackStackImmediate();
-                FragmentTransaction ft = fm.beginTransaction();
-                RequestAppointmentDoctorFragment technologyNewsFragment = new RequestAppointmentDoctorFragment();
-                ft.replace(R.id.fragmentContainer2, technologyNewsFragment,"educationFragment").addToBackStack("educationFragment").commit();
-                ((DoctorDashboardActivity) getActivity()).setToolbarAndNavView(getContext(),3, getResources().getString(R.string.menu_appointment_request));
-            }
-        });
-
-        viewAllAppointTXT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), DoctorDashboardActivity.class);
-                intent.putExtra("view_all_appoint_request", 2);
-                startActivity(intent);
-            }
-        });
-
         return rootView;
+    }
+
+    private void getAppointmentRequest(String id){
+        NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
+        Call<DoctorRequestAppoitmentReceiveParams> call = networkClient.viewAllPendingAppointments(id);
+
+        final SweetAlertDialog pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Fetching Data...");
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        call.enqueue(new Callback<DoctorRequestAppoitmentReceiveParams>() {
+            @Override
+            public void onResponse(Call<DoctorRequestAppoitmentReceiveParams> call, Response<DoctorRequestAppoitmentReceiveParams> response) {
+                Log.d(TAG, "onResponse: " + response.body()) ;
+                if(response.body()!=null){
+                    final DoctorRequestAppoitmentReceiveParams receiveParams = response.body();
+                    requestAppointment = new ArrayList<DoctorRequestAppoitmentReceiveParams.DataBean>(receiveParams.getData());
+                    appointRequestPatientAdapter = new AppointRequestPatientAdapter(requestAppointment, context);
+                    appointRecyclerView.setAdapter(appointRequestPatientAdapter);
+                    pDialog.dismiss();
+                } else {
+                    new AestheticDialog.Builder(getActivity(), DialogStyle.RAINBOW, DialogType.ERROR)
+                            .setTitle("Error")
+                            .setMessage("Some Error occurred at Server end. Please try again.")
+                            .setCancelable(true)
+                            .setGravity(Gravity.BOTTOM)
+                            .setDuration(3000)
+                            .show();
+                    pDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DoctorRequestAppoitmentReceiveParams> call, Throwable t) {
+                Log.d(TAG, "onFailure: Doctor " + t.toString());
+
+                if(pDialog!= null && pDialog.isShowing()){
+                    pDialog.dismiss();
+                }
+            }
+        });
+    }
+
+    private void getChatRequest(String patientid){
+        NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
+        Call<ViewChatRequestDoctorReceiveParams> call = networkClient.viewDoctorChatRequest(patientid);
+
+        final SweetAlertDialog pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Fetching Data...");
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        call.enqueue(new Callback<ViewChatRequestDoctorReceiveParams>() {
+            @Override
+            public void onResponse(Call<ViewChatRequestDoctorReceiveParams> call, Response<ViewChatRequestDoctorReceiveParams> response) {
+                if(response.body()!=null){
+                    final ViewChatRequestDoctorReceiveParams receiveParams = response.body();
+                    chatRequestList = new ArrayList<ViewChatRequestDoctorReceiveParams.DataBean>(receiveParams.getData());
+                    chatRequestPatientAdapter = new ChatRequestPatientAdapter(chatRequestList, context);
+                    chatRecyclerView.setAdapter(chatRequestPatientAdapter);
+                    pDialog.dismiss();
+                } else {
+                    new AestheticDialog.Builder(getActivity(), DialogStyle.RAINBOW, DialogType.ERROR)
+                            .setTitle("Error")
+                            .setMessage("Some Error occurred at Server end. Please try again.")
+                            .setCancelable(true)
+                            .setGravity(Gravity.BOTTOM)
+                            .setDuration(3000)
+                            .show();
+                    pDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ViewChatRequestDoctorReceiveParams> call, Throwable t) {
+                Log.d(TAG, "onFailure: Doctor " + t.toString());
+
+                if(pDialog!= null && pDialog.isShowing()){
+                    pDialog.dismiss();
+                }
+            }
+        });
+    }
+
+    private void showNoInternetMessage(){
+        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("No Internet Connection")
+                .setContentText("Please check your connection and try again.")
+                .setConfirmText("OK")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismissWithAnimation();
+                    }
+                })
+                .show();
     }
 
 }

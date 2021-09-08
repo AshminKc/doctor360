@@ -8,8 +8,13 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import com.example.doctor360.R;
+import com.example.doctor360.fragment.ChatAcceptedDoctorFragment;
 import com.example.doctor360.fragment.DoctorHomeFragment;
 import com.example.doctor360.fragment.FAQFragment;
+import com.example.doctor360.fragment.RequestAppointmentDoctorFragment;
+import com.example.doctor360.fragment.RequestChatDoctorFragment;
+import com.example.doctor360.fragment.ScheduledAppointmentDoctorFragment;
+import com.example.doctor360.fragment.ScheduledAppointmentPatientFragment;
 import com.example.doctor360.helper.ConnectionDetector;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.internal.NavigationMenuView;
@@ -27,6 +32,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.orhanobut.hawk.Hawk;
 import com.thecode.aestheticdialogs.AestheticDialog;
 import com.thecode.aestheticdialogs.DialogStyle;
 import com.thecode.aestheticdialogs.DialogType;
@@ -50,6 +56,7 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
     CircleImageView doctorLoginImage;
     ConnectionDetector connectionDetector;
     Toolbar toolbar;
+    Context _context;
     DrawerLayout drawer;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
@@ -90,6 +97,11 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
         nameFromProfile = intent1.getStringExtra("from_profile_name");
         emailFromProfile = intent1.getStringExtra("from_profile_email");
         imageFromProfile = intent1.getStringExtra("from_profile_image");
+
+        Hawk.init(getApplicationContext()).build();
+        Hawk.put("request_doctor_id", doctorID);
+
+        _context = getApplicationContext();
 
         if(IdFromProfile!= null)
             strDoctorID = IdFromProfile;
@@ -203,8 +215,18 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
     public void onBackPressed() {
         toolbarTitle.setText(getString(R.string.menu_home));
 
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        Log.d(TAG, "onBackPressed: Count" +count);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (count >= 1) {
+            getSupportFragmentManager().popBackStack();
+            try {
+                navigationView.getMenu().getItem(0).setChecked(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
             exitApp();
         }
@@ -240,11 +262,43 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
 
 
         switch (id) {
-            case R.id.nav_doctor_chat_room: {
+            case R.id.nav_doctor_home: {
                 getSupportFragmentManager().popBackStackImmediate();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainer2,new DoctorHomeFragment()).addToBackStack("").commit();
                 toolbarTitle.setText(getString(R.string.menu_home));
+                break;
+            }
+
+            case R.id.nav_patient_request: {
+                getSupportFragmentManager().popBackStackImmediate();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer2,new RequestChatDoctorFragment()).addToBackStack("").commit();
+                toolbarTitle.setText(getString(R.string.menu_patient_request));
+                break;
+            }
+
+            case R.id.nav_patient_request_accepted: {
+                getSupportFragmentManager().popBackStackImmediate();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer2,new ChatAcceptedDoctorFragment()).addToBackStack("").commit();
+                toolbarTitle.setText(getString(R.string.menu_accepted_request));
+                break;
+            }
+
+            case R.id.nav_doctor_appointment_request: {
+                getSupportFragmentManager().popBackStackImmediate();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer2,new RequestAppointmentDoctorFragment()).addToBackStack("").commit();
+                toolbarTitle.setText(getString(R.string.menu_appointment_request));
+                break;
+            }
+
+            case R.id.nav_scheduled_appointment: {
+                getSupportFragmentManager().popBackStackImmediate();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer2,new ScheduledAppointmentDoctorFragment()).addToBackStack("").commit();
+                toolbarTitle.setText(getString(R.string.menu_scheduled_appointment));
                 break;
             }
 
@@ -296,7 +350,6 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
                         finish();
                         Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                         startActivity(intent);
-                        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right);
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -308,9 +361,16 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
         alert.show();
     }
 
-    public void setToolbarAndNavView(Context context, int checked, String title){
+    public void setToolbarAndNavView5(Context context, int checked, String title){
         navigationView.getMenu().getItem(checked).setChecked(true);
         toolbarTitle.setText(title);
+        _context = context;
+    }
+
+    public void setToolbarAndNavView6(Context context1, int checked, String title){
+        navigationView.getMenu().getItem(checked).setChecked(true);
+        toolbarTitle.setText(title);
+        _context = context1;
     }
 
 }

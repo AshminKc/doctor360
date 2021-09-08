@@ -27,6 +27,8 @@ import com.cazaea.sweetalert.SweetAlertDialog;
 import com.example.doctor360.R;
 import com.example.doctor360.helper.ConnectionDetector;
 import com.example.doctor360.model.DoctorProfileReceiveParams;
+import com.example.doctor360.model.PatientChatRequestReceiveParams;
+import com.example.doctor360.model.PatientChatRequestSendParams;
 import com.example.doctor360.model.VerifiedDoctorReceiveParams;
 import com.example.doctor360.network.NetworkClient;
 import com.example.doctor360.network.ServiceGenerator;
@@ -123,6 +125,7 @@ public class RequestDoctorDetailsActivity extends AppCompatActivity {
                     if(response.body()!=null){
                         String success = receiveParams.getSuccess();
                         if(success.matches("true")){
+                            strDoctorID = receiveParams.getData().get_id();
                             nameDecTxt.setText("DR. "+receiveParams.getData().getName());
                             mobileDesTxt.setText(receiveParams.getData().getMobile());
                             emailDesTxt.setText(receiveParams.getData().getEmail());
@@ -233,7 +236,7 @@ public class RequestDoctorDetailsActivity extends AppCompatActivity {
                             .setDuration(3000)
                             .show();
                 } else {
-                    sendRequestToDoctor();
+                    sendRequestToDoctor(strPatientID, strDoctorID);
                 }
             }
         });
@@ -246,12 +249,68 @@ public class RequestDoctorDetailsActivity extends AppCompatActivity {
         });
     }
 
-    private void viewAllVerifiedDoctors(){
+    public void sendRequestToDoctor(String pID, String dID){
+        NetworkClient networkClient = ServiceGenerator.createRequestGsonAPI(NetworkClient.class);
+        PatientChatRequestSendParams sendParams = new PatientChatRequestSendParams();
 
-    }
+        final SweetAlertDialog pDialog = new SweetAlertDialog(RequestDoctorDetailsActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Sending Request...");
+        pDialog.setCancelable(false);
+        pDialog.show();
 
-    public void sendRequestToDoctor(){
+        sendParams.setDoctorId(dID);
+        sendParams.setPatientId(pID);
+        Call<PatientChatRequestReceiveParams> call = networkClient.sendChatRequest(sendParams);
+        call.enqueue(new Callback<PatientChatRequestReceiveParams>() {
+            @Override
+            public void onResponse(Call<PatientChatRequestReceiveParams> call, Response<PatientChatRequestReceiveParams> response) {
+                if(response.body()!=null){
+                    final PatientChatRequestReceiveParams receiveParams = response.body();
+                    String success = receiveParams.getSuccess();
 
+                    if(success.matches("true")){
+                        new AestheticDialog.Builder(RequestDoctorDetailsActivity.this, DialogStyle.RAINBOW, DialogType.SUCCESS)
+                                .setTitle("Success")
+                                .setMessage("Request Send for Chat")
+                                .setCancelable(true)
+                                .setGravity(Gravity.BOTTOM)
+                                .setDuration(3000)
+                                .show();
+                        pDialog.dismiss();
+                        btnRequest.setVisibility(View.GONE);
+                        btnCancel.setVisibility(View.GONE);
+                    } else {
+                        new AestheticDialog.Builder(RequestDoctorDetailsActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                .setTitle("Error")
+                                .setMessage("Couldn't sent request at the moment.")
+                                .setCancelable(true)
+                                .setGravity(Gravity.BOTTOM)
+                                .setDuration(3000)
+                                .show();
+                        pDialog.dismiss();
+                    }
+                } else {
+                        new AestheticDialog.Builder(RequestDoctorDetailsActivity.this, DialogStyle.RAINBOW, DialogType.ERROR)
+                                .setTitle("Error")
+                                .setMessage("Some error occured at server end.")
+                                .setCancelable(true)
+                                .setGravity(Gravity.BOTTOM)
+                                .setDuration(3000)
+                                .show();
+                        pDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PatientChatRequestReceiveParams> call, Throwable t) {
+                Log.d(TAG, "onFailure: " +t.toString());
+
+                if(pDialog!= null && pDialog.isShowing()){
+                    pDialog.dismiss();
+                }
+            }
+        });
     }
 
     public void cancelRequestToDoctor(){

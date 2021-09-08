@@ -11,13 +11,16 @@ import android.os.Bundle;
 import com.example.doctor360.R;
 import com.example.doctor360.fragment.AboutUsFragment;
 import com.example.doctor360.fragment.AllHospitalListFragment;
+import com.example.doctor360.fragment.ChatAcceptedPatientFragment;
 import com.example.doctor360.fragment.DoctorHomeFragment;
 import com.example.doctor360.fragment.FAQFragment;
+import com.example.doctor360.fragment.PatientChatListFragment;
 import com.example.doctor360.fragment.PatientHomeFragment;
 import com.example.doctor360.fragment.PrivacyPolicyFragment;
 import com.example.doctor360.fragment.RequestAppointmentDoctorFragment;
 import com.example.doctor360.fragment.RequestAppointmentPatientFragment;
 import com.example.doctor360.fragment.RequestDoctorFragment;
+import com.example.doctor360.fragment.ScheduledAppointmentPatientFragment;
 import com.example.doctor360.helper.ConnectionDetector;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.internal.NavigationMenuView;
@@ -94,7 +97,7 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
         final FrameLayout frameLayout= findViewById(R.id.fragmentContainer1);
         final ViewGroup.MarginLayoutParams params= (ViewGroup.MarginLayoutParams) frameLayout.getLayoutParams();
 
-        toolbarTitle.setText(getString(R.string.menu_home));
+        toolbarTitle.setText(getResources().getString(R.string.menu_home));
 
         final Intent intent = getIntent();
         patientName =  intent.getStringExtra("patient_name");
@@ -223,8 +226,18 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
     public void onBackPressed() {
         toolbarTitle.setText(getString(R.string.menu_home));
 
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        Log.d(TAG, "onBackPressed: Count" +count);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (count >= 1) {
+            getSupportFragmentManager().popBackStack();
+            try {
+                navigationView.getMenu().getItem(0).setChecked(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
             exitApp();
         }
@@ -275,11 +288,35 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
                 break;
             }
 
+            case R.id.nav_doctor_request_accepted:{
+                getSupportFragmentManager().popBackStackImmediate();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer1,new ChatAcceptedPatientFragment()).addToBackStack("").commit();
+                toolbarTitle.setText(getString(R.string.menu_accepted_request));
+                break;
+            }
+
             case R.id.nav_appointment_request:{
                 getSupportFragmentManager().popBackStackImmediate();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainer1,new RequestAppointmentPatientFragment()).addToBackStack("").commit();
                 toolbarTitle.setText(getString(R.string.menu_request_appointment));
+                break;
+            }
+
+            case R.id.nav_patient_chat_room: {
+                getSupportFragmentManager().popBackStackImmediate();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer1,new PatientChatListFragment()).addToBackStack("").commit();
+                toolbarTitle.setText(getString(R.string.menu_chat_room));
+                break;
+            }
+
+            case R.id.nav_scheduled_appointment: {
+                getSupportFragmentManager().popBackStackImmediate();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer1,new ScheduledAppointmentPatientFragment()).addToBackStack("").commit();
+                toolbarTitle.setText(getString(R.string.menu_scheduled_appointment));
                 break;
             }
 
@@ -367,10 +404,9 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
         alert.show();
     }
 
-    public void setToolbarAndNavViewData(Context context, int checked, String title){
+    public void setToolbarAndNavViewData(int checked, String title){
         navigationView.getMenu().getItem(checked).setChecked(true);
         toolbarTitle.setText(title);
-        _context = context;
     }
 
     public void setToolbarAndNavViewData1(Context context, int checked, String title){
@@ -389,6 +425,16 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
         navigationView.getMenu().getItem(checked).setChecked(true);
         toolbarTitle.setText(title);
         _context = context;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
 }

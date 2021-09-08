@@ -1,6 +1,9 @@
 package com.example.doctor360.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,20 +12,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.doctor360.MainModel;
 import com.example.doctor360.R;
+import com.example.doctor360.model.ViewChatRequestDoctorReceiveParams;
 import com.example.doctor360.utils.SquareImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatRequestPatientAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private final int limit = 3;
+    private final int limit = 5;
     Context context;
-    List<MainModel> models;
-    private static final String TAG = "VerifiedDoctorListAdapt";
+    List<ViewChatRequestDoctorReceiveParams.DataBean> models;
+    private static final String TAG = "ChatRequestPatientAdapt";
 
-    public ChatRequestPatientAdapter(List<MainModel> mainModels, Context _context){
+    public ChatRequestPatientAdapter(List<ViewChatRequestDoctorReceiveParams.DataBean> mainModels, Context _context){
         this.models = mainModels;
         this.context = _context;
     }
@@ -30,43 +36,34 @@ public class ChatRequestPatientAdapter extends RecyclerView.Adapter<RecyclerView
     @NonNull
     @Override
     public ChatRequestPatientAdapter.DoctorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.request_single_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.doctor_home_chat_request_single_item, parent, false);
         ChatRequestPatientAdapter.DoctorViewHolder viewHolder= new ChatRequestPatientAdapter.DoctorViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+        final ViewChatRequestDoctorReceiveParams.DataBean receiveParams = models.get(position);
 
         final ChatRequestPatientAdapter.DoctorViewHolder doctorViewHolder = (ChatRequestPatientAdapter.DoctorViewHolder) holder;
-        doctorViewHolder.nameTxt.setText(models.get(position).getName());
-        doctorViewHolder.mobileTxt.setText(models.get(position).getMobile());
-        doctorViewHolder.imgProfile.setImageResource(models.get(position).getImage());
+        doctorViewHolder.nameTxt.setText(receiveParams.getPatientId().getName());
 
-        /*if(receiveParams.getProfileImg()!=null){
+        int status = receiveParams.getRequestStatus();
+        if(status == 1)
+            doctorViewHolder.statusTxt.setText("Accepted");
+        else
+            doctorViewHolder.statusTxt.setText("Pending");
+
+        if(receiveParams.getPatientId().getProfileImg()!=null){
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             byte[] imageBytes = baos.toByteArray();
-            String imageString = receiveParams.getProfileImg();
+            String imageString = receiveParams.getPatientId().getProfileImg();
             imageBytes = Base64.decode(imageString, Base64.DEFAULT);
             Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
             doctorViewHolder.imgProfile.setImageBitmap(decodedImage);
         } else {
             doctorViewHolder.imgProfile.setImageResource(R.drawable.noimage);
-        }*/
-
-
-        /*doctorViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: Position " + position);
-                Intent intent=new Intent(view.getContext(), VerifiedDoctorDescriptionActivity.class);
-                intent.putExtra("doctor_id_adapter", receiveParams.get_id());
-                intent.putExtra("doctor_name_adapter", receiveParams.getName());
-                Activity activity = (Activity) context;
-                activity.startActivity(intent);
-                activity.overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
-            }
-        });*/
+        }
 
     }
 
@@ -83,15 +80,15 @@ public class ChatRequestPatientAdapter extends RecyclerView.Adapter<RecyclerView
 
     public class DoctorViewHolder extends RecyclerView.ViewHolder {
 
-        TextView nameTxt,mobileTxt;
+        TextView nameTxt,statusTxt;
         SquareImageView imgProfile;
 
         public DoctorViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            nameTxt = itemView.findViewById(R.id.txtPatientProfileName);
-            mobileTxt= itemView.findViewById(R.id.txtPatientProfileMobile);
-            imgProfile = itemView.findViewById(R.id.imagePatientProfile);
+            nameTxt = itemView.findViewById(R.id.txtDocHomeName);
+            statusTxt= itemView.findViewById(R.id.txtDocHomeStatus);
+            imgProfile = itemView.findViewById(R.id.imageDocHomeProfile);
 
         }
 

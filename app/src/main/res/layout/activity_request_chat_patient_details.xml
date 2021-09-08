@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/requestFromPatientCoordinatorLayoutDetails"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/requestChatPatientToolbarDetails"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:textColor="@color/white"
+                android:text="Chat Request from"
+                android:id="@+id/requestChatPatientToolbarTitleDetails"
+                android:gravity="start"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_7sdp"
+            android:layout_margin="@dimen/_7sdp">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_90sdp"
+                        android:src="@drawable/noimage"
+                        android:scaleType="centerCrop"
+                        android:id="@+id/requestChatPatientProfileImageDetails"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginStart="@dimen/_70sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Patient Name"
+                        android:textSize="@dimen/_14sdp"
+                        android:textColor="@color/grey"
+                        android:id="@+id/requestChatPatientNameDetails"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_below="@+id/requestChatPatientProfileImageDetails"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Patient Address"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/grey"
+                        android:gravity="center_vertical"
+                        android:id="@+id/requestChatPatientAddressDetails"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/requestChatPatientNameDetails"
+                        android:drawableStart="@drawable/ic_address"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Patient Mobile"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/grey"
+                        android:gravity="center_vertical"
+                        android:id="@+id/requestChatPatientMobileDetails"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/requestChatPatientAddressDetails"
+                        android:drawableStart="@drawable/ic_mobile"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Patient Email"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/grey"
+                        android:id="@+id/requestChatPatientEmailDetails"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/requestChatPatientMobileDetails"
+                        android:drawableStart="@drawable/ic_email"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/requestChatPatientGenderDetails"
+                        android:text="Male"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:drawableStart="@drawable/ic_user"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_below="@+id/requestChatPatientEmailDetails"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/requestChatPatientAgeDetails"
+                        android:text="Male"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:drawableStart="@drawable/ic_age"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_below="@+id/requestChatPatientGenderDetails"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/requestChatPatientBloodDetails"
+                        android:text="Male"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:drawableStart="@drawable/ic_blood"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_below="@+id/requestChatPatientAgeDetails"/>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/requestChatPatientStatusDetails"
+                        android:text="Male"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:drawableStart="@drawable/ic_status"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_below="@+id/requestChatPatientBloodDetails"/>
+
+                    <Button
+                        android:id="@+id/btnAcceptChatRequest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:layout_marginStart="@dimen/_25sdp"
+                        android:layout_marginBottom="@dimen/_20sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:background="@drawable/doctor_round_bg"
+                        android:text="Accept"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_10sdp"
+                        android:textStyle="bold"
+                        android:drawableStart="@drawable/ic_verify"
+                        android:drawablePadding="@dimen/_2sdp"
+                        android:layout_below="@+id/requestChatPatientStatusDetails"/>
+
+                    <Button
+                        android:id="@+id/btnRejectChatRequest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginBottom="@dimen/_20sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:background="@drawable/reject_round_bg"
+                        android:text="@string/reject"
+                        android:textColor="@color/white"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/_10sdp"
+                        android:textStyle="bold"
+                        android:drawableStart="@drawable/ic_reject"
+                        android:drawablePadding="@dimen/_2sdp"
+                        android:layout_below="@+id/requestChatPatientStatusDetails"
+                        android:layout_toRightOf="@+id/btnAcceptChatRequest"/>
+
+                </RelativeLayout>
+
+            </ScrollView>
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

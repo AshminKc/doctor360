@@ -65,7 +65,6 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
     TextView nameDecTxt, mobileDesTxt,emailDesTxt, genderDesTxt, qualiDesText, specDesTxt, statusDesTxt, toolbarText;
     ImageView documentDesImage;
     Button btnVerify, btnReject;
-    PendingDoctorReceiveParams.DataBean pendingReceiveParams;
     CoordinatorLayout coordinatorLayout;
     Toolbar toolbar;
     String strDoctorId, strDoctorName, encodedImage;
@@ -289,6 +288,7 @@ public class PendingDoctorDescriptionActivity extends AppCompatActivity {
                         .setDuration(3000)
                         .show();
                 sendVerifiedEmail();
+                statusDesTxt.setText("Verified");
                 btnVerify.setVisibility(View.GONE);
                 btnReject.setVisibility(View.GONE);
             }

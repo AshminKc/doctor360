@@ -22,6 +22,7 @@ import com.example.doctor360.fragment.RequestAppointmentPatientFragment;
 import com.example.doctor360.fragment.RequestDoctorFragment;
 import com.example.doctor360.fragment.ScheduledAppointmentPatientFragment;
 import com.example.doctor360.helper.ConnectionDetector;
+import com.example.doctor360.utils.OnDataPasser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.internal.NavigationMenuView;
 import com.google.android.material.snackbar.Snackbar;
@@ -63,7 +64,7 @@ import java.io.ByteArrayOutputStream;
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
 
-public class PatientDashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class PatientDashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnDataPasser {
 
     Context _context;
     TextView toolbarTitle, txtPatientLoginName, txtPatientViewProfile;
@@ -404,29 +405,6 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
         alert.show();
     }
 
-    public void setToolbarAndNavViewData(int checked, String title){
-        navigationView.getMenu().getItem(checked).setChecked(true);
-        toolbarTitle.setText(title);
-    }
-
-    public void setToolbarAndNavViewData1(Context context, int checked, String title){
-        navigationView.getMenu().getItem(checked).setChecked(true);
-        toolbarTitle.setText(title);
-        _context = context;
-    }
-
-    public void setToolbarAndNavViewData2(Context context, int checked, String title){
-        navigationView.getMenu().getItem(checked).setChecked(true);
-        toolbarTitle.setText(title);
-        _context = context;
-    }
-
-    public void setToolbarAndNavViewData3(Context context, int checked, String title){
-        navigationView.getMenu().getItem(checked).setChecked(true);
-        toolbarTitle.setText(title);
-        _context = context;
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -437,4 +415,13 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
         super.onStop();
     }
 
+    @Override
+    public void onChangeToolbarTitle(String title) {
+        toolbarTitle.setText(title);
+    }
+
+    @Override
+    public void setCheckedNavigationItem(int item) {
+        navigationView.getMenu().getItem(item).setChecked(true);
+    }
 }

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/hospitalDetailsCoordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/hospitalDetailsToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:textColor="@color/white"
+                android:text="Hospital Details"
+                android:id="@+id/hospitalDetailsToolbarTitle"
+                android:gravity="start"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_7sdp"
+            android:layout_margin="@dimen/_7sdp">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Hospital Name"
+                        android:textSize="@dimen/_14sdp"
+                        android:textColor="@color/grey"
+                        android:id="@+id/txtHospitalNameDetails"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_6sdp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Hosiptal Address"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/grey"
+                        android:gravity="center_vertical"
+                        android:id="@+id/txtHospitalAddressDetails"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/txtHospitalNameDetails"
+                        android:drawableStart="@drawable/ic_address"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Hosiptal Phone"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/grey"
+                        android:gravity="center_vertical"
+                        android:id="@+id/txtHospitalPhoneDetails"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/txtHospitalAddressDetails"
+                        android:drawableStart="@drawable/ic_mobile"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Hospital Email"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/grey"
+                        android:id="@+id/txtHospitalEmailDetails"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/txtHospitalPhoneDetails"
+                        android:drawableStart="@drawable/ic_email"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Hospital Email"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/grey"
+                        android:id="@+id/txtHospitalWebsiteDetails"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/txtHospitalPhoneDetails"
+                        android:drawableStart="@drawable/ic_status"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtHospitalContactPersonDetails"
+                        android:text="Hospital Contact Person"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:drawableStart="@drawable/ic_user"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_below="@+id/txtHospitalWebsiteDetails"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Hospital Contact Person Mobile"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/grey"
+                        android:id="@+id/txtHospitalContactMobileDetails"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_below="@+id/txtHospitalContactPersonDetails"
+                        android:drawableStart="@drawable/ic_phone_iphone_black_24dp"
+                        android:drawablePadding="@dimen/_5sdp"/>
+
+
+                </RelativeLayout>
+
+            </ScrollView>
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

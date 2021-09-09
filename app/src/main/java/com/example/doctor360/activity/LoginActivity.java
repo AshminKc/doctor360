@@ -252,6 +252,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             if (status == 1) {
                                 pDialog.dismiss();
                                 finish();
+
                                 Intent intent = new Intent(getApplicationContext(), DoctorDashboardActivity.class);
                                 intent.putExtra("doctor_id", receiveParams.getData().get_id());
                                 intent.putExtra("doctor_name", receiveParams.getData().getName());
@@ -335,6 +336,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (success.equals("true")) {
                             pDialog.dismiss();
                             finish();
+
                             Intent intent = new Intent(getApplicationContext(), PatientDashboardActivity.class);
                             intent.putExtra("patient_id", receiveParams.getData().get_id());
                             intent.putExtra("patient_name", receiveParams.getData().getName());

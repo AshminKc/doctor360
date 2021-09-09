@@ -12,67 +12,71 @@
         android:gravity="top"
         android:layout_alignParentTop="true">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/doctorChatToolbar"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/doctorChatToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:minHeight="?attr/actionBarSize"
-                android:background="@color/colorPrimary"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:contentInsetLeft="0dp"
-                app:contentInsetStart="0dp"
-                app:contentInsetStartWithNavigation="0dp">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:focusable="false"
+                android:focusableInTouchMode="true"
+                android:gravity="top">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="@dimen/_40sdp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:focusable="false"
-                    android:focusableInTouchMode="true"
-                    android:gravity="top">
+                    android:src="@drawable/messi"
+                    android:layout_gravity="start"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:id="@+id/doctorImageChat"/>
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="@dimen/_40sdp"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/messi"
-                        android:layout_gravity="start"
-                        android:padding="@dimen/_5sdp"
-                        android:id="@+id/doctorImageChat"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textAllCaps="true"
+                    android:text="Doctor Name"
+                    android:id="@+id/doctorNameChat"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:gravity="center_vertical"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textSize="@dimen/_14sdp"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"
-                        android:textAllCaps="true"
-                        android:text="Doctor Name"
-                        android:id="@+id/doctorNameChat"
-                        android:gravity="center_vertical"/>
+            </LinearLayout>
 
-                </LinearLayout>
-
-            </androidx.appcompat.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
     </RelativeLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:background="@drawable/chat_background"
+        android:layout_marginBottom="@dimen/_45sdp"
+        android:id="@+id/chatFrameLayout">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/headerLayout"
-            android:id="@+id/bodyLayout">
 
 
+    </FrameLayout>
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/bodyLayout"
-            android:id="@+id/footerLayout">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:id="@+id/footerLayout"
+        android:layout_alignParentBottom="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -83,47 +87,40 @@
             android:layout_alignParentBottom="true">
 
 
-                <LinearLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <androidx.appcompat.widget.AppCompatEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
+                    android:layout_height="@dimen/_35sdp"
+                    android:text=""
+                    android:hint="Enter Text"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:background="@drawable/round_border"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_weight="3"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:imeOptions="actionDone"
+                    android:id="@+id/edtEnterChatText"/>
 
-                    <ImageView
-                        android:layout_width="@dimen/_25sdp"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_photo_black_24dp"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:id="@+id/imgOpenGallery"/>
+                <ImageView
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_send"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:id="@+id/imgSendText"
+                    android:contentDescription="@string/app_name" />
 
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_35sdp"
-                        android:text=""
-                        android:hint="Enter Text"
-                        android:paddingStart="@dimen/_10sdp"
-                        android:paddingEnd="@dimen/_10sdp"
-                        android:background="@drawable/round_border"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:layout_weight="3"
-                        android:layout_marginBottom="@dimen/_5sdp"
-                        android:imeOptions="actionDone"
-                        android:id="@+id/edtEnterText"/>
-
-                    <ImageView
-                        android:layout_width="@dimen/_25sdp"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_send"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:id="@+id/imgSendText"/>
-
-                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
-        </RelativeLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

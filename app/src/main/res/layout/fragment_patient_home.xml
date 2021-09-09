@@ -60,6 +60,19 @@
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:textColor="@color/white" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:text="View All"
+                android:id="@+id/txtViewAllDoctor"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="normal"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:textColor="@color/white" />
+
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
@@ -96,9 +109,125 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.8"
+                android:text="Appointments"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:textColor="@color/white" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="5sdp"
+                app:cardBackgroundColor="@color/isolation"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:padding="@dimen/_5sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Request For Appointment"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_12sdp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textAllCaps="true"
+                        android:id="@+id/txtRequestAppointment"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="5dp"
+                app:cardBackgroundColor="@color/negative"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:padding="@dimen/_5sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="VIEW ALL APPOINTMENTS"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_12sdp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textAllCaps="true"
+                        android:id="@+id/txtViewAllScheduledAppointment"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:background="@color/facebook"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
                 android:text="Available Hospitals"
                 android:textSize="@dimen/_12sdp"
                 android:textStyle="bold"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:text="View All"
+                android:id="@+id/txtViewAllHospital"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="normal"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"

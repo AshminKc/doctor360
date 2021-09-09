@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -14,6 +15,7 @@ import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
 import com.balsikandar.crashreporter.CrashReporter;
+import com.example.doctor360.utils.Constants;
 import com.orhanobut.hawk.Hawk;
 
 import java.text.ParseException;
@@ -24,6 +26,8 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import es.dmoral.toasty.Toasty;
+
+import static androidx.constraintlayout.widget.StateSet.TAG;
 
 public class MyApplication extends MultiDexApplication {
 

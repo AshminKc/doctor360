@@ -25,10 +25,6 @@
             android:icon="@drawable/ic_view_list_black_24dp"
             android:title="@string/menu_scheduled_appointment" />
         <item
-            android:id="@+id/nav_referred_doctors"
-            android:icon="@drawable/ic_touch_app_black_24dp"
-            android:title="@string/menu_request" />
-        <item
             android:id="@+id/nav_patient_chat_room"
             android:icon="@drawable/ic_voice_chat_black_24dp"
             android:title="@string/menu_chat_room" />

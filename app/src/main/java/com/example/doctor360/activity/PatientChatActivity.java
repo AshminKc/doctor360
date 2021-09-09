@@ -8,6 +8,13 @@ import android.util.Base64;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -21,7 +28,6 @@ import com.example.doctor360.model.ChatAccptedDoctorReceiveParams;
 import com.thecode.aestheticdialogs.AestheticDialog;
 import com.thecode.aestheticdialogs.DialogStyle;
 import com.thecode.aestheticdialogs.DialogType;
-
 import java.io.ByteArrayOutputStream;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -31,8 +37,8 @@ public class PatientChatActivity extends AppCompatActivity {
     Toolbar toolbar;
     ConnectionDetector connectionDetector;
     String doctorID, doctorName, doctorPhoto;
-    CircleImageView doctorImage;
     TextView txtToolbarDoctorName;
+    CircleImageView doctorImage;
     private static final String TAG = "PatientChatActivity";
 
     @Override
@@ -42,9 +48,8 @@ public class PatientChatActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.doctorChatToolbar);
         setSupportActionBar(toolbar);
-
-        doctorImage = findViewById(R.id.doctorImageChat);
         txtToolbarDoctorName = findViewById(R.id.doctorNameChat);
+        doctorImage = findViewById(R.id.doctorImageChat);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -55,7 +60,7 @@ public class PatientChatActivity extends AppCompatActivity {
         doctorName = intent.getStringExtra("doc_name");
         doctorPhoto = intent.getStringExtra("doc_photo");
 
-        txtToolbarDoctorName.setText("DR. "+doctorName);
+        txtToolbarDoctorName.setText(doctorName);
 
         if(doctorPhoto!=null){
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -106,4 +111,5 @@ public class PatientChatActivity extends AppCompatActivity {
         }
         return true;
     }
+
 }

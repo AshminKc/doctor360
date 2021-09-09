@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
     <supports-screens
         android:anyDensity="true"
@@ -96,7 +98,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.SplashScreenActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -112,7 +114,7 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.SplashScreenActivity"
+            android:name=".activity.LoginActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
         <activity
@@ -181,6 +183,14 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.PatientChatActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DoctorChatActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.HospitalDetailsActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
     </application>

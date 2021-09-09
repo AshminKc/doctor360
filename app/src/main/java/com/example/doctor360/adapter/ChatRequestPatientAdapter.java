@@ -1,9 +1,12 @@
 package com.example.doctor360.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doctor360.R;
+import com.example.doctor360.activity.ChatRequestPatientDetailsActivity;
 import com.example.doctor360.model.ViewChatRequestDoctorReceiveParams;
 import com.example.doctor360.utils.SquareImageView;
 
@@ -64,6 +68,22 @@ public class ChatRequestPatientAdapter extends RecyclerView.Adapter<RecyclerView
         } else {
             doctorViewHolder.imgProfile.setImageResource(R.drawable.noimage);
         }
+
+        doctorViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int status = receiveParams.getRequestStatus();
+                Log.d(TAG, "onClick: Position " + position);
+                Intent intent=new Intent(view.getContext(), ChatRequestPatientDetailsActivity.class);
+                intent.putExtra("chat_patient_id", receiveParams.getPatientId().get_id());
+                intent.putExtra("chat_patient_name", receiveParams.getPatientId().getName());
+                intent.putExtra("chat_id", receiveParams.get_id());
+                intent.putExtra("chat_status", status);
+                Activity activity = (Activity) context;
+                activity.startActivity(intent);
+                activity.overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+            }
+        });
 
     }
 

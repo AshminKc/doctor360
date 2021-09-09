@@ -2,9 +2,15 @@ package com.example.doctor360.utils;
 
 import java.util.PrimitiveIterator;
 
+import retrofit2.http.PUT;
+
 public class Constants {
 
-    public static final String APP_KEY = "ff50a7f6-1514-4f66-bcc0-26a5a3b9974b";
+    public static final String API_KEY = "4140932d443e639508517c14f0064e83b008ef0c";
+    public static final String REGION = "US";
+    public static final String VERSION = "2";
+    public static final String AUTH_KEY = "a5cc43dd4de936416cfe1319c9c6731315b4ee67";
+    public static final String APP_ID = "1935417fac209fcc";
     public static final String BASE_URL = "https://doctor360app.herokuapp.com/";
     public  static final int RequestPermissionCode  = 1 ;
 

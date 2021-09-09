@@ -47,7 +47,7 @@ public class PatientChatListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         final ChatAcceptedPatientReceiveParams.DataBean receiveParams = acceptedList.get(position);
 
         final PatientChatListAdapter.ChatViewHolder viewHolder = (PatientChatListAdapter.ChatViewHolder) holder;
-        viewHolder.ptxtDoctorName.setText("DR. "+receiveParams.getDoctorId().getName());
+        viewHolder.ptxtDoctorName.setText(receiveParams.getDoctorId().getName());
 
         int status = receiveParams.getRequestStatus();
         if(status == 1)

@@ -28,6 +28,7 @@ import com.example.doctor360.R;
 import com.example.doctor360.activity.DoctorDashboardActivity;
 import com.example.doctor360.activity.PatientDashboardActivity;
 import com.example.doctor360.activity.PatientProfileActivity;
+import com.example.doctor360.activity.SplashScreenActivity;
 import com.example.doctor360.adapter.AppointRequestPatientAdapter;
 import com.example.doctor360.adapter.ChatRequestPatientAdapter;
 import com.example.doctor360.adapter.DoctorListAdapter;
@@ -40,6 +41,7 @@ import com.example.doctor360.network.NetworkClient;
 import com.example.doctor360.network.NetworkClient1;
 import com.example.doctor360.network.ServiceGenerator;
 import com.example.doctor360.network.ServiceGenerator1;
+import com.example.doctor360.utils.OnDataPasser;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.thecode.aestheticdialogs.AestheticDialog;
 import com.thecode.aestheticdialogs.DialogStyle;
@@ -57,6 +59,7 @@ import retrofit2.Response;
 
 public class PatientHomeFragment extends Fragment {
 
+    OnDataPasser dataPasser;
     View rootView;
     private long delayTime =  5000;
     ImageSliderAdapter imageSliderAdapter;
@@ -65,6 +68,7 @@ public class PatientHomeFragment extends Fragment {
     private CircleIndicator pageIndicatorView;
     RecyclerView doctorRecyclerView, hospitalRecyclerView;
     DoctorListAdapter doctorListAdapter;
+    TextView viewAllHospital, viewAllDoctor, requestAppoint, viewAllAppoint;
     ConnectionDetector connectionDetector;
     List<HospitalListReceiveParams.DataBean> hospitalList;
     List<VerifiedDoctorReceiveParams.DataBean> verifiedList;
@@ -80,6 +84,10 @@ public class PatientHomeFragment extends Fragment {
         pageIndicatorView = rootView.findViewById(R.id.pageIndicator);
         doctorRecyclerView = rootView.findViewById(R.id.allDoctorRecyclerView);
         hospitalRecyclerView = rootView.findViewById(R.id.allHospitalRecyclerView);
+        viewAllHospital = rootView.findViewById(R.id.txtViewAllHospital);
+        viewAllDoctor = rootView.findViewById(R.id.txtViewAllDoctor);
+        requestAppoint = rootView.findViewById(R.id.txtRequestAppointment);
+        viewAllAppoint = rootView.findViewById(R.id.txtViewAllScheduledAppointment);
 
         viewPager.startAutoScroll();
         viewPager.setInterval(delayTime);
@@ -107,6 +115,54 @@ public class PatientHomeFragment extends Fragment {
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         hospitalRecyclerView.setLayoutManager(linearLayoutManager1);
         hospitalRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        viewAllDoctor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getFragmentManager();
+                fm.popBackStackImmediate();
+                FragmentTransaction ft = fm.beginTransaction();
+                RequestChatDoctorFragment requestChatDoctorFragment = new RequestChatDoctorFragment();
+                ft.replace(R.id.fragmentContainer1, requestChatDoctorFragment,"").addToBackStack("").commit();
+                passDatatoPatient("Request Doctor",1);
+            }
+        });
+
+        viewAllHospital.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getFragmentManager();
+                fm.popBackStackImmediate();
+                FragmentTransaction ft = fm.beginTransaction();
+                AllHospitalListFragment allHospitalListFragment = new AllHospitalListFragment();
+                ft.replace(R.id.fragmentContainer1, allHospitalListFragment,"").addToBackStack("").commit();
+                passDatatoPatient("Hospitals",7);
+            }
+        });
+
+        requestAppoint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getFragmentManager();
+                fm.popBackStackImmediate();
+                FragmentTransaction ft = fm.beginTransaction();
+                RequestAppointmentPatientFragment requestAppointmentPatientFragment = new RequestAppointmentPatientFragment();
+                ft.replace(R.id.fragmentContainer1, requestAppointmentPatientFragment,"").addToBackStack("").commit();
+                passDatatoPatient("Request Appointment", 3);
+            }
+        });
+
+        viewAllAppoint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getFragmentManager();
+                fm.popBackStackImmediate();
+                FragmentTransaction ft = fm.beginTransaction();
+                ScheduledAppointmentPatientFragment scheduledAppointmentPatientFragment = new ScheduledAppointmentPatientFragment();
+                ft.replace(R.id.fragmentContainer1, scheduledAppointmentPatientFragment,"").addToBackStack("").commit();
+                passDatatoPatient("Scheduled Appointments", 4);
+            }
+        });
 
         return rootView;
     }
@@ -208,4 +264,16 @@ public class PatientHomeFragment extends Fragment {
                 })
                 .show();
     }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        dataPasser = (OnDataPasser) context;
+    }
+
+    public void passDatatoPatient(String data, int id) {
+        dataPasser.onChangeToolbarTitle(data);
+        dataPasser.setCheckedNavigationItem(id);
+    }
+
 }

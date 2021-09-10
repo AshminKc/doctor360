@@ -96,20 +96,27 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
         emailFromProfile = intent1.getStringExtra("from_profile_email");
         imageFromProfile = intent1.getStringExtra("from_profile_image");
 
-        Hawk.init(getApplicationContext()).build();
-        Hawk.put("request_doctor_id", doctorID);
-
         _context = getApplicationContext();
 
-        if(IdFromProfile!= null)
-            strDoctorID = IdFromProfile;
-        else
-           strDoctorID = doctorID;
+        Hawk.init(getApplicationContext()).build();
 
-        if(doctorID!= null)
+        if(doctorID!= null) {
             strDoctorID = doctorID;
-        else
-           strDoctorID = IdFromProfile;
+            Hawk.put("request_doctor_id", strDoctorID);
+        }
+        else {
+            strDoctorID = IdFromProfile;
+            Hawk.put("request_doctor_id", strDoctorID);
+        }
+
+        if(IdFromProfile!= null) {
+            strDoctorID = IdFromProfile;
+            Hawk.put("request_doctor_id", strDoctorID);
+        }
+        else {
+            strDoctorID = doctorID;
+            Hawk.put("request_doctor_id", strDoctorID);
+        }
 
         if(nameFromProfile!= null)
             txtDoctorLoginName.setText("DR. "+nameFromProfile);

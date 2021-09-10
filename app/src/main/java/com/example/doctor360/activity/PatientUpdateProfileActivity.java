@@ -358,10 +358,10 @@ public class PatientUpdateProfileActivity extends AppCompatActivity implements V
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-        Intent intent=new Intent(PatientUpdateProfileActivity.this, PatientDashboardActivity.class);
-        intent.putExtra("from_profile_id", strPatientId);
+        Intent intent=new Intent(PatientUpdateProfileActivity.this, PatientProfileActivity.class);
+        intent.putExtra("patient_profile_id", strPatientId);
         intent.putExtra("from_profile_name", strUpdateName);
-        intent.putExtra("from_profile_image", strUpdatePP);
+        intent.putExtra("patient_profile_image", strUpdatePP);
         startActivity(intent);
     }
 
@@ -377,10 +377,10 @@ public class PatientUpdateProfileActivity extends AppCompatActivity implements V
         if(id==android.R.id.home)
         {
             finish();
-            Intent intent=new Intent(PatientUpdateProfileActivity.this, PatientDashboardActivity.class);
-            intent.putExtra("from_profile_id", strPatientId);
+            Intent intent=new Intent(PatientUpdateProfileActivity.this, PatientProfileActivity.class);
+            intent.putExtra("patient_profile_id", strPatientId);
             intent.putExtra("from_profile_name", strUpdateName);
-            intent.putExtra("from_profile_image", strUpdatePP);
+            intent.putExtra("patient_profile_image", strUpdatePP);
             startActivity(intent);
         }
         return true;

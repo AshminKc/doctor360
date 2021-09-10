@@ -394,7 +394,7 @@ public class DoctorUpdateProfileActivity extends AppCompatActivity implements Vi
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-        Intent intent=new Intent(DoctorUpdateProfileActivity.this, DoctorDashboardActivity.class);
+        Intent intent=new Intent(DoctorUpdateProfileActivity.this, DoctorProfileActivity.class);
         intent.putExtra("from_profile_id", strDoctorId);
         intent.putExtra("from_profile_name", strUpdateName);
         intent.putExtra("from_profile_image", strUpdatePP);
@@ -413,10 +413,10 @@ public class DoctorUpdateProfileActivity extends AppCompatActivity implements Vi
         if(id==android.R.id.home)
         {
             finish();
-            Intent intent=new Intent(DoctorUpdateProfileActivity.this, DoctorDashboardActivity.class);
-            intent.putExtra("from_profile_id", strDoctorId);
+            Intent intent=new Intent(DoctorUpdateProfileActivity.this, DoctorProfileActivity.class);
+            intent.putExtra("doctor_profile_id", strDoctorId);
             intent.putExtra("from_profile_name", strUpdateName);
-            intent.putExtra("from_profile_image", strUpdatePP);
+            intent.putExtra("doctor_profile_image", strUpdatePP);
             startActivity(intent);
         }
         return true;

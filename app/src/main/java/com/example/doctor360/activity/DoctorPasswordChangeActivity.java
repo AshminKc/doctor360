@@ -15,14 +15,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.cazaea.sweetalert.SweetAlertDialog;
 import com.example.doctor360.R;
+import com.example.doctor360.fragment.DoctorHomeFragment;
 import com.example.doctor360.helper.ConnectionDetector;
 import com.example.doctor360.model.DoctorChangePasswordReceiveParams;
 import com.example.doctor360.model.DoctorChangePasswordSendParams;
 import com.example.doctor360.network.NetworkClient;
 import com.example.doctor360.network.ServiceGenerator;
+import com.orhanobut.hawk.Hawk;
 import com.thecode.aestheticdialogs.AestheticDialog;
 import com.thecode.aestheticdialogs.DialogStyle;
 import com.thecode.aestheticdialogs.DialogType;
@@ -39,7 +43,7 @@ public class DoctorPasswordChangeActivity extends AppCompatActivity {
     AppCompatEditText edtNewPassword, edtOldPasssword, edtConfirmNewPass;
     Button btnResetPass;
     ConnectionDetector connectionDetector;
-    String strNewPass, strOldPass, strConfirmNewPass, strDoctorId, strDoctorEmail, doctorName, doctorStringImage;
+    String strNewPass, strOldPass, strConfirmNewPass, strDoctorId, strDoctorEmail, doctorName, doctorStringImage, doctorID;
     private static final String TAG = "DoctorPasswordChangeAct";
 
     @Override
@@ -187,10 +191,10 @@ public class DoctorPasswordChangeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(DoctorPasswordChangeActivity.this, DoctorDashboardActivity.class);
-        intent.putExtra("from_profile_id", strDoctorId);
+        Intent intent = new Intent(DoctorPasswordChangeActivity.this, DoctorProfileActivity.class);
+        intent.putExtra("doctor_profile_id", strDoctorId);
         intent.putExtra("from_profile_name", doctorName);
-        intent.putExtra("from_profile_image", doctorStringImage);
+        intent.putExtra("doctor_profile_image", doctorStringImage);
         startActivity(intent);
         finish();
     }
@@ -206,10 +210,10 @@ public class DoctorPasswordChangeActivity extends AppCompatActivity {
         int id=item.getItemId();
         if(id==android.R.id.home)
         {
-            Intent intent=new Intent(DoctorPasswordChangeActivity.this, DoctorDashboardActivity.class);
-            intent.putExtra("from_profile_id", strDoctorId);
+            Intent intent=new Intent(DoctorPasswordChangeActivity.this, DoctorProfileActivity.class);
+            intent.putExtra("doctor_profile_id", strDoctorId);
             intent.putExtra("from_profile_name", doctorName);
-            intent.putExtra("from_profile_image", doctorStringImage);
+            intent.putExtra("doctor_profile_image", doctorStringImage);
             startActivity(intent);
             finish();
         }

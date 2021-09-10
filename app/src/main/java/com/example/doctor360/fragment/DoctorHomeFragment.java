@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cazaea.sweetalert.SweetAlertDialog;
 import com.example.doctor360.R;
+import com.example.doctor360.activity.DoctorPasswordChangeActivity;
 import com.example.doctor360.adapter.AppointRequestPatientAdapter;
 import com.example.doctor360.adapter.ChatRequestPatientAdapter;
 import com.example.doctor360.adapter.ImageSliderAdapter;
@@ -38,6 +39,7 @@ import com.thecode.aestheticdialogs.DialogType;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import me.relex.circleindicator.CircleIndicator;
 import pl.pzienowicz.autoscrollviewpager.AutoScrollViewPager;
 import retrofit2.Call;
@@ -46,6 +48,7 @@ import retrofit2.Response;
 
 public class DoctorHomeFragment extends Fragment {
 
+    Bundle bundle;
     OnDataPasser dataPasser;
     View rootView;
     private long delayTime =  5000;

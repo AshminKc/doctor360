@@ -203,10 +203,10 @@ public class PatientPasswordChangeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(getApplicationContext(), PatientDashboardActivity.class);
-        intent.putExtra("from_profile_id", strPatientId);
+        Intent intent = new Intent(getApplicationContext(), PatientProfileActivity.class);
+        intent.putExtra("patient_profile_id", strPatientId);
         intent.putExtra("from_profile_name", patientName);
-        intent.putExtra("from_profile_image", patientStringImage);
+        intent.putExtra("patient_profile_image", patientStringImage);
         startActivity(intent);
         finish();
     }
@@ -222,10 +222,10 @@ public class PatientPasswordChangeActivity extends AppCompatActivity {
         int id=item.getItemId();
         if(id==android.R.id.home)
         {
-            Intent intent=new Intent(PatientPasswordChangeActivity.this, PatientDashboardActivity.class);
-            intent.putExtra("from_profile_id", strPatientId);
+            Intent intent=new Intent(PatientPasswordChangeActivity.this, PatientProfileActivity.class);
+            intent.putExtra("patient_profile_id", strPatientId);
             intent.putExtra("from_profile_name", patientName);
-            intent.putExtra("from_profile_image", patientStringImage);
+            intent.putExtra("patient_profile_image", patientStringImage);
             startActivity(intent);
             finish();
         }

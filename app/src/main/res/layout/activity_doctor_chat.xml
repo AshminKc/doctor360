@@ -1,126 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/mainLayout"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/headerLayout"
-        android:gravity="top"
-        android:layout_alignParentTop="true">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/patientChatToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:minHeight="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
-            app:contentInsetStartWithNavigation="0dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:focusable="false"
-                android:focusableInTouchMode="true"
-                android:gravity="top">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/messi"
-                    android:layout_gravity="start"
-                    android:padding="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:id="@+id/patientImageChat"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:textAllCaps="true"
-                    android:text="Patient Name"
-                    android:id="@+id/patientNameChat"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:gravity="center_vertical"/>
-
-            </LinearLayout>
-
-        </androidx.appcompat.widget.Toolbar>
-
-    </RelativeLayout>
+    android:layout_height="match_parent"
+    tools:context=".activity.PatientChatActivity">
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_marginTop="@dimen/_40sdp"
-        android:background="@drawable/chat_background"
-        android:layout_marginBottom="@dimen/_45sdp"
-        android:id="@+id/chatFrameLayoutDoctor">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <FrameLayout
+            android:id="@+id/subscriber_container1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
 
+        <FrameLayout
+            android:id="@+id/publisher_container1"
+            android:layout_width="90dp"
+            android:layout_height="120dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="#CCCCCC"
+            android:padding="2dp" />
 
     </FrameLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
-        android:id="@+id/footerLayout"
-        android:layout_alignParentBottom="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-            android:orientation="vertical"
-            android:gravity="bottom"
-            android:layout_gravity="bottom"
-            android:layout_alignParentBottom="true">
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_35sdp"
-                    android:text=""
-                    android:hint="Enter Text"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:paddingEnd="@dimen/_10sdp"
-                    android:background="@drawable/round_border"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_weight="3"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:imeOptions="actionDone"
-                    android:id="@+id/edtEnterChatTextDoctor"/>
-
-                <ImageView
-                    android:layout_width="@dimen/_25sdp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_send"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:id="@+id/imgSendTextDoctor"
-                    android:contentDescription="@string/app_name" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

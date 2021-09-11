@@ -6,13 +6,12 @@ import retrofit2.http.PUT;
 
 public class Constants {
 
-    public static final String API_KEY = "4140932d443e639508517c14f0064e83b008ef0c";
-    public static final String REGION = "US";
-    public static final String VERSION = "2";
-    public static final String AUTH_KEY = "a5cc43dd4de936416cfe1319c9c6731315b4ee67";
-    public static final String APP_ID = "1935417fac209fcc";
+    public static final String API_KEY = "47331171";
+    public static final String TOKEN = "T1==cGFydG5lcl9pZD00NzMzMTE3MSZzaWc9OTg2YTZiODU4YjExOGU5MGE1ZDhhM2E0MzNmYTBkYjZhMzk4MjA3MTpzZXNzaW9uX2lkPTFfTVg0ME56TXpNVEUzTVg1LU1UWXpNVE0zTnpJeE1ETTRNMzVsZVU0clUycFRVakJuVFVkV1pUYzFUVVp4Um05aFlVTi1mZyZjcmVhdGVfdGltZT0xNjMxMzc3MjM2Jm5vbmNlPTAuMjI3NDYzMTQ1NjY3Mzc4OCZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNjMzOTY5MjM1JmluaXRpYWxfbGF5b3V0X2NsYXNzX2xpc3Q9";
+    public static final String SESSION_ID = "1_MX40NzMzMTE3MX5-MTYzMTM3NzIxMDM4M35leU4rU2pTUjBnTUdWZTc1TUZxRm9hYUN-fg";
     public static final String BASE_URL = "https://doctor360app.herokuapp.com/";
-    public  static final int RequestPermissionCode  = 1 ;
+    public static final int RequestPermissionCode  = 1 ;
+    public static final int PERMISSIONS_REQUEST_CODE = 124;
 
     public static final  String EMAIL = "ashminkc27@gmail.com";
     public static final String PASSWORD = "bboyrxvs3j";

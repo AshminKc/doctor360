@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
+import com.activeandroid.ActiveAndroid;
+import com.activeandroid.Configuration;
 import com.balsikandar.crashreporter.CrashReporter;
 import com.example.doctor360.utils.Constants;
 import com.orhanobut.hawk.Hawk;

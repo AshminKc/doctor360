@@ -12,6 +12,10 @@ android {
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
     }
     buildTypes {
         release {
@@ -48,6 +52,10 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.4'
     implementation 'com.github.pzienowicz:androidx-auto-scroll-view-pager:1.1.0'
     implementation 'io.agora.uikit:agorauikit:2.0.1'
+    implementation 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    implementation 'pub.devrel:easypermissions:3.0.0'
+    implementation 'com.opentok.android:opentok-android-sdk:2.19.0'
+
 
 
     testImplementation 'junit:junit:4.12'

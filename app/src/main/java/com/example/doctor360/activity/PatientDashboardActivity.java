@@ -60,6 +60,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
@@ -306,10 +309,12 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
             }
 
             case R.id.nav_patient_chat_room: {
-                getSupportFragmentManager().popBackStackImmediate();
+               /* getSupportFragmentManager().popBackStackImmediate();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainer1,new PatientChatListFragment()).addToBackStack("").commit();
-                toolbarTitle.setText(getString(R.string.menu_chat_room));
+                toolbarTitle.setText(getString(R.string.menu_chat_room));*/
+               Intent intent = new Intent(PatientDashboardActivity.this, PatientChatActivity.class);
+               startActivity(intent);
                 break;
             }
 

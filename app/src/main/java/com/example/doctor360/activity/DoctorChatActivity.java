@@ -52,6 +52,7 @@ public class DoctorChatActivity extends AppCompatActivity {
     private Publisher publisher;
     private FrameLayout publisherViewContainer;
     private FrameLayout subscriberViewContainer;
+    private ImageView close;
     private static final String TAG = "DoctorChatActivity";
 
     private Session.SessionListener sessionListener = new Session.SessionListener() {
@@ -145,11 +146,20 @@ public class DoctorChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_chat);
 
-
+        close = findViewById(R.id.imgCloseCall1);
         publisherViewContainer = findViewById(R.id.publisher_container1);
         subscriberViewContainer = findViewById(R.id.subscriber_container1);
 
         requestPermissions();
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(session!=null){
+                    session.disconnect();
+                }
+            }
+        });
     }
 
     @Override
@@ -206,14 +216,6 @@ public class DoctorChatActivity extends AppCompatActivity {
 
         if (session != null) {
             session.onResume();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (session != null) {
-            session.disconnect();
         }
     }
 }

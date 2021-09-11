@@ -30,6 +30,16 @@
             android:background="#CCCCCC"
             android:padding="2dp" />
 
+        <ImageView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:gravity="bottom|center_horizontal"
+            android:layout_marginBottom="@dimen/_30sdp"
+            android:src="@drawable/ic_cancel_black_24dp"
+            android:background="@drawable/round_bg"
+            android:id="@+id/imgCloseCall1"/>
+
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

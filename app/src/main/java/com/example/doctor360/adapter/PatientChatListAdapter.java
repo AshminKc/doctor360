@@ -70,9 +70,6 @@ public class PatientChatListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(view.getContext(), PatientChatActivity.class);
-                intent.putExtra("doc_id",receiveParams.getDoctorId().get_id());
-                intent.putExtra("doc_name", receiveParams.getDoctorId().getName());
-                intent.putExtra("doc_photo", receiveParams.getDoctorId().getProfileImg());
                 Activity activity = (Activity) context;
                 activity.startActivity(intent);
                 activity.overridePendingTransition(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left);

@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +34,7 @@ public class PatientChatActivity extends AppCompatActivity {
     private Publisher publisher;
     private FrameLayout publisherViewContainer;
     private FrameLayout subscriberViewContainer;
+    private ImageView close;
     private static final String TAG = "PatientChatActivity";
 
     private Session.SessionListener sessionListener = new Session.SessionListener() {
@@ -125,10 +128,20 @@ public class PatientChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_chat);
 
+        close = findViewById(R.id.imgCloseCall);
         publisherViewContainer = findViewById(R.id.publisher_container);
         subscriberViewContainer = findViewById(R.id.subscriber_container);
 
         requestPermissions();
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(session!=null){
+                    session.disconnect();
+                }
+            }
+        });
     }
 
     @Override
@@ -186,14 +199,6 @@ public class PatientChatActivity extends AppCompatActivity {
 
         if (session != null) {
             session.onResume();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (session != null) {
-            session.disconnect();
         }
     }
 }

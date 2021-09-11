@@ -155,6 +155,10 @@ public class DoctorChatActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        if (session != null) {
+            session.disconnect();
+        }
+
         finish();
         Intent intent=new Intent(DoctorChatActivity.this, DoctorDashboardActivity.class);
         startActivity(intent);
@@ -202,6 +206,14 @@ public class DoctorChatActivity extends AppCompatActivity {
 
         if (session != null) {
             session.onResume();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (session != null) {
+            session.disconnect();
         }
     }
 }

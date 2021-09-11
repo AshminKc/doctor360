@@ -103,7 +103,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.SplashScreenActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -119,7 +119,7 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.SplashScreenActivity"
+            android:name=".activity.LoginActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
         <activity

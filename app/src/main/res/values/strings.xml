@@ -16,7 +16,7 @@
     <string name="menu_request">Referred Doctors</string>
     <string name="menu_patient_request">Pending Requests</string>
     <string name="menu_accepted_request">Accepted Requests</string>
-    <string name="menu_chat_room">Chat Room</string>
+    <string name="menu_chat_room">Video Chat Room</string>
     <string name="menu_hospitals">Hospitals</string>
     <string name="menu_request_doctor">Request Doctor</string>
     <string name="menu_appointment_request">Pending Appointments</string>

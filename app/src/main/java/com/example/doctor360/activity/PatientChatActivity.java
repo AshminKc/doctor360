@@ -1,49 +1,18 @@
 package com.example.doctor360.activity;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.doctor360.ChatModel;
 import com.example.doctor360.R;
-import com.example.doctor360.adapter.SendMessageAdapter;
-import com.example.doctor360.helper.ConnectionDetector;
-import com.example.doctor360.model.ChatAcceptedPatientReceiveParams;
-import com.example.doctor360.model.ChatAccptedDoctorReceiveParams;
 import com.example.doctor360.utils.Constants;
-import com.example.doctor360.utils.DatabaseHandler;
 import com.opentok.android.BaseVideoRenderer;
 import com.opentok.android.OpentokError;
 import com.opentok.android.Publisher;
@@ -52,21 +21,7 @@ import com.opentok.android.Session;
 import com.opentok.android.Stream;
 import com.opentok.android.Subscriber;
 import com.opentok.android.SubscriberKit;
-import com.orhanobut.hawk.Hawk;
-import com.thecode.aestheticdialogs.AestheticDialog;
-import com.thecode.aestheticdialogs.DialogStyle;
-import com.thecode.aestheticdialogs.DialogType;
-import java.io.ByteArrayOutputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-import es.dmoral.toasty.Toasty;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -179,6 +134,10 @@ public class PatientChatActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        if (session != null) {
+            session.disconnect();
+        }
+
         finish();
         Intent intent=new Intent(PatientChatActivity.this, PatientDashboardActivity.class);
         startActivity(intent);
@@ -230,4 +189,11 @@ public class PatientChatActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (session != null) {
+            session.disconnect();
+        }
+    }
 }

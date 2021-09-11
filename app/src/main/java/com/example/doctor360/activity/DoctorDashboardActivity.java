@@ -308,12 +308,10 @@ public class DoctorDashboardActivity extends AppCompatActivity implements Naviga
             }
 
             case R.id.nav_doctor_chat_room: {
-              /*  getSupportFragmentManager().popBackStackImmediate();
+                getSupportFragmentManager().popBackStackImmediate();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainer2,new DoctorChatListFragment()).addToBackStack("").commit();
-                toolbarTitle.setText(getString(R.string.menu_chat_room));*/
-                Intent intent = new Intent(DoctorDashboardActivity.this, DoctorChatActivity.class);
-                startActivity(intent);
+                toolbarTitle.setText(getString(R.string.menu_chat_room));
                 break;
             }
 

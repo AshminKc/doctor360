@@ -309,12 +309,10 @@ public class PatientDashboardActivity extends AppCompatActivity implements Navig
             }
 
             case R.id.nav_patient_chat_room: {
-               /* getSupportFragmentManager().popBackStackImmediate();
+                getSupportFragmentManager().popBackStackImmediate();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainer1,new PatientChatListFragment()).addToBackStack("").commit();
-                toolbarTitle.setText(getString(R.string.menu_chat_room));*/
-               Intent intent = new Intent(PatientDashboardActivity.this, PatientChatActivity.class);
-               startActivity(intent);
+                toolbarTitle.setText(getString(R.string.menu_chat_room));
                 break;
             }
 

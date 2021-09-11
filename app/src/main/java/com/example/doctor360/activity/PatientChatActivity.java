@@ -140,6 +140,10 @@ public class PatientChatActivity extends AppCompatActivity {
                 if(session!=null){
                     session.disconnect();
                 }
+
+                finish();
+                Intent intent=new Intent(PatientChatActivity.this, PatientDashboardActivity.class);
+                startActivity(intent);
             }
         });
     }

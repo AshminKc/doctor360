@@ -158,6 +158,10 @@ public class DoctorChatActivity extends AppCompatActivity {
                 if(session!=null){
                     session.disconnect();
                 }
+
+                finish();
+                Intent intent=new Intent(DoctorChatActivity.this, DoctorDashboardActivity.class);
+                startActivity(intent);
             }
         });
     }
